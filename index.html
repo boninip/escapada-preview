@@ -787,7 +787,7 @@ async function escapadaCloudSave(tripLocalId){
  if(error){escapadaCloudStatus(tripLocalId,error.message);console.warn('Escapada: no se pudo sincronizar el viaje',error.message);return}
  escapadaCloudStatus(tripLocalId,null);
  const fresh=getJuntadas(),record=fresh.find(e=>e.id===entry.id);
- if(record){record.cloudId=cloudId;record.cloudOwner=user.id;localStorage.setItem(JSTORE,JSON.stringify(fresh))}
+ if(record){record.cloudId=cloudId;record.cloudOwner=user.id;record.cloudAccessUser=user.id;localStorage.setItem(JSTORE,JSON.stringify(fresh))}
  }finally{
   escapadaCloudInFlight.delete(tripLocalId);
   if(escapadaCloudPending.delete(tripLocalId))escapadaCloudSave(tripLocalId).catch(e=>{escapadaCloudStatus(tripLocalId,e.message);console.warn('Escapada cloud',e)});
@@ -818,8 +818,8 @@ async function escapadaCloudLoad(){
   const local=getJuntadas();
   let changed=false;
   for(const trip of data||[]){
-   if(local.some(e=>e.cloudId===trip.id))continue;
-   local.push({id:'cloud-'+trip.id,cloudId:trip.id,cloudOwner:trip.owner_id,updated:Date.now(),saved:{name:trip.name,desc:trip.description||'',destination:trip.destination||'',place:trip.destination||'Lugar a confirmar',dateMode:trip.starts_on?'fixed':'pending',date:trip.starts_on||'',endDate:trip.ends_on||null,type:'trip',candidates:[],time:'',expense:''},confirmedDate:'',confirmedPlace:'',places:[],guestResponses:{},guestVotes:{},placeVotes:{}});
+   if(local.some(e=>e.cloudId===trip.id)){const existing=local.find(e=>e.cloudId===trip.id);if(existing.cloudAccessUser!==user.id){existing.cloudAccessUser=user.id;changed=true}continue;}
+   local.push({id:'cloud-'+trip.id,cloudId:trip.id,cloudOwner:trip.owner_id,cloudAccessUser:user.id,updated:Date.now(),saved:{name:trip.name,desc:trip.description||'',destination:trip.destination||'',place:trip.destination||'Lugar a confirmar',dateMode:trip.starts_on?'fixed':'pending',date:trip.starts_on||'',endDate:trip.ends_on||null,type:'trip',candidates:[],time:'',expense:''},confirmedDate:'',confirmedPlace:'',places:[],guestResponses:{},guestVotes:{},placeVotes:{}});
    changed=true;
   }
   if(changed)localStorage.setItem(JSTORE,JSON.stringify(local));
@@ -831,7 +831,7 @@ let escapadaCurrentCloudUser=null;
 function escapadaCloudScope(userId){
  escapadaCurrentCloudUser=userId||null;
  const all=getJuntadas();
- const filtered=all.filter(e=>!e.cloudId || (userId&&e.cloudOwner===userId));
+ const filtered=all.filter(e=>!e.cloudId || (userId&&(e.cloudAccessUser===userId || (!e.cloudAccessUser&&e.cloudOwner===userId))));
  if(filtered.length!==all.length){
   try{localStorage.setItem(JSTORE,JSON.stringify(filtered))}catch(e){console.warn('Escapada local storage',e)}
   if(currentJuntadaId&&!filtered.some(e=>e.id===currentJuntadaId)){
@@ -856,7 +856,7 @@ showMyEvents=function(){
  escapadaCloudStatus('',null);
  escapadaCloudLoad().catch(e=>{console.warn('Escapada cloud',e);toast('No se pudieron actualizar los viajes')});
 };
-</script><script type="module" src="./planazo-auth.js?v=50"></script><script>
+</script><script type="module" src="./planazo-auth.js?v=51"></script><script>
 /* V44: preserve form drafts across navigation; successful creation is exempt. */
 const escapadaGuardedGo=go;
 let escapadaAllowCreateExit=false;
@@ -882,7 +882,7 @@ create=function(){
 
 /* Stable-link update check. Version endpoint is fetched without browser cache. */
 (function(){
- const BUILD='50';
+ const BUILD='51';
  async function checkEscapadaUpdate(){
   if(document.visibilityState==='hidden')return;
   try{
@@ -890,15 +890,30 @@ create=function(){
    if(!response.ok)return;
    const data=await response.json();
    if(!data||!data.build||String(data.build)===BUILD)return;
-   if(typeof escapadaMenuDirty==='function'&&escapadaMenuDirty()){
-    if(!document.getElementById('escapada-update-available')){
-     const notice=document.createElement('div');
+   const updateUnsafe=(typeof escapadaMenuDirty==='function'&&escapadaMenuDirty()) ||
+    (typeof escapadaCloudInFlight!=='undefined'&&escapadaCloudInFlight.size>0) ||
+    (typeof escapadaCloudPending!=='undefined'&&escapadaCloudPending.size>0) ||
+    (typeof escapadaCloudTimers!=='undefined'&&escapadaCloudTimers.size>0) ||
+    !!document.querySelector('.esc-confirm-shade') ||
+    !!document.querySelector('#event.active,#ready.active,#share.active,#invite.active');
+   if(updateUnsafe){
+    let notice=document.getElementById('escapada-update-available');
+    if(!notice){
+     notice=document.createElement('div');
      notice.id='escapada-update-available';notice.setAttribute('role','status');
      notice.style.cssText='position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:16px;right:16px;max-width:440px;margin:auto;background:#F7F3EA;color:#244C43;border:1px solid #A7B8AD;border-radius:14px;padding:16px;box-shadow:0 8px 30px #244C4330;z-index:3200';
-     notice.innerHTML='<strong>Hay una nueva versión disponible</strong><p style="margin:8px 0 12px;font-size:13px">Guardá o terminá de editar antes de actualizar.</p><button type="button" style="border:0;border-radius:9px;padding:10px 14px;background:#244C43;color:white;font-weight:650">Entendido</button>';
-     notice.querySelector('button').onclick=()=>notice.remove();
+     notice.innerHTML='<strong>Hay una nueva versión disponible</strong><p style="margin:8px 0 12px;font-size:13px">Terminá de guardar tus cambios antes de actualizar.</p><div style="display:flex;gap:8px"><button type="button" data-action="later" style="border:1px solid #A7B8AD;border-radius:9px;padding:10px 14px;background:transparent;color:#244C43">Ahora no</button><button type="button" data-action="update" style="border:0;border-radius:9px;padding:10px 14px;background:#244C43;color:white;font-weight:650">Actualizar</button></div>';
+     notice.querySelector('[data-action="later"]').onclick=()=>notice.remove();
      document.body.appendChild(notice);
     }
+    notice.querySelector('[data-action="update"]').onclick=()=>{
+     const busy=(typeof escapadaMenuDirty==='function'&&escapadaMenuDirty()) ||
+      (typeof escapadaCloudInFlight!=='undefined'&&escapadaCloudInFlight.size>0) ||
+      (typeof escapadaCloudPending!=='undefined'&&escapadaCloudPending.size>0) ||
+      (typeof escapadaCloudTimers!=='undefined'&&escapadaCloudTimers.size>0);
+     if(busy){toast('Guardá los cambios pendientes antes de actualizar.');return}
+     const url=new URL(location.href);url.searchParams.set('release',String(data.build));location.replace(url.href);
+    };
     return;
    }
    const last=sessionStorage.getItem('escapada-reload-attempt');
