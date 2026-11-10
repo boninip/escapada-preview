@@ -388,14 +388,21 @@ label,.detail svg{color:var(--forest)}
  .nav{display:grid!important;visibility:visible!important} .nav.hide{display:grid!important} .screen{padding-bottom:calc(94px + env(safe-area-inset-bottom,0px))} /* V32 approved: no fixed bottom navigation. */
 .nav,.nav.hide{display:none!important;visibility:hidden!important}
 .screen{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))!important}
-/* V34: navigation drawer without fixed bottom bar. */
-.esc-menu-trigger{border:0;background:transparent;color:#28564b;width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;cursor:pointer;flex-shrink:0}
-.esc-menu-trigger svg{width:23px;height:23px}
-.esc-drawer-shade{position:fixed;inset:0;background:rgba(14,32,28,.42);z-index:2000}
-.esc-drawer{position:fixed;top:0;bottom:0;left:0;width:min(310px,85vw);background:#f9faf6;z-index:2001;box-shadow:10px 0 35px #10291f33;padding:calc(26px + env(safe-area-inset-top,0px)) 22px 24px;overflow:auto}
-.esc-drawer-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;color:#28564b;font-size:23px;font-weight:700}
-.esc-drawer button:not(.esc-menu-trigger){display:block;width:100%;text-align:left;border:0;border-bottom:1px solid #d5ddd5;background:transparent;padding:17px 5px;color:#28564b;font-size:16px;font-weight:600;cursor:pointer}
+/* V35 compact Planazo drawer, Escapada palette */
+.nav,.nav.hide{display:grid!important;visibility:visible!important}
+.screen{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))!important}
+.esc-menu-trigger{border:0;background:transparent;color:#087F8C;width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;flex-shrink:0}
+.esc-menu-trigger svg{width:20px;height:20px}
+.esc-drawer-shade{position:fixed;inset:0;background:rgba(12,35,38,.34);z-index:2000}
+.esc-drawer{position:fixed;top:0;bottom:0;left:0;width:min(230px,65vw);box-sizing:border-box;background:#fff;z-index:2001;box-shadow:4px 0 14px #123a3c20;overflow-y:auto;overscroll-behavior:contain;padding-bottom:env(safe-area-inset-bottom,0px)}
+.esc-drawer-top{display:flex;justify-content:space-between;align-items:center;background:#C9F1EC;padding:calc(12px + env(safe-area-inset-top,0px)) 12px 12px;color:#087F8C;font-size:17px;font-weight:700;min-height:58px;box-sizing:border-box}
+.esc-drawer .esc-drawer-link{display:flex;align-items:center;gap:11px;width:100%;min-height:42px;box-sizing:border-box;text-align:left;border:0;background:#fff;padding:9px 12px;color:#087F8C;font-size:14px;font-weight:500;cursor:pointer}
+.esc-drawer .esc-drawer-link svg{width:18px;height:18px;flex-shrink:0;stroke:#087F8C;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.esc-drawer .esc-drawer-link[aria-current="page"]{background:#E8F8F5;font-weight:700}
+.esc-drawer .esc-drawer-link:focus-visible,.esc-menu-trigger:focus-visible{outline:2px solid #087F8C;outline-offset:-2px}
+.esc-drawer-divider{height:1px;background:#E1EAE8;margin:5px 12px}
 .esc-drawer[hidden],.esc-drawer-shade[hidden]{display:none!important}
+body.esc-menu-open{overflow:hidden}
 </style></head><body><div class="app">
 <section id="home" class="screen active"><header class="escape-header"><div class="brand"><span class="brand-mark" aria-hidden="true">E<span class="brand-trail"></span></span><div class="logo">escapada<span>.</span></div></div><button type="button" class="avatar" onclick="window.openPlanazoProfile?.()" aria-label="Abrir perfil Planazo ID">P</button></header><div class="escape-hero"><div class="escape-hero-content"><div class="escape-kicker"><span class="escape-kicker-line"></span> TU PRÓXIMA AVENTURA</div><h1>Hay viajes que<br>empiezan con<br><em>un «¿y si…?»</em></h1><p>De esa idea en el grupo al viaje que van a recordar.</p></div><div class="escape-hero-bottom"><span>EXPLORÁ · PLANEÁ · VIAJÁ</span><span>01 / 03</span></div></div><div class="escape-home-content"><div class="escape-section-top"><div><div class="escape-eyebrow">EL VIAJE EMPIEZA ACÁ</div><h2>Todo listo para<br><em>salir de la rutina.</em></h2></div><span class="escape-compass" aria-hidden="true">✳</span></div><div class="escape-menu" aria-label="Opciones de Escapada">
  <button class="escape-feature" onclick="startJuntada('trip')"><span class="escape-feature-icon" data-icon="calendar-plus"></span><span class="escape-feature-copy"><strong>Organizar un viaje</strong><small>Destino, fechas, invitados y votaciones.</small></span><span class="escape-feature-arrow">›</span></button>
@@ -574,38 +581,84 @@ async function escapadaRequestJoin(){
   feedback.textContent='Solicitud enviada. Podrás acceder cuando el organizador la apruebe.';
  }catch(e){feedback.textContent='No se pudo conectar. Intentá nuevamente.';console.warn(e)}
 }
-/* Accessible global navigation, consistent across Escapada screens. */
+/* V35: compact, accessible Escapada drawer. */
+let escMenuPreviousFocus=null;
+const escMenuItems=[
+ ['home','Inicio','house'],['trips','Mis escapadas','calendar'],['new','Crear escapada','plus'],
+ ['-'],['invitations','Invitaciones','mail'],['itinerary','Itinerario','map'],['votes','Votaciones','check-circle'],['expenses','Gastos','wallet'],
+ ['-'],['notifications','Notificaciones','bell'],['profile','Mi perfil','user'],['settings','Configuración','settings'],['help','Ayuda','circle-help']
+];
+const escMenuPaths={house:'M3 10 12 3l9 7v11h-6v-7H9v7H3z',calendar:'M3 6h18v15H3z M7 3v6 M17 3v6 M3 11h18',plus:'M12 4v16 M4 12h16',mail:'M3 5h18v14H3z M3 6l9 7 9-7',map:'M3 5l6-2 6 2 6-2v16l-6 2-6-2-6 2z M9 3v16 M15 5v16','check-circle':'M4 12l5 5 11-11',wallet:'M3 6h18v14H3z M3 10h18 M16 15h2',bell:'M5 17h14l-2-3V9a5 5 0 0 0-10 0v5z M10 21h4',user:'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M4 21a8 8 0 0 1 16 0',settings:'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z M12 2v3 M12 19v3 M2 12h3 M19 12h3 M5 5l2 2 M17 17l2 2 M19 5l-2 2 M7 17l-2 2','circle-help':'M9 9a3 3 0 1 1 5 2c-2 1-2 2-2 3 M12 18h.01 M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20'};
+function escapadaMenuDirty(){
+ const form=document.getElementById('create');
+ if(!form?.classList.contains('active'))return false;
+ return !![...form.querySelectorAll('input:not([type=radio]):not([type=checkbox]),textarea')].some(e=>e.value?.trim());
+}
+function escapadaMenuCanLeave(action){
+ if(action==='new'||!escapadaMenuDirty())return true;
+ return window.confirm('Tenés cambios en la escapada que podrían no estar guardados. ¿Querés salir igualmente?');
+}
+function escapadaMenuActive(){
+ if(document.getElementById('home')?.classList.contains('active'))return 'home';
+ if(document.getElementById('myEvents')?.classList.contains('active'))return 'trips';
+ if(document.getElementById('create')?.classList.contains('active'))return 'new';
+ return '';
+}
 function escapadaToggleMenu(open){
- const drawer=document.getElementById('esc-drawer'),shade=document.getElementById('esc-drawer-shade');
- if(!drawer||!shade)return;
- drawer.hidden=!open;shade.hidden=!open;
- document.querySelectorAll('.esc-menu-trigger').forEach(b=>b.setAttribute('aria-expanded',String(open)));
- if(open)drawer.querySelector('.esc-menu-close')?.focus();
+ const drawer=document.getElementById('esc-drawer'),shade=document.getElementById('esc-drawer-shade');if(!drawer||!shade)return;
+ if(open)escMenuPreviousFocus=document.activeElement;
+ drawer.hidden=!open;shade.hidden=!open;document.body.classList.toggle('esc-menu-open',open);
+ document.querySelectorAll('.esc-menu-trigger[aria-controls]').forEach(b=>b.setAttribute('aria-expanded',String(open)));
+ drawer.querySelectorAll('[data-menu-action]').forEach(b=>{if(b.dataset.menuAction===escapadaMenuActive())b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+ if(open)drawer.querySelector('.esc-menu-close')?.focus();else escMenuPreviousFocus?.focus?.();
 }
 function escapadaMenuAction(action){
+ if(!escapadaMenuCanLeave(action))return;
  escapadaToggleMenu(false);
  if(action==='home')go('home');
  else if(action==='trips')showMyEvents();
  else if(action==='new')startJuntada('trip');
  else if(action==='invitations'){showMyEvents();document.getElementById('escapadaJoinCode')?.focus()}
- else if(action==='expenses')toast('Los gastos compartidos se integrarán con la app Gastos');
- else if(action==='profile')window.openPlanazoProfile?.();
+ else if(action==='itinerary'||action==='votes'||action==='expenses'){
+  if(!currentJuntadaId){toast('Primero elegí una escapada en Mis escapadas.');showMyEvents();return}
+  if(action==='expenses'){toast('El grupo de Gastos estará disponible cuando esté vinculado.');return}
+  go('event');
+  const target=action==='itinerary'?document.getElementById('tripPlanner'):document.querySelector('[id*="vote"],[id*="Vote"]');
+  if(target)target.scrollIntoView({behavior:'smooth',block:'start'});else toast('Esta sección todavía no está disponible en la escapada.');
+ }else if(action==='profile')window.openPlanazoProfile?.();
+ else if(action==='notifications')toast('Las notificaciones todavía no están disponibles.');
+ else if(action==='settings')toast('La configuración todavía no está disponible.');
+ else if(action==='help')toast('La ayuda estará disponible próximamente.');
 }
 (function escapadaInitMenu(){
  const app=document.querySelector('.app');if(!app||document.getElementById('esc-drawer'))return;
  const shade=document.createElement('div');shade.id='esc-drawer-shade';shade.className='esc-drawer-shade';shade.hidden=true;shade.onclick=()=>escapadaToggleMenu(false);
- const drawer=document.createElement('aside');drawer.id='esc-drawer';drawer.className='esc-drawer';drawer.hidden=true;drawer.setAttribute('aria-label','Navegación de Escapada');
- drawer.innerHTML='<div class="esc-drawer-top"><span>escapada.</span><button type="button" class="esc-menu-trigger esc-menu-close" aria-label="Cerrar menú" onclick="escapadaToggleMenu(false)">✕</button></div>'+[
- ['home','Inicio'],['trips','Mis viajes'],['new','Organizar un viaje'],['invitations','Invitaciones'],['expenses','Gastos compartidos'],['profile','Mi perfil']
- ].map(([id,label])=>'<button type="button" onclick="escapadaMenuAction(\''+id+'\')">'+label+'</button>').join('');
+ const drawer=document.createElement('aside');drawer.id='esc-drawer';drawer.className='esc-drawer';drawer.hidden=true;drawer.setAttribute('aria-label','Menú de Escapada');drawer.setAttribute('role','dialog');drawer.setAttribute('aria-modal','true');
+ const top=document.createElement('div');top.className='esc-drawer-top';top.innerHTML='<span>escapada.</span><button type="button" class="esc-menu-trigger esc-menu-close" aria-label="Cerrar menú">✕</button>';
+ top.querySelector('button').onclick=()=>escapadaToggleMenu(false);drawer.append(top);
+ escMenuItems.forEach(([id,label,icon])=>{
+  if(id==='-'){const hr=document.createElement('div');hr.className='esc-drawer-divider';drawer.append(hr);return}
+  const btn=document.createElement('button');btn.type='button';btn.className='esc-drawer-link';btn.dataset.menuAction=id;
+  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',escMenuPaths[icon]);svg.append(path);
+  btn.append(svg,document.createTextNode(label));btn.onclick=()=>escapadaMenuAction(id);drawer.append(btn);
+ });
  app.append(shade,drawer);
  document.querySelectorAll('.screen > header').forEach(header=>{
   const button=document.createElement('button');button.type='button';button.className='esc-menu-trigger';button.setAttribute('aria-label','Abrir menú');button.setAttribute('aria-controls','esc-drawer');button.setAttribute('aria-expanded','false');
   button.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
-  button.onclick=()=>escapadaToggleMenu(true);
-  header.appendChild(button);
+  button.onclick=()=>escapadaToggleMenu(true);header.append(button);
  });
- document.addEventListener('keydown',e=>{if(e.key==='Escape')escapadaToggleMenu(false)});
+ document.addEventListener('keydown',e=>{
+  if(drawer.hidden)return;
+  if(e.key==='Escape'){e.preventDefault();escapadaToggleMenu(false)}
+  if(e.key==='Tab'){
+   const controls=[...drawer.querySelectorAll('button:not([disabled])')];
+   const first=controls[0],last=controls[controls.length-1];
+   if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+   else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+  }
+ });
 })();
 /* Escapada cloud phase 1: basic trip metadata, with local fallback. */
 const escapadaCloudTimers=new Map();
