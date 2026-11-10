@@ -779,6 +779,8 @@ async function escapadaCloudSave(tripLocalId){
  if(authError||!user)return;
  const entries=getJuntadas(),entry=entries.find(e=>e.id===tripLocalId);
  if(!entry||!entry.saved||!entry.saved.name)return;
+ if(escapadaCurrentCloudUser!==user.id || (entry.localAccountUser&&entry.localAccountUser!==user.id))return;
+ if(entry.cloudConflict){escapadaCloudStatus(tripLocalId,'Conflicto de sincronización: conservamos tus cambios locales. Revisá el viaje antes de volver a sincronizar.');return}
  if(escapadaCloudInFlight.has(tripLocalId)){escapadaCloudPending.add(tripLocalId);return}
  if(entry.cloudOwner&&entry.cloudOwner!==user.id){escapadaCloudStatus(tripLocalId,'Los cambios de este viaje compartido permanecen en este navegador hasta habilitar la edición colaborativa.');return;}
  escapadaCloudInFlight.add(tripLocalId);
@@ -786,11 +788,24 @@ async function escapadaCloudSave(tripLocalId){
  const cloudId=entry.cloudId||crypto.randomUUID();
  const trip=entry.saved;
  const payload={id:cloudId,owner_id:user.id,name:trip.name,destination:trip.destination||null,description:trip.desc||null,starts_on:trip.dateMode==='fixed'&&trip.date?trip.date:null,ends_on:trip.dateMode==='fixed'&&trip.endDate?trip.endDate:null,status:'planning'};
+ // Verify the remote snapshot before overwriting an existing trip.
+ if(entry.cloudId&&entry.cloudSnapshot){
+  const {data:remote,error:readError}=await client.from('escapada_trips').select('name,destination,description,starts_on,ends_on,owner_id').eq('id',cloudId).single();
+  if(readError){escapadaCloudStatus(tripLocalId,'No se pudo verificar la versión remota. No se sobrescribieron datos.');return}
+  const snapshot={name:remote.name,desc:remote.description||'',destination:remote.destination||'',date:remote.starts_on||'',endDate:remote.ends_on||null};
+  if(remote.owner_id!==user.id||JSON.stringify(snapshot)!==JSON.stringify(entry.cloudSnapshot)){
+   const latest=getJuntadas(),record=latest.find(e=>e.id===tripLocalId);
+   if(record){record.cloudConflict=true;localStorage.setItem(JSTORE,JSON.stringify(latest))}
+   escapadaCloudStatus(tripLocalId,'El viaje cambió en otro dispositivo. Tus cambios locales están conservados.');
+   return;
+  }
+ }
+ if(escapadaCurrentCloudUser!==user.id)return;
  const {error}=await client.from('escapada_trips').upsert(payload,{onConflict:'id'});
  if(error){escapadaCloudStatus(tripLocalId,error.message);console.warn('Escapada: no se pudo sincronizar el viaje',error.message);return}
  escapadaCloudStatus(tripLocalId,null);
  const fresh=getJuntadas(),record=fresh.find(e=>e.id===entry.id);
- if(record){record.cloudId=cloudId;record.cloudOwner=user.id;record.cloudAccessUser=user.id;record.cloudSnapshot={name:payload.name,desc:payload.description||'',destination:payload.destination||'',date:payload.starts_on||'',endDate:payload.ends_on||null};record.cloudConflict=false;localStorage.setItem(JSTORE,JSON.stringify(fresh))}
+ if(record&&escapadaCurrentCloudUser===user.id){record.cloudId=cloudId;record.cloudOwner=user.id;record.cloudAccessUser=user.id;record.cloudSnapshot={name:payload.name,desc:payload.description||'',destination:payload.destination||'',date:payload.starts_on||'',endDate:payload.ends_on||null};record.cloudConflict=false;localStorage.setItem(JSTORE,JSON.stringify(fresh))}
  }finally{
   escapadaCloudInFlight.delete(tripLocalId);
   if(escapadaCloudPending.delete(tripLocalId))escapadaCloudSave(tripLocalId).catch(e=>{escapadaCloudStatus(tripLocalId,e.message);console.warn('Escapada cloud',e)});
@@ -904,7 +919,7 @@ showMyEvents=function(){
  escapadaCloudStatus('',null);
  escapadaCloudLoad().catch(e=>{console.warn('Escapada cloud',e);toast('No se pudieron actualizar los viajes')});
 };
-</script><script type="module" src="./planazo-auth.js?v=55"></script><script>
+</script><script type="module" src="./planazo-auth.js?v=56"></script><script>
 /* V44: preserve form drafts across navigation; successful creation is exempt. */
 const escapadaGuardedGo=go;
 let escapadaAllowCreateExit=false;
@@ -930,7 +945,7 @@ create=function(){
 
 /* Stable-link update check. Version endpoint is fetched without browser cache. */
 (function(){
- const BUILD='55';
+ const BUILD='56';
  async function checkEscapadaUpdate(){
   if(document.visibilityState==='hidden')return;
   try{
