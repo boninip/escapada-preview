@@ -20,6 +20,17 @@ style.textContent = `
 #planazo-auth-panel .auth-actions button.secondary{background:#e5f4f1;color:#24518b}
 #planazo-auth-message{min-height:20px;font-size:13px;margin-top:10px}
 `;
+style.textContent += `
+#planazo-auth-trigger{display:none!important}
+#planazo-auth-dialog{align-items:stretch;justify-content:center;padding:0;background:#F7F3EA}
+#planazo-auth-panel{width:min(100%,460px);height:100dvh;overflow:auto;box-shadow:none;border-radius:0;background:#F7F3EA;padding:36px 25px 100px;color:#244C43}
+#planazo-auth-panel h2{font-family:Georgia,serif;font-size:34px;color:#244C43}
+#planazo-auth-panel input{border:0;border-bottom:1px solid #A7B8AD;border-radius:0;background:transparent;padding:12px 0;box-shadow:none;outline-offset:3px;color:#244C43}
+#planazo-auth-panel label{color:#244C43}
+#planazo-auth-panel .auth-actions button{background:#244C43}
+#planazo-auth-panel .auth-actions button.secondary{background:transparent;color:#244C43;border:1px solid #A7B8AD}
+#planazo-auth-session{border-top:1px solid #A7B8AD;padding-top:18px}
+`;
 document.head.append(style);
 const trigger = document.createElement('button');
 trigger.id='planazo-auth-trigger';trigger.type='button';trigger.textContent='Planazo ID · Ingresar';
@@ -49,7 +60,9 @@ function render(session){
  trigger.textContent=email?'Planazo ID · Mi cuenta':'Planazo ID · Ingresar';
  window.dispatchEvent(new CustomEvent('planazo-auth-changed',{detail:{signedIn:!!email,userId:session?.user?.id||null}}));
 }
-trigger.onclick=()=>{dialog.classList.add('open');message('');if(!$('planazo-auth-form').hidden)$('planazo-auth-email').focus()};
+function openProfile(){dialog.classList.add('open');message('');if(!$('planazo-auth-form').hidden)$('planazo-auth-email').focus()}
+window.openPlanazoProfile=openProfile;
+trigger.onclick=openProfile;
 $('planazo-auth-close').onclick=()=>dialog.classList.remove('open');
 dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.classList.remove('open')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')dialog.classList.remove('open')});
