@@ -511,7 +511,7 @@ document.querySelector('input[name="dateMode"][value="fixed"]').checked=true;set
 const JSTORE='escapada_v1_trips';
 let currentJuntadaId=null;
 function getJuntadas(){try{return JSON.parse(localStorage.getItem(JSTORE)||'[]')}catch(e){return []}}
-function persistJuntada(){if(!saved.name)return;try{const all=getJuntadas();if(!currentJuntadaId)currentJuntadaId='j'+Date.now().toString(36);const entry={id:currentJuntadaId,updated:Date.now(),saved:{...saved},confirmedDate,confirmedPlace,places:JSON.parse(JSON.stringify(places)),guestResponses:{...guestResponses},guestVotes:{...guestVotes},placeVotes:{...placeVotes}};const idx=all.findIndex(x=>x.id===entry.id);if(idx<0)all.unshift(entry);else all[idx]=entry;localStorage.setItem(JSTORE,JSON.stringify(all))}catch(e){toast('No se pudo guardar en este navegador')}}
+function persistJuntada(){if(!saved.name)return;try{const all=getJuntadas();if(!currentJuntadaId)currentJuntadaId='j'+Date.now().toString(36);const previous=all.find(x=>x.id===currentJuntadaId);const entry={...(previous||{}),id:currentJuntadaId,localAccountUser:previous?.localAccountUser||escapadaCurrentCloudUser||null,updated:Date.now(),saved:{...saved},confirmedDate,confirmedPlace,places:JSON.parse(JSON.stringify(places)),guestResponses:{...guestResponses},guestVotes:{...guestVotes},placeVotes:{...placeVotes}};const idx=all.findIndex(x=>x.id===entry.id);if(idx<0)all.unshift(entry);else all[idx]=entry;localStorage.setItem(JSTORE,JSON.stringify(all))}catch(e){toast('No se pudo guardar en este navegador')}}
 function openJuntada(id){const entry=getJuntadas().find(x=>x.id===id);if(!entry)return;currentJuntadaId=id;saved={...entry.saved};confirmedDate=entry.confirmedDate||'';confirmedPlace=entry.confirmedPlace||'';places=entry.places||[];guestResponses=entry.guestResponses||{};guestVotes=entry.guestVotes||{};placeVotes=entry.placeVotes||{};placeCounter=Math.max(0,...places.map(p=>Number(p.id)||0));go('event')}
 function showMyEvents(){const list=document.getElementById('myEventsList'),all=getJuntadas();list.innerHTML=all.length?all.map(x=>'<button type="button" data-id="'+escapeHTML(x.id)+'" class="escapada-trip-row"><span class="escapada-trip-row-content"><strong>'+escapeHTML(x.saved.name)+'</strong><small>'+escapeHTML(x.saved.date||'Fecha por definir')+' · '+escapeHTML(x.saved.destination||x.saved.place||'Destino por definir')+'</small></span><span class="escapada-trip-row-arrow" aria-hidden="true">↗</span></button>').join(''):'<p class="sub" style="padding:20px 0;border-top:1px solid #d4ded8;border-bottom:1px solid #d4ded8">Todavía no organizaste tu primer viaje.</p>';list.querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>openJuntada(b.dataset.id));go('myEvents')}
 const originalCreateV9=create;create=function(){const before=saved;originalCreateV9();if(saved!==before&&saved.name){currentJuntadaId=null;persistJuntada()}};
@@ -851,52 +851,46 @@ async function escapadaCloudLoad(){
 /* Do not retain another account's cloud trip metadata in this browser. */
 let escapadaCurrentCloudUser=null;
 function escapadaCloudScope(userId){
- // Keep cloud records for other accounts in separate device archives instead of deleting them.
+ // Account-specific local drafts are archived without deletion or cross-account exposure.
  const previous=escapadaCurrentCloudUser;
  const all=getJuntadas();
- const archived=all.filter(e=>e.cloudId && !(userId&&(e.cloudAccessUser===userId||(!e.cloudAccessUser&&e.cloudOwner===userId))));
- const visible=all.filter(e=>!e.cloudId || (userId&&(e.cloudAccessUser===userId||(!e.cloudAccessUser&&e.cloudOwner===userId))));
- if(archived.length){
-  const grouped=new Map();
-  for(const item of archived){
-   const owner=item.cloudAccessUser||item.cloudOwner;
-   if(!owner)continue;
-   if(!grouped.has(owner))grouped.set(owner,[]);
-   grouped.get(owner).push(item);
-  }
-  for(const [owner,items] of grouped){
+ const accountOf=e=>e.localAccountUser||e.cloudAccessUser||e.cloudOwner||null;
+ const visible=all.filter(e=>accountOf(e)===userId);
+ const archived=all.filter(e=>accountOf(e)!==userId);
+ const groups=new Map();
+ for(const item of archived){
+  const owner=accountOf(item)||'guest';
+  if(!groups.has(owner))groups.set(owner,[]);
+  groups.get(owner).push(item);
+ }
+ try{
+  // Write every archive before replacing the active store.
+  for(const [owner,items] of groups){
    const key='escapada_v1_account_archive_'+owner;
-   try{
-    const old=JSON.parse(localStorage.getItem(key)||'[]');
-    const merged=new Map(old.map(x=>[x.cloudId,x]));
-    for(const item of items)merged.set(item.cloudId,item);
-    localStorage.setItem(key,JSON.stringify([...merged.values()]));
-   }catch(e){
-    console.warn('Escapada: unable to archive account trips',e);
-    toast('No se pudo proteger la información local. Volvé a intentar.');
-    return;
-   }
+   const old=JSON.parse(localStorage.getItem(key)||'[]');
+   const merged=new Map(old.map(x=>[x.id,x]));
+   for(const item of items)merged.set(item.id,item);
+   localStorage.setItem(key,JSON.stringify([...merged.values()]));
   }
- }
- if(userId){
-  try{
-   const archive=JSON.parse(localStorage.getItem('escapada_v1_account_archive_'+userId)||'[]');
-   for(const item of archive)if(item.cloudId&&!visible.some(x=>x.cloudId===item.cloudId))visible.push(item);
-  }catch(e){console.warn('Escapada archive read',e)}
- }
- if(previous!==userId||visible.length!==all.length){
-  try{localStorage.setItem(JSTORE,JSON.stringify(visible))}
-  catch(e){console.warn('Escapada local storage',e);toast('No se pudo cambiar de cuenta de forma segura.');return}
+  const key='escapada_v1_account_archive_'+(userId||'guest');
+  const own=JSON.parse(localStorage.getItem(key)||'[]');
+  for(const item of own)if(accountOf(item)===userId&&!visible.some(x=>x.id===item.id))visible.push(item);
+  localStorage.setItem(JSTORE,JSON.stringify(visible));
+ }catch(e){
+  console.warn('Escapada: unable to switch account safely',e);
+  toast('No se pudo cambiar de cuenta sin riesgo de perder datos.');
+  return false;
  }
  escapadaCurrentCloudUser=userId||null;
  if(currentJuntadaId&&!visible.some(e=>e.id===currentJuntadaId)){
   currentJuntadaId=null;saved={};go('home');
  }
  if(document.getElementById('myEvents').classList.contains('active'))escapadaLocalShowMyEvents();
+ return true;
 }
 window.addEventListener('planazo-auth-changed',event=>{
  const userId=event.detail?.signedIn?event.detail.userId:null;
- escapadaCloudScope(userId);
+ if(!escapadaCloudScope(userId))return;
  if(userId)escapadaCloudLoad().catch(console.warn);
 });
 const escapadaLocalShowMyEvents=showMyEvents;
@@ -910,7 +904,7 @@ showMyEvents=function(){
  escapadaCloudStatus('',null);
  escapadaCloudLoad().catch(e=>{console.warn('Escapada cloud',e);toast('No se pudieron actualizar los viajes')});
 };
-</script><script type="module" src="./planazo-auth.js?v=54"></script><script>
+</script><script type="module" src="./planazo-auth.js?v=55"></script><script>
 /* V44: preserve form drafts across navigation; successful creation is exempt. */
 const escapadaGuardedGo=go;
 let escapadaAllowCreateExit=false;
@@ -936,7 +930,7 @@ create=function(){
 
 /* Stable-link update check. Version endpoint is fetched without browser cache. */
 (function(){
- const BUILD='54';
+ const BUILD='55';
  async function checkEscapadaUpdate(){
   if(document.visibilityState==='hidden')return;
   try{
