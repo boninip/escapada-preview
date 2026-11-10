@@ -590,9 +590,10 @@ async function escapadaCloudLoad(){
  escapadaCloudBusy=true;
  try{
   const {data:{user}}=await client.auth.getUser();
-  if(!user)return;
+  if(!user||escapadaCurrentCloudUser!==user.id)return;
   const {data,error}=await client.from('escapada_trips').select('id,owner_id,name,destination,description,starts_on,ends_on,status').order('created_at',{ascending:false});
   if(error){console.warn('Escapada: no se pudieron consultar los viajes',error.message);return}
+  if(escapadaCurrentCloudUser!==user.id)return;
   const local=getJuntadas();
   let changed=false;
   for(const trip of data||[]){
@@ -604,7 +605,25 @@ async function escapadaCloudLoad(){
   if(document.getElementById('myEvents').classList.contains('active'))escapadaLocalShowMyEvents();
  }finally{escapadaCloudBusy=false}
 }
-window.addEventListener('planazo-auth-changed',event=>{if(event.detail?.signedIn)escapadaCloudLoad().catch(console.warn)});
+/* Do not retain another account's cloud trip metadata in this browser. */
+let escapadaCurrentCloudUser=null;
+function escapadaCloudScope(userId){
+ escapadaCurrentCloudUser=userId||null;
+ const all=getJuntadas();
+ const filtered=all.filter(e=>!e.cloudId || (userId&&e.cloudOwner===userId));
+ if(filtered.length!==all.length){
+  try{localStorage.setItem(JSTORE,JSON.stringify(filtered))}catch(e){console.warn('Escapada local storage',e)}
+  if(currentJuntadaId&&!filtered.some(e=>e.id===currentJuntadaId)){
+   currentJuntadaId=null;saved={};go('home');
+  }
+ }
+ if(document.getElementById('myEvents').classList.contains('active'))escapadaLocalShowMyEvents();
+}
+window.addEventListener('planazo-auth-changed',event=>{
+ const userId=event.detail?.signedIn?event.detail.userId:null;
+ escapadaCloudScope(userId);
+ if(userId)escapadaCloudLoad().catch(console.warn);
+});
 const escapadaLocalShowMyEvents=showMyEvents;
 showMyEvents=function(){escapadaLocalShowMyEvents();escapadaCloudLoad().catch(console.warn)};
 </script><script type="module" src="./planazo-auth.js?v=10"></script><div id="preview-version-label" style="position:fixed;top:68px;right:7px;z-index:99;background:#244C43;color:#fff;padding:3px 7px;border-radius:6px;font:600 10px system-ui;pointer-events:none">PREVIEW V12</div></body></html>
