@@ -414,6 +414,14 @@ body.esc-menu-open{overflow:hidden}
 #home .escape-header .avatar{margin-left:auto!important;flex-shrink:0!important}
 .screen > header .headleft{min-width:0;flex:1}
 @media(max-width:360px){#home .escape-header{gap:7px!important}#home .escape-header .brand{gap:5px!important}#home .escape-header .brand-mark{width:29px!important;height:29px!important}}
+/* V37: compact brand and drawer, no preview ribbon */
+#home .escape-header .brand{gap:3px!important}
+#home .escape-header .brand-mark{width:31px!important;height:31px!important}
+.esc-drawer{width:min(230px,65vw)!important}
+.esc-drawer-top{min-height:54px!important;padding:calc(9px + env(safe-area-inset-top,0px)) 11px 9px!important}
+.esc-drawer .esc-drawer-link{min-height:40px!important;padding:8px 11px!important;gap:10px!important;font-size:13px!important}
+.esc-drawer .esc-drawer-link svg{width:17px!important;height:17px!important}
+.esc-drawer-divider{margin:4px 11px!important}
 </style></head><body><div class="app">
 <section id="home" class="screen active"><header class="escape-header"><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="brand"><span class="brand-mark" aria-hidden="true">E<span class="brand-trail"></span></span><div class="logo">escapada<span>.</span></div></div><button type="button" class="avatar" onclick="window.openPlanazoProfile?.()" aria-label="Abrir perfil Planazo ID">P</button></header><div class="escape-hero"><div class="escape-hero-content"><div class="escape-kicker"><span class="escape-kicker-line"></span> TU PRÓXIMA AVENTURA</div><h1>Hay viajes que<br>empiezan con<br><em>un «¿y si…?»</em></h1><p>De esa idea en el grupo al viaje que van a recordar.</p></div><div class="escape-hero-bottom"><span>EXPLORÁ · PLANEÁ · VIAJÁ</span><span>01 / 03</span></div></div><div class="escape-home-content"><div class="escape-section-top"><div><div class="escape-eyebrow">EL VIAJE EMPIEZA ACÁ</div><h2>Todo listo para<br><em>salir de la rutina.</em></h2></div><span class="escape-compass" aria-hidden="true">✳</span></div><div class="escape-menu" aria-label="Opciones de Escapada">
  <button class="escape-feature" onclick="startJuntada('trip')"><span class="escape-feature-icon" data-icon="calendar-plus"></span><span class="escape-feature-copy"><strong>Organizar un viaje</strong><small>Destino, fechas, invitados y votaciones.</small></span><span class="escape-feature-arrow">›</span></button>
@@ -763,4 +771,4 @@ showMyEvents=function(){
  escapadaCloudStatus('',null);
  escapadaCloudLoad().catch(e=>{console.warn('Escapada cloud',e);toast('No se pudieron actualizar los viajes')});
 };
-</script><script type="module" src="./planazo-auth.js?v=10"></script><div id="preview-version-label" style="position:fixed;top:68px;right:7px;z-index:99;background:#244C43;color:#fff;padding:3px 7px;border-radius:6px;font:600 10px system-ui;pointer-events:none">PREVIEW V12</div></body></html>
+</script><script type="module" src="./planazo-auth.js?v=10"></script></body></html>
