@@ -851,14 +851,46 @@ async function escapadaCloudLoad(){
 /* Do not retain another account's cloud trip metadata in this browser. */
 let escapadaCurrentCloudUser=null;
 function escapadaCloudScope(userId){
- escapadaCurrentCloudUser=userId||null;
+ // Keep cloud records for other accounts in separate device archives instead of deleting them.
+ const previous=escapadaCurrentCloudUser;
  const all=getJuntadas();
- const filtered=all.filter(e=>!e.cloudId || (userId&&(e.cloudAccessUser===userId || (!e.cloudAccessUser&&e.cloudOwner===userId))));
- if(filtered.length!==all.length){
-  try{localStorage.setItem(JSTORE,JSON.stringify(filtered))}catch(e){console.warn('Escapada local storage',e)}
-  if(currentJuntadaId&&!filtered.some(e=>e.id===currentJuntadaId)){
-   currentJuntadaId=null;saved={};go('home');
+ const archived=all.filter(e=>e.cloudId && !(userId&&(e.cloudAccessUser===userId||(!e.cloudAccessUser&&e.cloudOwner===userId))));
+ const visible=all.filter(e=>!e.cloudId || (userId&&(e.cloudAccessUser===userId||(!e.cloudAccessUser&&e.cloudOwner===userId))));
+ if(archived.length){
+  const grouped=new Map();
+  for(const item of archived){
+   const owner=item.cloudAccessUser||item.cloudOwner;
+   if(!owner)continue;
+   if(!grouped.has(owner))grouped.set(owner,[]);
+   grouped.get(owner).push(item);
   }
+  for(const [owner,items] of grouped){
+   const key='escapada_v1_account_archive_'+owner;
+   try{
+    const old=JSON.parse(localStorage.getItem(key)||'[]');
+    const merged=new Map(old.map(x=>[x.cloudId,x]));
+    for(const item of items)merged.set(item.cloudId,item);
+    localStorage.setItem(key,JSON.stringify([...merged.values()]));
+   }catch(e){
+    console.warn('Escapada: unable to archive account trips',e);
+    toast('No se pudo proteger la información local. Volvé a intentar.');
+    return;
+   }
+  }
+ }
+ if(userId){
+  try{
+   const archive=JSON.parse(localStorage.getItem('escapada_v1_account_archive_'+userId)||'[]');
+   for(const item of archive)if(item.cloudId&&!visible.some(x=>x.cloudId===item.cloudId))visible.push(item);
+  }catch(e){console.warn('Escapada archive read',e)}
+ }
+ if(previous!==userId||visible.length!==all.length){
+  try{localStorage.setItem(JSTORE,JSON.stringify(visible))}
+  catch(e){console.warn('Escapada local storage',e);toast('No se pudo cambiar de cuenta de forma segura.');return}
+ }
+ escapadaCurrentCloudUser=userId||null;
+ if(currentJuntadaId&&!visible.some(e=>e.id===currentJuntadaId)){
+  currentJuntadaId=null;saved={};go('home');
  }
  if(document.getElementById('myEvents').classList.contains('active'))escapadaLocalShowMyEvents();
 }
@@ -878,7 +910,7 @@ showMyEvents=function(){
  escapadaCloudStatus('',null);
  escapadaCloudLoad().catch(e=>{console.warn('Escapada cloud',e);toast('No se pudieron actualizar los viajes')});
 };
-</script><script type="module" src="./planazo-auth.js?v=53"></script><script>
+</script><script type="module" src="./planazo-auth.js?v=54"></script><script>
 /* V44: preserve form drafts across navigation; successful creation is exempt. */
 const escapadaGuardedGo=go;
 let escapadaAllowCreateExit=false;
@@ -904,7 +936,7 @@ create=function(){
 
 /* Stable-link update check. Version endpoint is fetched without browser cache. */
 (function(){
- const BUILD='53';
+ const BUILD='54';
  async function checkEscapadaUpdate(){
   if(document.visibilityState==='hidden')return;
   try{
