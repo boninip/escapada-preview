@@ -788,6 +788,7 @@ async function escapadaCloudSave(tripLocalId){
  try{
  const cloudId=entry.cloudId||crypto.randomUUID();
  const trip=entry.saved;
+ const saveRevision=entry.updated;
  const payload={id:cloudId,owner_id:user.id,name:trip.name,destination:trip.destination||null,description:trip.desc||null,starts_on:trip.dateMode==='fixed'&&trip.date?trip.date:null,ends_on:trip.dateMode==='fixed'&&trip.endDate?trip.endDate:null,status:'planning'};
  // Verify the remote snapshot before overwriting an existing trip.
  if(entry.cloudId&&entry.cloudSnapshot){
@@ -802,11 +803,13 @@ async function escapadaCloudSave(tripLocalId){
   }
  }
  if(escapadaCurrentCloudUser!==user.id)return;
+ const beforeWrite=getJuntadas().find(e=>e.id===tripLocalId);
+ if(!beforeWrite||beforeWrite.updated!==saveRevision){escapadaCloudPending.add(tripLocalId);return}
  const {error}=await client.from('escapada_trips').upsert(payload,{onConflict:'id'});
  if(error){escapadaCloudStatus(tripLocalId,error.message);console.warn('Escapada: no se pudo sincronizar el viaje',error.message);return}
  escapadaCloudStatus(tripLocalId,null);
  const fresh=getJuntadas(),record=fresh.find(e=>e.id===entry.id);
- if(record&&escapadaCurrentCloudUser===user.id){record.cloudId=cloudId;record.cloudOwner=user.id;record.cloudAccessUser=user.id;record.cloudSnapshot={name:payload.name,desc:payload.description||'',destination:payload.destination||'',date:payload.starts_on||'',endDate:payload.ends_on||null};record.cloudConflict=false;localStorage.setItem(JSTORE,JSON.stringify(fresh))}
+ if(record&&escapadaCurrentCloudUser===user.id){if(record.updated!==saveRevision)escapadaCloudPending.add(tripLocalId);record.cloudId=cloudId;record.cloudOwner=user.id;record.cloudAccessUser=user.id;record.cloudSnapshot={name:payload.name,desc:payload.description||'',destination:payload.destination||'',date:payload.starts_on||'',endDate:payload.ends_on||null};record.cloudConflict=false;localStorage.setItem(JSTORE,JSON.stringify(fresh))}
  }finally{
   escapadaCloudInFlight.delete(tripLocalId);
   if(escapadaCloudPending.delete(tripLocalId))escapadaCloudSave(tripLocalId).catch(e=>{escapadaCloudStatus(tripLocalId,e.message);console.warn('Escapada cloud',e)});
@@ -841,7 +844,7 @@ async function escapadaCloudLoad(){
     const existing=local.find(e=>e.cloudId===trip.id);
     if(existing.cloudAccessUser!==user.id){existing.cloudAccessUser=user.id;changed=true}
     // Update only remote metadata when there are no local edits pending.
-    const pending=escapadaCloudInFlight.has(existing.id)||escapadaCloudPending.has(existing.id)||escapadaCloudTimers.has(existing.id);
+    const pending=escapadaCloudInFlight.has(existing.id)||escapadaCloudPending.has(existing.id)||escapadaCloudTimers.has(existing.id)||currentJuntadaId===existing.id;
     if(!pending&&existing.cloudOwner===user.id){
      const incoming={name:trip.name,desc:trip.description||'',destination:trip.destination||'',date:trip.starts_on||'',endDate:trip.ends_on||null};
      const previous=existing.cloudSnapshot;
@@ -920,7 +923,7 @@ showMyEvents=function(){
  escapadaCloudStatus('',null);
  escapadaCloudLoad().catch(e=>{console.warn('Escapada cloud',e);toast('No se pudieron actualizar los viajes')});
 };
-</script><script type="module" src="./planazo-auth.js?v=56"></script><script>
+</script><script type="module" src="./planazo-auth.js?v=57"></script><script>
 /* V44: preserve form drafts across navigation; successful creation is exempt. */
 const escapadaGuardedGo=go;
 let escapadaAllowCreateExit=false;
@@ -946,7 +949,7 @@ create=function(){
 
 /* Stable-link update check. Version endpoint is fetched without browser cache. */
 (function(){
- const BUILD='56';
+ const BUILD='57';
  async function checkEscapadaUpdate(){
   if(document.visibilityState==='hidden')return;
   try{
