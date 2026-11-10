@@ -839,7 +839,7 @@ showMyEvents=function(){
  escapadaCloudStatus('',null);
  escapadaCloudLoad().catch(e=>{console.warn('Escapada cloud',e);toast('No se pudieron actualizar los viajes')});
 };
-</script><script type="module" src="./planazo-auth.js?v=6"></script><script>
+</script><script type="module" src="./planazo-auth.js?v=47"></script><script>
 /* V44: preserve form drafts across navigation; successful creation is exempt. */
 const escapadaGuardedGo=go;
 let escapadaAllowCreateExit=false;
@@ -865,7 +865,7 @@ create=function(){
 
 /* Stable-link update check. Version endpoint is fetched without browser cache. */
 (function(){
- const BUILD='46';
+ const BUILD='47';
  async function checkEscapadaUpdate(){
   if(document.visibilityState==='hidden')return;
   try{
