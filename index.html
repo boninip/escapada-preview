@@ -691,24 +691,30 @@ function escapadaToggleMenu(open){
  if(open)drawer.querySelector('.esc-menu-close')?.focus();else escMenuPreviousFocus?.focus?.();
 }
 function escapadaMenuAction(action){
- if(!escapadaAllowCreateExit&&!escapadaMenuCanLeave(()=>{escapadaAllowCreateExit=true;try{escapadaMenuAction(action)}finally{escapadaAllowCreateExit=false}}))return;
+ if(!escapadaAllowCreateExit&&!escapadaMenuCanLeave(()=>{
+  escapadaAllowCreateExit=true;
+  try{escapadaMenuAction(action)}finally{escapadaAllowCreateExit=false}
+ }))return;
+ const priorPermission=escapadaAllowCreateExit;
  escapadaAllowCreateExit=true;
- escapadaToggleMenu(false);
- if(action==='home')go('home');
- else if(action==='trips')showMyEvents();
- else if(action==='new')startJuntada('trip');
- else if(action==='invitations'){showMyEvents();document.getElementById('escapadaJoinCode')?.focus()}
- else if(action==='itinerary'||action==='votes'||action==='expenses'){
-  if(!currentJuntadaId){toast('Primero elegí una escapada en Mis escapadas.');showMyEvents();return}
-  if(action==='expenses'){toast('El grupo de Gastos estará disponible cuando esté vinculado.');return}
-  go('event');
-  const target=action==='itinerary'?document.getElementById('tripPlanner'):document.getElementById('guestDateVote')||document.getElementById('voteStatus');
-  if(target)target.scrollIntoView({behavior:'smooth',block:'start'});else toast('Esta sección todavía no está disponible en la escapada.');
- }else if(action==='profile')window.openPlanazoProfile?.();
- else if(action==='notifications')toast('Las notificaciones todavía no están disponibles.');
- else if(action==='settings')toast('La configuración todavía no está disponible.');
- else if(action==='help')toast('La ayuda estará disponible próximamente.');
- escapadaAllowCreateExit=false;
+ try{
+  escapadaToggleMenu(false);
+  if(action==='home')go('home');
+  else if(action==='trips')showMyEvents();
+  else if(action==='new')startJuntada('trip');
+  else if(action==='invitations'){showMyEvents();document.getElementById('escapadaJoinCode')?.focus()}
+  else if(action==='itinerary'||action==='votes'||action==='expenses'){
+   if(!currentJuntadaId){toast('Primero elegí una escapada en Mis escapadas.');showMyEvents();return}
+   if(action==='expenses'){toast('El grupo de Gastos estará disponible cuando esté vinculado.');return}
+   go('event');
+   const target=action==='itinerary'?document.getElementById('tripPlanner'):document.getElementById('voteStatus');
+   if(target&&!target.closest('.hide'))target.scrollIntoView({behavior:'smooth',block:'center'});
+   else toast(action==='votes'?'Todavía no hay una votación de fechas disponible.':'Esta sección todavía no está disponible.');
+  }else if(action==='profile')window.openPlanazoProfile?.();
+  else if(action==='notifications')toast('Las notificaciones todavía no están disponibles.');
+  else if(action==='settings')toast('La configuración todavía no está disponible.');
+  else if(action==='help')toast('La ayuda estará disponible próximamente.');
+ }finally{escapadaAllowCreateExit=priorPermission}
 }
 (function escapadaInitMenu(){
  const app=document.querySelector('.app');if(!app||document.getElementById('esc-drawer'))return;
@@ -859,7 +865,7 @@ create=function(){
 
 /* Stable-link update check. Version endpoint is fetched without browser cache. */
 (function(){
- const BUILD='45';
+ const BUILD='46';
  async function checkEscapadaUpdate(){
   if(document.visibilityState==='hidden')return;
   try{
