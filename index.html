@@ -544,4 +544,53 @@ function removeTripTask(id){ensureTripTasks();saved.tripTasks=saved.tripTasks.fi
 function addTripTask(){if(saved.type!=='trip')return;const input=document.getElementById('tripNewTask');const title=input.value.trim();if(!title){toast('Escribí el pendiente');return}ensureTripTasks();if(saved.tripTasks.length>=40){toast('Máximo 40 pendientes');return}saved.tripTasks.push({id:'task'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),title,done:false});input.value='';persistJuntada();renderTripPlanner()}
 const v12Sync=sync;sync=function(){v12Sync();renderTripPlanner()};
 const v12Go=go;go=function(id){v12Go(id);if(id==='event')renderTripPlanner()};
+
+/* Escapada cloud phase 1: basic trip metadata, with local fallback. */
+let escapadaCloudTimer=null;
+let escapadaCloudBusy=false;
+async function escapadaCloudSave(){
+ const client=window.escapadaSupabase;
+ if(!client||!currentJuntadaId||!saved.name)return;
+ const {data:{user},error:authError}=await client.auth.getUser();
+ if(authError||!user)return;
+ const entries=getJuntadas(),entry=entries.find(e=>e.id===currentJuntadaId);
+ if(!entry||!entry.saved)return;
+ if(entry.cloudOwner&&entry.cloudOwner!==user.id)return;
+ const cloudId=entry.cloudId||crypto.randomUUID();
+ const trip=entry.saved;
+ const payload={id:cloudId,owner_id:user.id,name:trip.name,destination:trip.destination||null,description:trip.desc||null,starts_on:trip.dateMode==='fixed'&&trip.date?trip.date:null,ends_on:trip.dateMode==='fixed'&&trip.endDate?trip.endDate:null,status:'planning'};
+ const {error}=await client.from('escapada_trips').upsert(payload,{onConflict:'id'});
+ if(error){console.warn('Escapada: no se pudo sincronizar el viaje',error.message);return}
+ const fresh=getJuntadas(),record=fresh.find(e=>e.id===entry.id);
+ if(record){record.cloudId=cloudId;record.cloudOwner=user.id;localStorage.setItem(JSTORE,JSON.stringify(fresh))}
+}
+const escapadaLocalPersist=persistJuntada;
+persistJuntada=function(){
+ escapadaLocalPersist();
+ clearTimeout(escapadaCloudTimer);
+ escapadaCloudTimer=setTimeout(()=>{escapadaCloudSave().catch(e=>console.warn('Escapada cloud',e))},650);
+};
+async function escapadaCloudLoad(){
+ if(escapadaCloudBusy)return;
+ const client=window.escapadaSupabase;if(!client)return;
+ escapadaCloudBusy=true;
+ try{
+  const {data:{user}}=await client.auth.getUser();
+  if(!user)return;
+  const {data,error}=await client.from('escapada_trips').select('id,owner_id,name,destination,description,starts_on,ends_on,status').order('created_at',{ascending:false});
+  if(error){console.warn('Escapada: no se pudieron consultar los viajes',error.message);return}
+  const local=getJuntadas();
+  let changed=false;
+  for(const trip of data||[]){
+   if(local.some(e=>e.cloudId===trip.id))continue;
+   local.push({id:'cloud-'+trip.id,cloudId:trip.id,cloudOwner:trip.owner_id,updated:Date.now(),saved:{name:trip.name,desc:trip.description||'',destination:trip.destination||'',place:trip.destination||'Lugar a confirmar',dateMode:trip.starts_on?'fixed':'pending',date:trip.starts_on||'',endDate:trip.ends_on||null,type:'trip',candidates:[],time:'',expense:''},confirmedDate:'',confirmedPlace:'',places:[],guestResponses:{},guestVotes:{},placeVotes:{}});
+   changed=true;
+  }
+  if(changed)localStorage.setItem(JSTORE,JSON.stringify(local));
+  if(document.getElementById('myEvents').classList.contains('active'))showMyEvents();
+ }finally{escapadaCloudBusy=false}
+}
+window.addEventListener('planazo-auth-changed',event=>{if(event.detail?.signedIn)escapadaCloudLoad().catch(console.warn)});
+const escapadaLocalShowMyEvents=showMyEvents;
+showMyEvents=function(){escapadaLocalShowMyEvents();escapadaCloudLoad().catch(console.warn)};
 </script><script type="module" src="./planazo-auth.js?v=6"></script></body></html>
