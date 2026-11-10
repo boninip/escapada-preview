@@ -49,7 +49,7 @@ dialog.innerHTML=`<div id="planazo-auth-panel">
 <div id="planazo-auth-session" hidden><p id="planazo-auth-user"></p><div class="auth-actions"><button type="button" id="planazo-auth-logout" class="secondary">Cerrar sesión</button></div></div>
 <p id="planazo-auth-message" role="status" aria-live="polite"></p>
 </div>`;
-document.body.append(trigger,dialog);
+document.body.append(dialog); // El acceso a Planazo ID vive en Perfil, no en una burbuja flotante.
 const $ = id=>document.getElementById(id);
 const message=(value,error=false)=>{const el=$('planazo-auth-message');el.textContent=value;el.style.color=error?'#a33b37':'#24518b'};
 function render(session){
