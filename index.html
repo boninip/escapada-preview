@@ -548,14 +548,17 @@ const v12Go=go;go=function(id){v12Go(id);if(id==='event')renderTripPlanner()};
 /* Escapada cloud phase 1: basic trip metadata, with local fallback. */
 let escapadaCloudTimer=null;
 let escapadaCloudBusy=false;
-async function escapadaCloudSave(){
+const escapadaCloudInFlight=new Set();
+async function escapadaCloudSave(tripLocalId){
  const client=window.escapadaSupabase;
- if(!client||!currentJuntadaId||!saved.name)return;
+ if(!client||!tripLocalId)return;
  const {data:{user},error:authError}=await client.auth.getUser();
  if(authError||!user)return;
- const entries=getJuntadas(),entry=entries.find(e=>e.id===currentJuntadaId);
- if(!entry||!entry.saved)return;
+ const entries=getJuntadas(),entry=entries.find(e=>e.id===tripLocalId);
+ if(!entry||!entry.saved||!entry.saved.name||escapadaCloudInFlight.has(tripLocalId))return;
  if(entry.cloudOwner&&entry.cloudOwner!==user.id)return;
+ escapadaCloudInFlight.add(tripLocalId);
+ try{
  const cloudId=entry.cloudId||crypto.randomUUID();
  const trip=entry.saved;
  const payload={id:cloudId,owner_id:user.id,name:trip.name,destination:trip.destination||null,description:trip.desc||null,starts_on:trip.dateMode==='fixed'&&trip.date?trip.date:null,ends_on:trip.dateMode==='fixed'&&trip.endDate?trip.endDate:null,status:'planning'};
@@ -563,12 +566,14 @@ async function escapadaCloudSave(){
  if(error){console.warn('Escapada: no se pudo sincronizar el viaje',error.message);return}
  const fresh=getJuntadas(),record=fresh.find(e=>e.id===entry.id);
  if(record){record.cloudId=cloudId;record.cloudOwner=user.id;localStorage.setItem(JSTORE,JSON.stringify(fresh))}
+ }finally{escapadaCloudInFlight.delete(tripLocalId)}
 }
 const escapadaLocalPersist=persistJuntada;
 persistJuntada=function(){
  escapadaLocalPersist();
  clearTimeout(escapadaCloudTimer);
- escapadaCloudTimer=setTimeout(()=>{escapadaCloudSave().catch(e=>console.warn('Escapada cloud',e))},650);
+ const tripLocalId=currentJuntadaId;
+ escapadaCloudTimer=setTimeout(()=>{escapadaCloudSave(tripLocalId).catch(e=>console.warn('Escapada cloud',e))},650);
 };
 async function escapadaCloudLoad(){
  if(escapadaCloudBusy)return;
