@@ -388,6 +388,14 @@ label,.detail svg{color:var(--forest)}
  .nav{display:grid!important;visibility:visible!important} .nav.hide{display:grid!important} .screen{padding-bottom:calc(94px + env(safe-area-inset-bottom,0px))} /* V32: comparativa sin barra inferior; navegación desde inicio y encabezados. */
 .nav,.nav.hide{display:none!important;visibility:hidden!important}
 .screen{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))!important}
+/* V34: navigation drawer without fixed bottom bar. */
+.esc-menu-trigger{border:0;background:transparent;color:#28564b;width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;cursor:pointer;flex-shrink:0}
+.esc-menu-trigger svg{width:23px;height:23px}
+.esc-drawer-shade{position:fixed;inset:0;background:rgba(14,32,28,.42);z-index:2000}
+.esc-drawer{position:fixed;top:0;bottom:0;left:0;width:min(310px,85vw);background:#f9faf6;z-index:2001;box-shadow:10px 0 35px #10291f33;padding:calc(26px + env(safe-area-inset-top,0px)) 22px 24px;overflow:auto}
+.esc-drawer-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;color:#28564b;font-size:23px;font-weight:700}
+.esc-drawer button:not(.esc-menu-trigger){display:block;width:100%;text-align:left;border:0;border-bottom:1px solid #d5ddd5;background:transparent;padding:17px 5px;color:#28564b;font-size:16px;font-weight:600;cursor:pointer}
+.esc-drawer[hidden],.esc-drawer-shade[hidden]{display:none!important}
 </style></head><body><div class="app">
 <section id="home" class="screen active"><header class="escape-header"><div class="brand"><span class="brand-mark" aria-hidden="true">E<span class="brand-trail"></span></span><div class="logo">escapada<span>.</span></div></div><button type="button" class="avatar" onclick="window.openPlanazoProfile?.()" aria-label="Abrir perfil Planazo ID">P</button></header><div class="escape-hero"><div class="escape-hero-content"><div class="escape-kicker"><span class="escape-kicker-line"></span> TU PRÓXIMA AVENTURA</div><h1>Hay viajes que<br>empiezan con<br><em>un «¿y si…?»</em></h1><p>De esa idea en el grupo al viaje que van a recordar.</p></div><div class="escape-hero-bottom"><span>EXPLORÁ · PLANEÁ · VIAJÁ</span><span>01 / 03</span></div></div><div class="escape-home-content"><div class="escape-section-top"><div><div class="escape-eyebrow">EL VIAJE EMPIEZA ACÁ</div><h2>Todo listo para<br><em>salir de la rutina.</em></h2></div><span class="escape-compass" aria-hidden="true">✳</span></div><div class="escape-menu" aria-label="Opciones de Escapada">
  <button class="escape-feature" onclick="startJuntada('trip')"><span class="escape-feature-icon" data-icon="calendar-plus"></span><span class="escape-feature-copy"><strong>Organizar un viaje</strong><small>Destino, fechas, invitados y votaciones.</small></span><span class="escape-feature-arrow">›</span></button>
@@ -565,6 +573,39 @@ async function escapadaRequestJoin(){
   feedback.textContent='Solicitud enviada. Podrás acceder cuando el organizador la apruebe.';
  }catch(e){feedback.textContent='No se pudo conectar. Intentá nuevamente.';console.warn(e)}
 }
+/* Accessible global navigation, consistent across Escapada screens. */
+function escapadaToggleMenu(open){
+ const drawer=document.getElementById('esc-drawer'),shade=document.getElementById('esc-drawer-shade');
+ if(!drawer||!shade)return;
+ drawer.hidden=!open;shade.hidden=!open;
+ document.querySelectorAll('.esc-menu-trigger').forEach(b=>b.setAttribute('aria-expanded',String(open)));
+ if(open)drawer.querySelector('.esc-menu-close')?.focus();
+}
+function escapadaMenuAction(action){
+ escapadaToggleMenu(false);
+ if(action==='home')go('home');
+ else if(action==='trips')showMyEvents();
+ else if(action==='new')startJuntada('trip');
+ else if(action==='invitations'){showMyEvents();document.getElementById('escapadaJoinCode')?.focus()}
+ else if(action==='expenses')toast('Los gastos compartidos se integrarán con la app Gastos');
+ else if(action==='profile')window.openPlanazoProfile?.();
+}
+(function escapadaInitMenu(){
+ const app=document.querySelector('.app');if(!app||document.getElementById('esc-drawer'))return;
+ const shade=document.createElement('div');shade.id='esc-drawer-shade';shade.className='esc-drawer-shade';shade.hidden=true;shade.onclick=()=>escapadaToggleMenu(false);
+ const drawer=document.createElement('aside');drawer.id='esc-drawer';drawer.className='esc-drawer';drawer.hidden=true;drawer.setAttribute('aria-label','Navegación de Escapada');
+ drawer.innerHTML='<div class="esc-drawer-top"><span>escapada.</span><button type="button" class="esc-menu-trigger esc-menu-close" aria-label="Cerrar menú" onclick="escapadaToggleMenu(false)">✕</button></div>'+[
+ ['home','Inicio'],['trips','Mis viajes'],['new','Organizar un viaje'],['invitations','Invitaciones'],['expenses','Gastos compartidos'],['profile','Mi perfil']
+ ].map(([id,label])=>'<button type="button" onclick="escapadaMenuAction(\''+id+'\')">'+label+'</button>').join('');
+ app.append(shade,drawer);
+ document.querySelectorAll('.screen > header').forEach(header=>{
+  const button=document.createElement('button');button.type='button';button.className='esc-menu-trigger';button.setAttribute('aria-label','Abrir menú');button.setAttribute('aria-controls','esc-drawer');button.setAttribute('aria-expanded','false');
+  button.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+  button.onclick=()=>escapadaToggleMenu(true);
+  header.appendChild(button);
+ });
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')escapadaToggleMenu(false)});
+})();
 /* Escapada cloud phase 1: basic trip metadata, with local fallback. */
 const escapadaCloudTimers=new Map();
 const escapadaCloudPending=new Set();
