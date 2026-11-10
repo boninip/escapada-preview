@@ -657,6 +657,7 @@ function escapadaToggleMenu(open){
 }
 function escapadaMenuAction(action){
  if(!escapadaMenuCanLeave())return;
+ escapadaAllowCreateExit=true;
  escapadaToggleMenu(false);
  if(action==='home')go('home');
  else if(action==='trips')showMyEvents();
@@ -672,6 +673,7 @@ function escapadaMenuAction(action){
  else if(action==='notifications')toast('Las notificaciones todavía no están disponibles.');
  else if(action==='settings')toast('La configuración todavía no está disponible.');
  else if(action==='help')toast('La ayuda estará disponible próximamente.');
+ escapadaAllowCreateExit=false;
 }
 (function escapadaInitMenu(){
  const app=document.querySelector('.app');if(!app||document.getElementById('esc-drawer'))return;
@@ -806,7 +808,7 @@ go=function(id){
 };
 const escapadaGuardedStart=startJuntada;
 startJuntada=function(type){
- if(!escapadaMenuCanLeave())return;
+ if(!escapadaAllowCreateExit&&!escapadaMenuCanLeave())return;
  escapadaAllowCreateExit=true;
  try{escapadaGuardedStart(type);escapadaCreateBaseline=escapadaCreateSnapshot();}
  finally{escapadaAllowCreateExit=false}
