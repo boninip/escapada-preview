@@ -549,6 +549,12 @@ const escapadaCloudTimers=new Map();
 const escapadaCloudPending=new Set();
 let escapadaCloudBusy=false;
 const escapadaCloudInFlight=new Set();
+const escapadaCloudErrors=new Map();
+function escapadaCloudStatus(tripId,message){
+ if(message)escapadaCloudErrors.set(tripId,message);else escapadaCloudErrors.delete(tripId);
+ const el=document.getElementById('escapada-sync-status');
+ if(el)el.textContent=escapadaCloudErrors.size?'Sin sincronizar: '+escapadaCloudErrors.size+' viaje(s). Los cambios siguen guardados en este navegador.':'Viajes sincronizados cuando hay conexión y sesión activa.';
+}
 async function escapadaCloudSave(tripLocalId){
  const client=window.escapadaSupabase;
  if(!client||!tripLocalId)return;
@@ -564,12 +570,13 @@ async function escapadaCloudSave(tripLocalId){
  const trip=entry.saved;
  const payload={id:cloudId,owner_id:user.id,name:trip.name,destination:trip.destination||null,description:trip.desc||null,starts_on:trip.dateMode==='fixed'&&trip.date?trip.date:null,ends_on:trip.dateMode==='fixed'&&trip.endDate?trip.endDate:null,status:'planning'};
  const {error}=await client.from('escapada_trips').upsert(payload,{onConflict:'id'});
- if(error){console.warn('Escapada: no se pudo sincronizar el viaje',error.message);return}
+ if(error){escapadaCloudStatus(tripLocalId,error.message);console.warn('Escapada: no se pudo sincronizar el viaje',error.message);return}
+ escapadaCloudStatus(tripLocalId,null);
  const fresh=getJuntadas(),record=fresh.find(e=>e.id===entry.id);
  if(record){record.cloudId=cloudId;record.cloudOwner=user.id;localStorage.setItem(JSTORE,JSON.stringify(fresh))}
  }finally{
   escapadaCloudInFlight.delete(tripLocalId);
-  if(escapadaCloudPending.delete(tripLocalId))escapadaCloudSave(tripLocalId).catch(e=>console.warn('Escapada cloud',e));
+  if(escapadaCloudPending.delete(tripLocalId))escapadaCloudSave(tripLocalId).catch(e=>{escapadaCloudStatus(tripLocalId,e.message);console.warn('Escapada cloud',e)});
  }
 }
 const escapadaLocalPersist=persistJuntada;
@@ -592,7 +599,7 @@ async function escapadaCloudLoad(){
   const {data:{user}}=await client.auth.getUser();
   if(!user||escapadaCurrentCloudUser!==user.id)return;
   const {data,error}=await client.from('escapada_trips').select('id,owner_id,name,destination,description,starts_on,ends_on,status').order('created_at',{ascending:false});
-  if(error){console.warn('Escapada: no se pudieron consultar los viajes',error.message);return}
+  if(error){console.warn('Escapada: no se pudieron consultar los viajes',error.message);toast('No se pudieron actualizar los viajes. Revisá la conexión.');return}
   if(escapadaCurrentCloudUser!==user.id)return;
   const local=getJuntadas();
   let changed=false;
@@ -625,5 +632,14 @@ window.addEventListener('planazo-auth-changed',event=>{
  if(userId)escapadaCloudLoad().catch(console.warn);
 });
 const escapadaLocalShowMyEvents=showMyEvents;
-showMyEvents=function(){escapadaLocalShowMyEvents();escapadaCloudLoad().catch(console.warn)};
+showMyEvents=function(){
+ escapadaLocalShowMyEvents();
+ const list=document.getElementById('myEventsList');
+ if(list&&!document.getElementById('escapada-sync-status')){
+  const status=document.createElement('p');status.id='escapada-sync-status';status.className='sub';status.style.cssText='font-size:12px;margin:12px 0 18px';
+  list.parentNode.insertBefore(status,list.nextSibling);
+ }
+ escapadaCloudStatus('',null);
+ escapadaCloudLoad().catch(e=>{console.warn('Escapada cloud',e);toast('No se pudieron actualizar los viajes')});
+};
 </script><script type="module" src="./planazo-auth.js?v=10"></script><div id="preview-version-label" style="position:fixed;top:68px;right:7px;z-index:99;background:#244C43;color:#fff;padding:3px 7px;border-radius:6px;font:600 10px system-ui;pointer-events:none">PREVIEW V12</div></body></html>
