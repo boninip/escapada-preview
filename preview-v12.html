@@ -442,6 +442,17 @@ body.esc-menu-open{overflow:hidden}
 #nav,.nav,.nav.hide{display:none!important;visibility:hidden!important;pointer-events:none!important}
 .app{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .screen{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))!important}
+/* V45 unified Escapada messages */
+.toast{bottom:calc(24px + env(safe-area-inset-bottom,0px))!important;background:#244C43!important;color:#F7F3EA!important;border:1px solid #A8C9B8!important;box-shadow:0 6px 22px #244C4330!important;border-radius:13px!important;padding:12px 17px!important;font-size:14px!important;max-width:min(90vw,420px)!important;text-align:center!important;z-index:2200!important}
+.esc-confirm-shade{position:fixed;inset:0;z-index:3100;background:rgba(20,38,34,.54);display:flex;align-items:center;justify-content:center;padding:20px}
+.esc-confirm-shade[hidden]{display:none!important}
+.esc-confirm-panel{width:min(100%,380px);background:#F7F3EA;border:1px solid #DDDCD1;border-radius:20px;padding:25px 22px 20px;box-shadow:0 18px 48px #152e293d;color:#244C43}
+.esc-confirm-panel h2{font:700 24px/1.2 Georgia,serif;margin:0 0 12px;color:#244C43}
+.esc-confirm-panel p{font:15px/1.5 system-ui,sans-serif;margin:0 0 22px;color:#455D51}
+.esc-confirm-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+.esc-confirm-actions button{border:1px solid #BDD4C6;border-radius:11px;padding:11px 14px;font:600 13px system-ui,sans-serif;cursor:pointer;background:#E5F0EA;color:#244C43}
+.esc-confirm-actions .esc-confirm-danger{background:#244C43;border-color:#244C43;color:#fff}
+.esc-confirm-actions button:focus-visible{outline:3px solid #B4DCCB;outline-offset:2px}
 </style></head><body><div class="app">
 <section id="home" class="screen active"><header class="escape-header"><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="brand"><div class="logo">Escapada<span>.</span></div></div><button type="button" class="avatar" onclick="window.openPlanazoProfile?.()" aria-label="Abrir perfil Planazo ID">P</button></header><div class="escape-hero"><div class="escape-hero-content"><div class="escape-kicker"><span class="escape-kicker-line"></span> TU PRÓXIMA AVENTURA</div><h1>Hay viajes que<br>empiezan con<br><em>un «¿y si…?»</em></h1><p>De esa idea en el grupo al viaje que van a recordar.</p></div><div class="escape-hero-bottom"><span>EXPLORÁ · PLANEÁ · VIAJÁ</span><span>01 / 03</span></div></div><div class="escape-home-content"><div class="escape-section-top"><div><div class="escape-eyebrow">EL VIAJE EMPIEZA ACÁ</div><h2>Todo listo para<br><em>salir de la rutina.</em></h2></div><span class="escape-compass" aria-hidden="true">✳</span></div><div class="escape-menu" aria-label="Opciones de Escapada">
  <button class="escape-feature" onclick="startJuntada('trip')"><span class="escape-feature-icon" data-icon="calendar-plus"></span><span class="escape-feature-copy"><strong>Organizar un viaje</strong><small>Destino, fechas, invitados y votaciones.</small></span><span class="escape-feature-arrow">›</span></button>
@@ -636,9 +647,33 @@ function escapadaCreateSnapshot(){
 function escapadaMenuDirty(){
  return !!document.getElementById('create')?.classList.contains('active')&&escapadaCreateBaseline!==null&&escapadaCreateSnapshot()!==escapadaCreateBaseline;
 }
-function escapadaMenuCanLeave(){
+let escapadaConfirmOpen=false;
+function escapadaConfirmLeave(onAccept){
+ if(escapadaConfirmOpen)return;
+ escapadaConfirmOpen=true;
+ const previous=document.activeElement;
+ const shade=document.createElement('div');
+ shade.className='esc-confirm-shade';
+ shade.setAttribute('role','presentation');
+ shade.innerHTML='<div class="esc-confirm-panel" role="alertdialog" aria-modal="true" aria-labelledby="esc-confirm-title" aria-describedby="esc-confirm-desc"><h2 id="esc-confirm-title">¿Salir sin guardar?</h2><p id="esc-confirm-desc">Tenés cambios en esta escapada que todavía no guardaste.</p><div class="esc-confirm-actions"><button type="button" data-choice="stay">Seguir editando</button><button type="button" class="esc-confirm-danger" data-choice="leave">Salir sin guardar</button></div></div>';
+ const finish=(accept)=>{
+  document.removeEventListener('keydown',onKey,true);shade.remove();escapadaConfirmOpen=false;
+  if(accept)onAccept();else previous?.focus?.();
+ };
+ const onKey=e=>{
+  if(e.key==='Escape'){e.preventDefault();e.stopPropagation();finish(false)}
+  if(e.key==='Tab'){const buttons=[...shade.querySelectorAll('button')];const first=buttons[0],last=buttons[buttons.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}
+ };
+ shade.querySelector('[data-choice="stay"]').onclick=()=>finish(false);
+ shade.querySelector('[data-choice="leave"]').onclick=()=>finish(true);
+ document.querySelector('.app').append(shade);
+ document.addEventListener('keydown',onKey,true);
+ shade.querySelector('[data-choice="stay"]').focus();
+}
+function escapadaMenuCanLeave(onAccept){
  if(!escapadaMenuDirty())return true;
- return window.confirm('Tenés cambios en la escapada que podrían no estar guardados. ¿Querés salir igualmente?');
+ escapadaConfirmLeave(onAccept||(()=>{}));
+ return false;
 }
 function escapadaMenuActive(){
  if(document.getElementById('home')?.classList.contains('active'))return 'home';
@@ -655,7 +690,7 @@ function escapadaToggleMenu(open){
  if(open)drawer.querySelector('.esc-menu-close')?.focus();else escMenuPreviousFocus?.focus?.();
 }
 function escapadaMenuAction(action){
- if(!escapadaMenuCanLeave())return;
+ if(!escapadaAllowCreateExit&&!escapadaMenuCanLeave(()=>{escapadaAllowCreateExit=true;try{escapadaMenuAction(action)}finally{escapadaAllowCreateExit=false}}))return;
  escapadaAllowCreateExit=true;
  escapadaToggleMenu(false);
  if(action==='home')go('home');
@@ -802,12 +837,12 @@ showMyEvents=function(){
 const escapadaGuardedGo=go;
 let escapadaAllowCreateExit=false;
 go=function(id){
- if(id!=='create'&&!escapadaAllowCreateExit&&!escapadaMenuCanLeave())return;
+ if(id!=='create'&&!escapadaAllowCreateExit&&!escapadaMenuCanLeave(()=>{escapadaAllowCreateExit=true;try{go(id)}finally{escapadaAllowCreateExit=false}}))return;
  escapadaGuardedGo(id);
 };
 const escapadaGuardedStart=startJuntada;
 startJuntada=function(type){
- if(!escapadaAllowCreateExit&&!escapadaMenuCanLeave())return;
+ if(!escapadaAllowCreateExit&&!escapadaMenuCanLeave(()=>{escapadaAllowCreateExit=true;try{startJuntada(type)}finally{escapadaAllowCreateExit=false}}))return;
  escapadaAllowCreateExit=true;
  try{escapadaGuardedStart(type);escapadaCreateBaseline=escapadaCreateSnapshot();}
  finally{escapadaAllowCreateExit=false}
@@ -823,7 +858,7 @@ create=function(){
 
 /* Stable-link update check. Version endpoint is fetched without browser cache. */
 (function(){
- const BUILD='44';
+ const BUILD='45';
  async function checkEscapadaUpdate(){
   if(document.visibilityState==='hidden')return;
   try{
