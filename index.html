@@ -634,18 +634,22 @@ async function escapadaRequestJoin(){
  const feedback=document.getElementById('escapadaJoinFeedback');
  const field=document.getElementById('escapadaJoinCode');
  const token=field?.value.trim()||'';
+ if(escapadaRequestJoin.busy)return;
+ const submit=field?.closest('.esc-inv-section')?.querySelector('.esc-inv-submit');
  if(!token){feedback.textContent='Ingresá un código de invitación.';return}
  const client=window.escapadaSupabase;
  if(!client){feedback.textContent='Esperá a que se cargue Planazo ID e intentá nuevamente.';return}
  const {data:{user},error:authError}=await client.auth.getUser();
  if(authError||!user){feedback.textContent='Iniciá sesión con Planazo ID para solicitar acceso.';return}
  feedback.textContent='Enviando solicitud…';
+ escapadaRequestJoin.busy=true;if(submit)submit.disabled=true;
  try{
   const {error}=await client.rpc('escapada_request_join',{p_token:token});
   if(error){feedback.textContent='No se pudo enviar la solicitud. Verificá que el código sea válido y esté vigente.';console.warn('Escapada invitation request',error.message);return}
   field.value='';
   feedback.textContent='Solicitud enviada. Podrás acceder cuando el organizador la apruebe.';
  }catch(e){feedback.textContent='No se pudo conectar. Intentá nuevamente.';console.warn(e)}
+ finally{escapadaRequestJoin.busy=false;if(submit)submit.disabled=false}
 }
 /* V35: compact, accessible Escapada drawer. */
 let escMenuPreviousFocus=null;
@@ -777,7 +781,7 @@ async function escapadaCloudSave(tripLocalId){
  const entries=getJuntadas(),entry=entries.find(e=>e.id===tripLocalId);
  if(!entry||!entry.saved||!entry.saved.name)return;
  if(escapadaCloudInFlight.has(tripLocalId)){escapadaCloudPending.add(tripLocalId);return}
- if(entry.cloudOwner&&entry.cloudOwner!==user.id)return;
+ if(entry.cloudOwner&&entry.cloudOwner!==user.id){escapadaCloudStatus(tripLocalId,'Los viajes compartidos no se pueden editar en la nube desde esta versión.');return;}
  escapadaCloudInFlight.add(tripLocalId);
  try{
  const cloudId=entry.cloudId||crypto.randomUUID();
@@ -787,7 +791,7 @@ async function escapadaCloudSave(tripLocalId){
  if(error){escapadaCloudStatus(tripLocalId,error.message);console.warn('Escapada: no se pudo sincronizar el viaje',error.message);return}
  escapadaCloudStatus(tripLocalId,null);
  const fresh=getJuntadas(),record=fresh.find(e=>e.id===entry.id);
- if(record){record.cloudId=cloudId;record.cloudOwner=user.id;record.cloudAccessUser=user.id;localStorage.setItem(JSTORE,JSON.stringify(fresh))}
+ if(record){record.cloudId=cloudId;record.cloudOwner=user.id;record.cloudAccessUser=user.id;record.cloudSnapshot={name:payload.name,desc:payload.description||'',destination:payload.destination||'',date:payload.starts_on||'',endDate:payload.ends_on||null};record.cloudConflict=false;localStorage.setItem(JSTORE,JSON.stringify(fresh))}
  }finally{
   escapadaCloudInFlight.delete(tripLocalId);
   if(escapadaCloudPending.delete(tripLocalId))escapadaCloudSave(tripLocalId).catch(e=>{escapadaCloudStatus(tripLocalId,e.message);console.warn('Escapada cloud',e)});
@@ -818,8 +822,24 @@ async function escapadaCloudLoad(){
   const local=getJuntadas();
   let changed=false;
   for(const trip of data||[]){
-   if(local.some(e=>e.cloudId===trip.id)){const existing=local.find(e=>e.cloudId===trip.id);if(existing.cloudAccessUser!==user.id){existing.cloudAccessUser=user.id;changed=true}continue;}
-   local.push({id:'cloud-'+trip.id,cloudId:trip.id,cloudOwner:trip.owner_id,cloudAccessUser:user.id,updated:Date.now(),saved:{name:trip.name,desc:trip.description||'',destination:trip.destination||'',place:trip.destination||'Lugar a confirmar',dateMode:trip.starts_on?'fixed':'pending',date:trip.starts_on||'',endDate:trip.ends_on||null,type:'trip',candidates:[],time:'',expense:''},confirmedDate:'',confirmedPlace:'',places:[],guestResponses:{},guestVotes:{},placeVotes:{}});
+   if(local.some(e=>e.cloudId===trip.id)){
+    const existing=local.find(e=>e.cloudId===trip.id);
+    if(existing.cloudAccessUser!==user.id){existing.cloudAccessUser=user.id;changed=true}
+    // Update only remote metadata when there are no local edits pending.
+    const pending=escapadaCloudInFlight.has(existing.id)||escapadaCloudPending.has(existing.id)||escapadaCloudTimers.has(existing.id);
+    if(!pending&&existing.cloudOwner===user.id){
+     const incoming={name:trip.name,desc:trip.description||'',destination:trip.destination||'',date:trip.starts_on||'',endDate:trip.ends_on||null};
+     const previous=existing.cloudSnapshot;
+     if(previous&&JSON.stringify(previous)!==JSON.stringify(incoming)){
+      const localMatches=Object.keys(previous).every(k=>(existing.saved[k]??null)===(previous[k]??null));
+      if(localMatches){Object.assign(existing.saved,incoming);existing.saved.place=incoming.destination||existing.saved.place;changed=true}
+      else{existing.cloudConflict=true;changed=true}
+     }
+     existing.cloudSnapshot=incoming;changed=true;
+    }
+    continue;
+   }
+   local.push({id:'cloud-'+trip.id,cloudId:trip.id,cloudOwner:trip.owner_id,cloudAccessUser:user.id,cloudSnapshot:{name:trip.name,desc:trip.description||'',destination:trip.destination||'',date:trip.starts_on||'',endDate:trip.ends_on||null},updated:Date.now(),saved:{name:trip.name,desc:trip.description||'',destination:trip.destination||'',place:trip.destination||'Lugar a confirmar',dateMode:trip.starts_on?'fixed':'pending',date:trip.starts_on||'',endDate:trip.ends_on||null,type:'trip',candidates:[],time:'',expense:''},confirmedDate:'',confirmedPlace:'',places:[],guestResponses:{},guestVotes:{},placeVotes:{}});
    changed=true;
   }
   if(changed)localStorage.setItem(JSTORE,JSON.stringify(local));
@@ -856,7 +876,7 @@ showMyEvents=function(){
  escapadaCloudStatus('',null);
  escapadaCloudLoad().catch(e=>{console.warn('Escapada cloud',e);toast('No se pudieron actualizar los viajes')});
 };
-</script><script type="module" src="./planazo-auth.js?v=51"></script><script>
+</script><script type="module" src="./planazo-auth.js?v=52"></script><script>
 /* V44: preserve form drafts across navigation; successful creation is exempt. */
 const escapadaGuardedGo=go;
 let escapadaAllowCreateExit=false;
@@ -882,7 +902,7 @@ create=function(){
 
 /* Stable-link update check. Version endpoint is fetched without browser cache. */
 (function(){
- const BUILD='51';
+ const BUILD='52';
  async function checkEscapadaUpdate(){
   if(document.visibilityState==='hidden')return;
   try{
