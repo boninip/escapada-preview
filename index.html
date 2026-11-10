@@ -478,8 +478,8 @@ body.esc-menu-open{overflow:hidden}
 <section id="event" class="screen"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="headleft"><button class="back" onclick="go('invite')">‹</button><span class="brand"><span class="brand-mark" aria-hidden="true">E<span class="brand-trail"></span></span><span class="logo">Escapada<span>.</span></span></span></div></header><div class="banner"></div><div class="pad"><h1 class="js-name"></h1><div class="trip-journal"><div id="tripSummary" class="trip-summary hide"></div><div id="tripPlanner" class="trip-planner hide"><div class="journal-eyebrow">TU BITÁCORA DE VIAJE</div><h2>El plan, paso a paso.</h2><p class="sub">Todo gran viaje empieza con una idea. Vamos haciéndola realidad.</p><div class="progress-head"><strong id="tripProgress">0 de 6 pendientes resueltos</strong><span id="tripProgressPercent">0%</span></div><div class="progress-track" role="progressbar" aria-label="Progreso de organización" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="tripProgressBar"><div id="tripProgressFill"></div></div><div id="tripTaskList" class="trip-task-list"></div><div class="task-add"><input id="tripNewTask" maxlength="90" placeholder="Sumar un pendiente..." aria-label="Nuevo pendiente"><button type="button" onclick="addTripTask()" aria-label="Agregar pendiente">+</button></div><p class="journal-note">Tu bitácora se guarda en este dispositivo.</p></div></div><div class="seg"><button class="on" onclick="tab('antes',this)">Antes</button><button onclick="tab('durante',this)">Durante</button><button onclick="tab('despues',this)">Después</button></div><div id="antes" class="tab"><h2>¿Qué falta?</h2><div class="card"><div class="check"><span data-icon="check-circle"></span> Evento creado</div><div class="check" id="dateChecklist"><span data-icon="clock"></span> Fecha pendiente</div><div class="check" id="placeChecklist"><span data-icon="clock"></span> Lugar pendiente</div><div class="check" id="rsvpChecklist"><span data-icon="clock"></span> Esperando confirmaciones</div></div><div class="card"><div class="row"><span class="ico" data-icon="users"></span><div class="copy"><b>Respuestas de invitados</b><div class="tiny" id="guestSummary">Todavía no hay respuestas</div></div></div><div id="guestList" style="margin-top:12px"></div><button class="btn secondary" onclick="go('invite')">Simular respuesta de un invitado</button></div><div class="card" id="organizerDates"><h2 style="margin-top:0">Definir la fecha</h2><p class="sub" id="dateOrganizerHint">Podés confirmarla cuando estén de acuerdo.</p><div id="dateResults"></div><div id="dateConfirmControl"></div></div><div class="card" id="placesCard"><div class="row"><span class="ico" data-icon="pin"></span><div class="copy"><h2 style="margin:0">¿Dónde nos juntamos?</h2><p class="sub" style="margin:2px 0 0">Proponé lugares y decidamos entre todos.</p></div></div><div id="placeConfirmedBanner" class="place-confirmed hide"></div><div id="placeProposals" class="place-list"></div><div class="place-add"><label for="placeName">Agregar una opción</label><input id="placeName" placeholder="Ej. Parrilla del barrio" maxlength="70"><label for="placeInfo">Dirección o enlace (opcional)</label><input id="placeInfo" placeholder="Ej. Av. Rivadavia 9000" maxlength="160"><button class="btn secondary" type="button" onclick="addPlace()"><span data-icon="calendar-plus"></span> Agregar lugar</button></div><button class="btn outline" type="button" onclick="go('invite');document.getElementById('guestPlaces').scrollIntoView({behavior:'smooth',block:'center'})">Ver votación como invitado</button><p class="field-hint">Demo local: los votos no se comparten entre dispositivos.</p></div><div class="card"><h2 style="margin-top:0">Completar detalles</h2><label for="organizerTime">Hora (opcional)</label><input id="organizerTime" type="time"><label for="organizerPlace">Lugar (opcional)</label><input id="organizerPlace" placeholder="Ej. En casa"><button class="btn secondary" onclick="saveOrganizerDetails()">Guardar detalles</button></div><button class="btn" onclick="go('share')">Compartir invitación</button></div><div id="durante" class="tab hide"><h2>Que esté buena</h2><div class="card">Ideas, actividades y detalles del encuentro aparecerán acá.</div></div><div id="despues" class="tab hide"><h2>Que cierre todo</h2><div class="card" id="afterCopy">Como vos invitás, no mostramos división de gastos. Este espacio será para fotos, recuerdos y mensajes.</div></div></div></section>
 <section class="screen" id="myEvents"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><button class="back" onclick="go('home')">‹</button><span class="logo">Mis escapadas<span>.</span></span><span></span></header><div style="padding:24px 20px"><h2>Tus escapadas</h2><p class="sub">Tus viajes se guardan en este navegador y, al iniciar sesión, se intenta sincronizar su información básica con Planazo ID.</p><div id="myEventsList"></div><button style="margin-top:20px;padding:14px 18px;background:#244C43;color:white;border:0;border-radius:14px;font-weight:700" onclick="startJuntada('trip')">+ Crear escapada</button></div></section><section class="screen" id="invitations"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><button class="back" onclick="showMyEvents()">‹</button><span class="logo">Invitaciones<span>.</span></span><span></span></header><div class="esc-inv-content">
  <h2>Invitaciones</h2><p class="sub">Administrá tus invitaciones y solicitudes para participar en escapadas.</p>
- <section class="esc-inv-section" aria-labelledby="esc-inv-received-title"><h3 id="esc-inv-received-title">Invitaciones recibidas</h3><p class="sub">Las invitaciones recibidas aparecerán acá cuando esté habilitada su consulta desde Planazo ID.</p></section>
- <section class="esc-inv-section" aria-labelledby="esc-inv-sent-title"><h3 id="esc-inv-sent-title">Solicitudes enviadas</h3><p class="sub">Las solicitudes enviadas se podrán consultar acá cuando esté habilitado su seguimiento.</p></section>
+ <section class="esc-inv-section" aria-labelledby="esc-inv-received-title"><h3 id="esc-inv-received-title">Invitaciones recibidas</h3><p class="sub">Las solicitudes que podés revisar aparecerán acá.</p></section>
+ <section class="esc-inv-section" aria-labelledby="esc-inv-sent-title"><h3 id="esc-inv-sent-title">Solicitudes enviadas</h3><p class="sub">Consultá el estado de tus solicitudes.</p></section>
  <section class="esc-inv-section" aria-labelledby="esc-inv-code-title"><h3 id="esc-inv-code-title">Unirme con código</h3><p class="sub">Pegá el código que te compartieron. El organizador deberá aprobar tu solicitud.</p><label for="escapadaJoinCode">Código de invitación</label><input id="escapadaJoinCode" autocomplete="off" placeholder="Ingresá tu código"><button type="button" class="esc-inv-submit" onclick="escapadaRequestJoin()">Solicitar unirme</button><p id="escapadaJoinFeedback" class="sub" role="status" aria-live="polite"></p></section>
  </div></div></section><div class="toast" id="toast"></div></div>
 <script>
@@ -648,9 +648,69 @@ async function escapadaRequestJoin(){
   if(error){feedback.textContent='No se pudo enviar la solicitud. Verificá que el código sea válido y esté vigente.';console.warn('Escapada invitation request',error.message);return}
   field.value='';
   feedback.textContent='Solicitud enviada. Podrás acceder cuando el organizador la apruebe.';
+  escapadaRefreshInvitations();
  }catch(e){feedback.textContent='No se pudo conectar. Intentá nuevamente.';console.warn(e)}
  finally{escapadaRequestJoin.busy=false;if(submit)submit.disabled=false}
 }
+/* V59: real invitation status and review via existing Supabase RLS and RPC. */
+async function escapadaRefreshInvitations(){
+ const sections=document.querySelectorAll('#invitations .esc-inv-section');
+ const received=sections[0],sent=sections[1];
+ if(!received||!sent)return;
+ let receivedList=document.getElementById('esc-inv-received-list');
+ let sentList=document.getElementById('esc-inv-sent-list');
+ if(!receivedList){receivedList=document.createElement('div');receivedList.id='esc-inv-received-list';received.appendChild(receivedList)}
+ if(!sentList){sentList=document.createElement('div');sentList.id='esc-inv-sent-list';sent.appendChild(sentList)}
+ receivedList.textContent='Consultando solicitudes…';sentList.textContent='Consultando solicitudes…';
+ const client=window.escapadaSupabase;
+ if(!client){receivedList.textContent='Planazo ID no está disponible.';sentList.textContent='Iniciá sesión para consultar.';return}
+ try{
+  const {data:{user},error:authError}=await client.auth.getUser();
+  if(authError||!user){receivedList.textContent='Iniciá sesión para revisar solicitudes.';sentList.textContent='Iniciá sesión para consultar tus solicitudes.';return}
+  const {data,error}=await client.from('escapada_invitations').select('id,trip_id,applicant_id,status,requested_at').order('requested_at',{ascending:false}).limit(100);
+  if(error)throw error;
+  if(!document.getElementById('invitations').classList.contains('active'))return;
+  const rows=data||[],mine=rows.filter(x=>x.applicant_id===user.id),review=rows.filter(x=>x.applicant_id!==user.id);
+  const ids=[...new Set(rows.map(x=>x.trip_id))];
+  let names=new Map();
+  if(ids.length){
+   const result=await client.from('escapada_trips').select('id,name').in('id',ids);
+   if(!result.error)names=new Map((result.data||[]).map(x=>[x.id,x.name]));
+  }
+  const display=(row)=>names.get(row.trip_id)||'Escapada';
+  const render=(target,items,allowReview)=>{
+   target.replaceChildren();
+   if(!items.length){target.textContent=allowReview?'No tenés solicitudes para revisar.':'Todavía no enviaste solicitudes.';return}
+   for(const item of items){
+    const line=document.createElement('div');
+    line.style.cssText='padding:12px 0;border-top:1px solid #d4ded8';
+    const title=document.createElement('strong');title.textContent=display(item);line.appendChild(title);
+    const detail=document.createElement('p');detail.className='sub';
+    detail.textContent=(allowReview?'Solicitud de '+item.applicant_id.slice(0,8)+'…':'Estado: ')+(allowReview?' · '+item.status:item.status);
+    line.appendChild(detail);
+    if(allowReview&&item.status==='pending'){
+     for(const [label,approved] of [['Aprobar',true],['Rechazar',false]]){
+      const btn=document.createElement('button');btn.type='button';btn.textContent=label;btn.className='esc-inv-submit';btn.style.marginRight='8px';
+      btn.onclick=async()=>{
+       btn.disabled=true;
+       try{
+        const {error}=await client.rpc('escapada_review_request',{p_request_id:item.id,p_approve:approved});
+        if(error)throw error;
+        toast(approved?'Solicitud aprobada':'Solicitud rechazada');
+        await escapadaRefreshInvitations();
+       }catch(e){console.warn('Escapada review',e);toast('No se pudo procesar la solicitud. Revisá tus permisos.');btn.disabled=false}
+      };
+      line.appendChild(btn);
+     }
+    }
+    target.appendChild(line);
+   }
+  };
+  render(receivedList,review,true);render(sentList,mine,false);
+ }catch(e){console.warn('Escapada invitations',e);receivedList.textContent='No se pudieron consultar las solicitudes.';sentList.textContent='Intentá nuevamente.'}
+}
+const escapadaInvitationsGo=go;
+go=function(id){escapadaInvitationsGo(id);if(id==='invitations'&&document.getElementById('invitations')?.classList.contains('active'))escapadaRefreshInvitations()};
 /* V35: compact, accessible Escapada drawer. */
 let escMenuPreviousFocus=null;
 const escMenuItems=[
@@ -924,7 +984,7 @@ showMyEvents=function(){
  escapadaCloudStatus('',null);
  escapadaCloudLoad().catch(e=>{console.warn('Escapada cloud',e);toast('No se pudieron actualizar los viajes')});
 };
-</script><script type="module" src="./planazo-auth.js?v=58"></script><script>
+</script><script type="module" src="./planazo-auth.js?v=59"></script><script>
 /* V44: preserve form drafts across navigation; successful creation is exempt. */
 const escapadaGuardedGo=go;
 let escapadaAllowCreateExit=false;
@@ -950,7 +1010,7 @@ create=function(){
 
 /* Stable-link update check. Version endpoint is fetched without browser cache. */
 (function(){
- const BUILD='58';
+ const BUILD='59';
  async function checkEscapadaUpdate(){
   if(document.visibilityState==='hidden')return;
   try{
