@@ -545,7 +545,8 @@ function addTripTask(){if(saved.type!=='trip')return;const input=document.getEle
 const v12Sync=sync;sync=function(){v12Sync();renderTripPlanner()};
 const v12Go=go;go=function(id){v12Go(id);if(id==='event')renderTripPlanner()};
 /* Escapada cloud phase 1: basic trip metadata, with local fallback. */
-let escapadaCloudTimer=null;
+const escapadaCloudTimers=new Map();
+const escapadaCloudPending=new Set();
 let escapadaCloudBusy=false;
 const escapadaCloudInFlight=new Set();
 async function escapadaCloudSave(tripLocalId){
@@ -554,7 +555,8 @@ async function escapadaCloudSave(tripLocalId){
  const {data:{user},error:authError}=await client.auth.getUser();
  if(authError||!user)return;
  const entries=getJuntadas(),entry=entries.find(e=>e.id===tripLocalId);
- if(!entry||!entry.saved||!entry.saved.name||escapadaCloudInFlight.has(tripLocalId))return;
+ if(!entry||!entry.saved||!entry.saved.name)return;
+ if(escapadaCloudInFlight.has(tripLocalId)){escapadaCloudPending.add(tripLocalId);return}
  if(entry.cloudOwner&&entry.cloudOwner!==user.id)return;
  escapadaCloudInFlight.add(tripLocalId);
  try{
@@ -565,14 +567,22 @@ async function escapadaCloudSave(tripLocalId){
  if(error){console.warn('Escapada: no se pudo sincronizar el viaje',error.message);return}
  const fresh=getJuntadas(),record=fresh.find(e=>e.id===entry.id);
  if(record){record.cloudId=cloudId;record.cloudOwner=user.id;localStorage.setItem(JSTORE,JSON.stringify(fresh))}
- }finally{escapadaCloudInFlight.delete(tripLocalId)}
+ }finally{
+  escapadaCloudInFlight.delete(tripLocalId);
+  if(escapadaCloudPending.delete(tripLocalId))escapadaCloudSave(tripLocalId).catch(e=>console.warn('Escapada cloud',e));
+ }
 }
 const escapadaLocalPersist=persistJuntada;
 persistJuntada=function(){
  escapadaLocalPersist();
- clearTimeout(escapadaCloudTimer);
  const tripLocalId=currentJuntadaId;
- escapadaCloudTimer=setTimeout(()=>{escapadaCloudSave(tripLocalId).catch(e=>console.warn('Escapada cloud',e))},650);
+ if(!tripLocalId)return;
+ clearTimeout(escapadaCloudTimers.get(tripLocalId));
+ const timer=setTimeout(()=>{
+  escapadaCloudTimers.delete(tripLocalId);
+  escapadaCloudSave(tripLocalId).catch(e=>console.warn('Escapada cloud',e));
+ },650);
+ escapadaCloudTimers.set(tripLocalId,timer);
 };
 async function escapadaCloudLoad(){
  if(escapadaCloudBusy)return;
@@ -591,7 +601,7 @@ async function escapadaCloudLoad(){
    changed=true;
   }
   if(changed)localStorage.setItem(JSTORE,JSON.stringify(local));
-  if(document.getElementById('myEvents').classList.contains('active'))showMyEvents();
+  if(document.getElementById('myEvents').classList.contains('active'))escapadaLocalShowMyEvents();
  }finally{escapadaCloudBusy=false}
 }
 window.addEventListener('planazo-auth-changed',event=>{if(event.detail?.signedIn)escapadaCloudLoad().catch(console.warn)});
