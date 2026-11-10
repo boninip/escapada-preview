@@ -628,13 +628,17 @@ const escMenuItems=[
  ['-'],['notifications','Notificaciones','bell'],['profile','Mi perfil','user'],['settings','Configuración','settings'],['help','Ayuda','circle-help']
 ];
 const escMenuPaths={house:'M3 10 12 3l9 7v11h-6v-7H9v7H3z',calendar:'M3 6h18v15H3z M7 3v6 M17 3v6 M3 11h18',plus:'M12 4v16 M4 12h16',mail:'M3 5h18v14H3z M3 6l9 7 9-7',map:'M3 5l6-2 6 2 6-2v16l-6 2-6-2-6 2z M9 3v16 M15 5v16','check-circle':'M4 12l5 5 11-11',wallet:'M3 6h18v14H3z M3 10h18 M16 15h2',bell:'M5 17h14l-2-3V9a5 5 0 0 0-10 0v5z M10 21h4',user:'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M4 21a8 8 0 0 1 16 0',settings:'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z M12 2v3 M12 19v3 M2 12h3 M19 12h3 M5 5l2 2 M17 17l2 2 M19 5l-2 2 M7 17l-2 2','circle-help':'M9 9a3 3 0 1 1 5 2c-2 1-2 2-2 3 M12 18h.01 M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20'};
-function escapadaMenuDirty(){
+let escapadaCreateBaseline=null;
+function escapadaCreateSnapshot(){
  const form=document.getElementById('create');
- if(!form?.classList.contains('active'))return false;
- return !![...form.querySelectorAll('input:not([type=radio]):not([type=checkbox]),textarea')].some(e=>e.value?.trim());
+ if(!form)return '';
+ return JSON.stringify([...form.querySelectorAll('input,textarea,select')].map(e=>[e.id||e.name||'',e.type==='checkbox'||e.type==='radio'?e.checked:e.value]));
 }
-function escapadaMenuCanLeave(action){
- if(action==='new'||!escapadaMenuDirty())return true;
+function escapadaMenuDirty(){
+ return !!document.getElementById('create')?.classList.contains('active')&&escapadaCreateBaseline!==null&&escapadaCreateSnapshot()!==escapadaCreateBaseline;
+}
+function escapadaMenuCanLeave(){
+ if(!escapadaMenuDirty())return true;
  return window.confirm('Tenés cambios en la escapada que podrían no estar guardados. ¿Querés salir igualmente?');
 }
 function escapadaMenuActive(){
@@ -652,7 +656,7 @@ function escapadaToggleMenu(open){
  if(open)drawer.querySelector('.esc-menu-close')?.focus();else escMenuPreviousFocus?.focus?.();
 }
 function escapadaMenuAction(action){
- if(!escapadaMenuCanLeave(action))return;
+ if(!escapadaMenuCanLeave())return;
  escapadaToggleMenu(false);
  if(action==='home')go('home');
  else if(action==='trips')showMyEvents();
@@ -662,7 +666,7 @@ function escapadaMenuAction(action){
   if(!currentJuntadaId){toast('Primero elegí una escapada en Mis escapadas.');showMyEvents();return}
   if(action==='expenses'){toast('El grupo de Gastos estará disponible cuando esté vinculado.');return}
   go('event');
-  const target=action==='itinerary'?document.getElementById('tripPlanner'):document.querySelector('[id*="vote"],[id*="Vote"]');
+  const target=action==='itinerary'?document.getElementById('tripPlanner'):document.getElementById('guestDateVote')||document.getElementById('voteStatus');
   if(target)target.scrollIntoView({behavior:'smooth',block:'start'});else toast('Esta sección todavía no está disponible en la escapada.');
  }else if(action==='profile')window.openPlanazoProfile?.();
  else if(action==='notifications')toast('Las notificaciones todavía no están disponibles.');
@@ -793,9 +797,32 @@ showMyEvents=function(){
  escapadaCloudLoad().catch(e=>{console.warn('Escapada cloud',e);toast('No se pudieron actualizar los viajes')});
 };
 </script><script type="module" src="./planazo-auth.js?v=6"></script><script>
+/* V44: preserve form drafts across navigation; successful creation is exempt. */
+const escapadaGuardedGo=go;
+let escapadaAllowCreateExit=false;
+go=function(id){
+ if(id!=='create'&&!escapadaAllowCreateExit&&!escapadaMenuCanLeave())return;
+ escapadaGuardedGo(id);
+};
+const escapadaGuardedStart=startJuntada;
+startJuntada=function(type){
+ if(!escapadaMenuCanLeave())return;
+ escapadaAllowCreateExit=true;
+ try{escapadaGuardedStart(type);escapadaCreateBaseline=escapadaCreateSnapshot();}
+ finally{escapadaAllowCreateExit=false}
+};
+const escapadaGuardedCreate=create;
+create=function(){
+ const wasOnCreate=!!document.getElementById('create')?.classList.contains('active');
+ escapadaAllowCreateExit=true;
+ try{escapadaGuardedCreate();}
+ finally{escapadaAllowCreateExit=false}
+ if(wasOnCreate&&!document.getElementById('create')?.classList.contains('active'))escapadaCreateBaseline=null;
+};
+
 /* Stable-link update check. Version endpoint is fetched without browser cache. */
 (function(){
- const BUILD='43';
+ const BUILD='44';
  async function checkEscapadaUpdate(){
   if(document.visibilityState==='hidden')return;
   try{
