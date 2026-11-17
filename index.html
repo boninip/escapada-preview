@@ -1,358 +1,386 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#244C43"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><title>Escapada. — Que el viaje suceda</title><style>
-:root{--navy:#24518b;--sky:#75c9e8;--cream:#fff5e8;--coral:#ef8069;--pale:#d9eff9;--ink:#173659;--muted:#64778b}*{box-sizing:border-box}body{margin:0;background:#e9edf1;color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}.app{max-width:460px;margin:auto;background:#fffdf9;min-height:100dvh;position:relative;padding-bottom:85px}.screen{display:none;animation:in .2s ease}.screen.active{display:block}@keyframes in{from{opacity:.6;transform:translateY(5px)}to{opacity:1;transform:none}}header{height:67px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;background:#fffdf9;position:sticky;top:0;z-index:4;border-bottom:1px solid #f0e9df}.logo{font-size:30px;letter-spacing:-1.5px;font-weight:850;color:var(--navy)}.logo span{color:var(--coral)}.back{background:none;border:0;color:var(--navy);font-size:27px;cursor:pointer;padding:3px 12px 3px 0}.headleft{display:flex;align-items:center;gap:7px}h1{font-size:26px;line-height:1.15;margin:18px 0 10px;color:var(--navy);letter-spacing:-.5px}h2{font-size:19px;color:var(--navy);margin:19px 0 10px}p{margin:6px 0 15px}.sub{color:var(--muted);font-size:14px}.pad{padding:0 20px 22px}.hero{height:205px;background:linear-gradient(0deg,#142d4a70,#142d4a05),url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=900&q=80') center/cover;display:flex;align-items:end;padding:18px;color:white}.hero.mate{background-image:linear-gradient(0deg,#142d4a90,#142d4a05),url('https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=900&q=80')}.hero h1{color:#fff;margin:0;font-size:28px}.option{width:100%;display:flex;align-items:center;gap:13px;text-align:left;border:1px solid #e5e5e3;background:#fff;border-radius:16px;padding:14px;margin:9px 0;cursor:pointer;color:var(--ink);box-shadow:0 2px 7px #102d4910}.option:active,.btn:active{transform:scale(.99)}.option.selected{border:2px solid var(--coral);background:#fff7f0}.option .copy{flex:1}.option strong{display:block;font-size:15px}.option small{display:block;color:var(--muted);font-size:12px}.ico{display:grid;place-items:center;min-width:43px;height:43px;border-radius:12px;background:var(--pale);color:var(--navy)}svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.chev{font-size:24px;color:var(--navy)}label{display:block;font-weight:700;font-size:14px;margin:14px 0 5px}input,textarea,select{width:100%;border:1px solid #d9e0e5;border-radius:12px;padding:13px 12px;background:white;color:var(--ink);font:inherit;outline-color:var(--sky)}textarea{min-height:85px;resize:vertical}.cover{height:158px;border-radius:18px;background:linear-gradient(0deg,#142d4a20,#142d4a00),url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=900&q=80') center/cover;margin-top:16px}.btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;border:0;border-radius:13px;padding:15px 13px;background:var(--navy);color:white;font-size:15px;font-weight:750;cursor:pointer;margin:12px 0}.btn.secondary{background:#e4f2f9;color:var(--navy)}.btn.green{background:#178b52}.btn.outline{background:#fff;border:1px solid #c6d9e8;color:var(--navy)}.btn:disabled{opacity:.5}.note{font-size:12px;color:var(--muted);text-align:center;margin:8px 0}.card{background:white;border:1px solid #e9e4dd;border-radius:19px;padding:16px;margin:12px 0;box-shadow:0 3px 12px #102d4908}.soft{background:var(--cream);border-radius:20px;padding:17px;margin:17px 0}.detail{display:flex;align-items:center;gap:11px;margin:12px 0}.detail svg{color:var(--navy)}.detail b{font-weight:650}.status{background:var(--pale);border-radius:12px;padding:11px 13px;font-size:13px}.banner{height:200px;background:url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=900&q=80') center/cover}.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:16px 0}.seg button{border:1px solid #d8e3eb;border-radius:11px;padding:12px 4px;background:#fff;font-weight:700;color:var(--navy)}.seg button.on{background:var(--pale);border-color:var(--navy)}.rsvp{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.rsvp button{border:1px solid transparent;border-radius:12px;padding:13px 4px;font-weight:700;color:var(--ink);background:#e6f3e9}.rsvp button:nth-child(2){background:#fff0c7}.rsvp button:nth-child(3){background:#f9d9d3}.rsvp button.on{outline:3px solid var(--navy)}.toast{position:fixed;bottom:92px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:12px 18px;border-radius:12px;font-size:13px;display:none;max-width:90%;z-index:10}.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:460px;width:100%;display:grid;grid-template-columns:repeat(4,1fr);background:#fffdf9;border-top:1px solid #e8e6e1;padding:10px 3px max(10px,env(safe-area-inset-bottom));z-index:3}.nav button{background:none;border:0;color:var(--muted);font-size:11px;display:grid;place-items:center;gap:3px}.nav button.active{color:var(--navy);font-weight:800}.nav svg{width:21px;height:21px}.hide{display:none!important}.tiny{font-size:12px;color:var(--muted)}.check{display:flex;gap:10px;align-items:center;margin:11px 0}.check svg{color:#238358}.screen-title{font-size:19px;font-weight:800;color:var(--navy)}.share-preview{border:1px solid #d9e4da;background:#eff8ef;border-radius:17px;padding:16px}.share-preview .card{margin-bottom:0}.pill{font-size:12px;border-radius:99px;background:#d9eff9;color:var(--navy);padding:5px 9px;display:inline-block}.avatar{width:35px;height:35px;border-radius:50%;background:#d9eff9;display:grid;place-items:center;color:var(--navy);font-weight:800}.row{display:flex;align-items:center;gap:9px}.row .copy{flex:1}.no-emoji{font-size:0} @media(min-width:600px){.app{box-shadow:0 0 45px #142d4a18}}
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#FAF8F4"><meta name="color-scheme" content="light dark"><script>(function(){try{var k='escapada_theme',m=window.matchMedia('(prefers-color-scheme: dark)');function apply(){var t=localStorage.getItem(k)||'auto',e=(t==='dark'||(t==='auto'&&m.matches))?'dark':'light';document.documentElement.setAttribute('data-eff',e);var c=document.querySelector('meta[name=theme-color]');if(c)c.setAttribute('content',e==='dark'?'#12201F':'#FAF8F4')}apply();if(m.addEventListener)m.addEventListener('change',apply);window.escapadaApplyTheme=apply}catch(x){document.documentElement.setAttribute('data-eff','light')}})()</script><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><title>Escapada. — Que el viaje suceda</title><style>
+/* ===== Paleta común de Pinto · Paleta A «Mar» ajustada (aprobada por Pau, 16/11/2026) =====
+   ÚNICO lugar donde viven los colores: cambiar acá cambia toda la app (claro y oscuro).
+   Coral: un solo rol focal por pantalla (avisos o acciones puntuales), nunca fondo general.
+   Punto del logo (amarillo): solo decorativo, nunca para texto.
+   Estados (ok / aviso / error / neutro) son semánticos y no usan la paleta de marca. */
+:root{color-scheme:light;
+--primario:#1F5F6B;--primario-txt:#1F5F6B;--foco:#1F5F6B;
+--coral-btn:#BE4B2C;--coral-txt:#B8472A;--punto-logo:#F2C14E;
+--fondo:#FAF8F4;--tarjeta:#FFFFFF;--tinte:#E6F1F0;
+--texto:#1D2F33;--texto-sec:#5B6E70;--borde:#DCE6E4;
+--sobre-primario:#FFFFFF;--sobre-foto:#FFFFFF;
+--ok-bg:#D5F2E2;--ok-txt:#146842;--ok-brd:#19835A;
+--aviso-bg:#FFF0BC;--aviso-txt:#775600;--aviso-brd:#B18A1D;
+--error-bg:#F8D5CF;--error-txt:#A33B37;
+--neutro-bg:#E9EDF3;--neutro-txt:#51647B;
+--velo-rgb:18 32 31;--sombra-rgb:29 47 51}
+:root[data-eff=dark]{color-scheme:dark;
+--primario:#2A7A89;--primario-txt:#6FB8C4;--foco:#6FB8C4;
+--coral-btn:#BE4B2C;--coral-txt:#F0907A;--punto-logo:#F2C14E;
+--fondo:#12201F;--tarjeta:#1B2D2C;--tinte:#244240;
+--texto:#E8F0EE;--texto-sec:#9DB5B3;--borde:#2F4644;
+--sobre-primario:#FFFFFF;--sobre-foto:#FFFFFF;
+--ok-bg:#1F3B2E;--ok-txt:#8FD6B0;--ok-brd:#3F8F68;
+--aviso-bg:#3F3715;--aviso-txt:#EBCB6A;--aviso-brd:#A98A26;
+--error-bg:#432622;--error-txt:#F4A595;
+--neutro-bg:#2A3A3B;--neutro-txt:#B5C6C4;
+--velo-rgb:6 14 14;--sombra-rgb:0 0 0}
+
+*{box-sizing:border-box}body{margin:0;background:var(--tinte);color:var(--texto);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}.app{max-width:460px;margin:auto;background:var(--fondo);min-height:100dvh;position:relative;padding-bottom:85px}.screen{display:none;animation:in .2s ease}.screen.active{display:block}@keyframes in{from{opacity:.6;transform:translateY(5px)}to{opacity:1;transform:none}}header{height:67px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;background:var(--fondo);position:sticky;top:0;z-index:4;border-bottom:1px solid var(--borde)}.logo{font-size:30px;letter-spacing:-1.5px;font-weight:850;color:var(--primario-txt)}.logo span{color:var(--punto-logo)}.back{background:none;border:0;color:var(--primario-txt);font-size:27px;cursor:pointer;padding:3px 12px 3px 0}.headleft{display:flex;align-items:center;gap:7px}h1{font-size:26px;line-height:1.15;margin:18px 0 10px;color:var(--primario-txt);letter-spacing:-.5px}h2{font-size:19px;color:var(--primario-txt);margin:19px 0 10px}p{margin:6px 0 15px}.sub{color:var(--texto-sec);font-size:14px}.pad{padding:0 20px 22px}.hero{height:205px;background:linear-gradient(0deg,rgb(var(--velo-rgb) / 0.44),rgb(var(--velo-rgb) / 0.02)),url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=900&q=80') center/cover;display:flex;align-items:end;padding:18px;color:var(--sobre-foto)}.hero.mate{background-image:linear-gradient(0deg,rgb(var(--velo-rgb) / 0.56),rgb(var(--velo-rgb) / 0.02)),url('https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=900&q=80')}.hero h1{color:var(--sobre-foto);margin:0;font-size:28px}.option{width:100%;display:flex;align-items:center;gap:13px;text-align:left;border:1px solid var(--borde);background:var(--tarjeta);border-radius:16px;padding:14px;margin:9px 0;cursor:pointer;color:var(--texto);box-shadow:0 2px 7px rgb(var(--sombra-rgb) / 0.06)}.option:active,.btn:active{transform:scale(.99)}.option.selected{border:2px solid var(--primario-txt);background:var(--primario-txt)}.option .copy{flex:1}.option strong{display:block;font-size:15px}.option small{display:block;color:var(--texto-sec);font-size:12px}.ico{display:grid;place-items:center;min-width:43px;height:43px;border-radius:12px;background:var(--tinte);color:var(--primario-txt)}svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.chev{font-size:24px;color:var(--primario-txt)}label{display:block;font-weight:700;font-size:14px;margin:14px 0 5px}input,textarea,select{width:100%;border:1px solid var(--borde);border-radius:12px;padding:13px 12px;background:var(--tarjeta);color:var(--texto);font:inherit;outline-color:var(--foco)}textarea{min-height:85px;resize:vertical}.cover{height:158px;border-radius:18px;background:linear-gradient(0deg,rgb(var(--velo-rgb) / 0.13),rgb(var(--velo-rgb) / 0)),url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=900&q=80') center/cover;margin-top:16px}.btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;border:0;border-radius:13px;padding:15px 13px;background:var(--primario);color:var(--sobre-primario);font-size:15px;font-weight:750;cursor:pointer;margin:12px 0}.btn.secondary{background:var(--tinte);color:var(--primario-txt)}.btn.green{background:var(--primario)}.btn.outline{background:var(--tarjeta);border:1px solid var(--borde);color:var(--primario-txt)}.btn:disabled{opacity:.5}.note{font-size:12px;color:var(--texto-sec);text-align:center;margin:8px 0}.card{background:var(--tarjeta);border:1px solid var(--borde);border-radius:19px;padding:16px;margin:12px 0;box-shadow:0 3px 12px rgb(var(--sombra-rgb) / 0.03)}.soft{background:var(--tinte);border-radius:20px;padding:17px;margin:17px 0}.detail{display:flex;align-items:center;gap:11px;margin:12px 0}.detail svg{color:var(--primario-txt)}.detail b{font-weight:650}.status{background:var(--tinte);border-radius:12px;padding:11px 13px;font-size:13px}.banner{height:200px;background:url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=900&q=80') center/cover}.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:16px 0}.seg button{border:1px solid var(--borde);border-radius:11px;padding:12px 4px;background:var(--tarjeta);font-weight:700;color:var(--primario-txt)}.seg button.on{background:var(--tinte);border-color:var(--primario-txt)}.rsvp{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.rsvp button{border:1px solid transparent;border-radius:12px;padding:13px 4px;font-weight:700;color:var(--texto);background:var(--ok-bg)}.rsvp button:nth-child(2){background:var(--aviso-bg)}.rsvp button:nth-child(3){background:var(--error-bg)}.rsvp button.on{outline:3px solid var(--foco)}.toast{position:fixed;bottom:92px;left:50%;transform:translateX(-50%);background:var(--primario);color:var(--sobre-primario);padding:12px 18px;border-radius:12px;font-size:13px;display:none;max-width:90%;z-index:10}.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:460px;width:100%;display:grid;grid-template-columns:repeat(4,1fr);background:var(--fondo);border-top:1px solid var(--borde);padding:10px 3px max(10px,env(safe-area-inset-bottom));z-index:3}.nav button{background:none;border:0;color:var(--texto-sec);font-size:11px;display:grid;place-items:center;gap:3px}.nav button.active{color:var(--primario-txt);font-weight:800}.nav svg{width:21px;height:21px}.hide{display:none!important}.tiny{font-size:12px;color:var(--texto-sec)}.check{display:flex;gap:10px;align-items:center;margin:11px 0}.check svg{color:var(--ok-txt)}.screen-title{font-size:19px;font-weight:800;color:var(--primario-txt)}.share-preview{border:1px solid var(--borde);background:var(--tinte);border-radius:17px;padding:16px}.share-preview .card{margin-bottom:0}.pill{font-size:12px;border-radius:99px;background:var(--tinte);color:var(--primario-txt);padding:5px 9px;display:inline-block}.avatar{width:35px;height:35px;border-radius:50%;background:var(--tinte);display:grid;place-items:center;color:var(--primario-txt);font-weight:800}.row{display:flex;align-items:center;gap:9px}.row .copy{flex:1}.no-emoji{font-size:0} @media(min-width:600px){.app{box-shadow:0 0 45px rgb(var(--sombra-rgb) / 0.09)}}
 
 /* Iteración visual 2: más fiel al mockup aprobado */
-:root{--navy:#103d79;--ink:#122d50;--muted:#64748b;--coral:#d96f4d;--cream:#fff7ed;--pale:#e7f3fa}
-body{background:#e9edf2;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:-.12px}
-.app{background:#fffefa}
-header{height:73px;border-bottom:0;padding:0 24px;background:#fffefa}
+
+body{background:var(--tinte);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:-.12px}
+.app{background:var(--fondo)}
+header{height:73px;border-bottom:0;padding:0 24px;background:var(--fondo)}
 .logo{font-size:33px;font-weight:850;letter-spacing:-1.8px}
 .pad{padding:0 23px 28px}
 h1{font-size:27px;letter-spacing:-.85px;margin:18px 0 13px;font-weight:800}
 h2{font-size:19px;letter-spacing:-.35px}
 .hero{height:218px;border-radius:0;background-position:center 43%}
-.hero.mate{background-image:linear-gradient(0deg,#0d2949a8,#142d4a00 78%),url('https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=900&q=85')}
+.hero.mate{background-image:linear-gradient(0deg,rgb(var(--velo-rgb) / 0.66),rgb(var(--velo-rgb) / 0) 78%),url('https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=900&q=85')}
 .hero h1{font-size:28px;margin:8px 0 0;max-width:300px;line-height:1.12}
-.hero-kicker{font-size:10px;font-weight:850;letter-spacing:2px;color:#fff2d9}
-.option{border-radius:15px;min-height:72px;margin:8px 0;padding:12px 14px;box-shadow:0 3px 12px #1c38500a;border-color:#e8e3de;gap:13px}
+.hero-kicker{font-size:10px;font-weight:850;letter-spacing:2px;color:var(--sobre-foto)}
+.option{border-radius:15px;min-height:72px;margin:8px 0;padding:12px 14px;box-shadow:0 3px 12px rgb(var(--sombra-rgb) / 0.04);border-color:var(--borde);gap:13px}
 .option strong{font-size:14.5px;line-height:1.28;font-weight:750}
 .option small{font-size:11.8px;margin-top:3px;line-height:1.35}
-.option.selected{border:1.5px solid #e99c73;background:#fff6ec}
-.ico{min-width:43px;width:43px;height:43px;border-radius:12px;background:#eaf4fa}
-.option.selected .ico{background:#ffe9d9;color:#b95c37}
+.option.selected{border:1.5px solid var(--primario-txt);background:var(--tinte)}
+.ico{min-width:43px;width:43px;height:43px;border-radius:12px;background:var(--tinte)}
+.option.selected .ico{background:var(--primario-txt);color:var(--primario-txt)}
 .chev{font-size:24px;font-weight:300}
-.cover{height:164px;border-radius:16px;margin-top:12px;position:relative;box-shadow:0 5px 15px #20334a16}
-.camera{position:absolute;bottom:12px;right:12px;border:0;background:#fff;color:var(--navy);height:37px;width:37px;display:grid;place-items:center;border-radius:50%;box-shadow:0 3px 12px #0002}
+.cover{height:164px;border-radius:16px;margin-top:12px;position:relative;box-shadow:0 5px 15px rgb(var(--sombra-rgb) / 0.09)}
+.camera{position:absolute;bottom:12px;right:12px;border:0;background:var(--tarjeta);color:var(--primario-txt);height:37px;width:37px;display:grid;place-items:center;border-radius:50%;box-shadow:0 3px 12px rgb(var(--sombra-rgb) / 0.13)}
 label{font-size:13px;margin:15px 0 5px;font-weight:750}
-input,textarea,select{font-size:14px;border-color:#e1ded9;border-radius:12px;padding:12px 13px;background:#fff}
+input,textarea,select{font-size:14px;border-color:var(--borde);border-radius:12px;padding:12px 13px;background:var(--tarjeta)}
 textarea{min-height:84px}
 .date-time{display:grid;grid-template-columns:1.4fr 1fr;gap:10px}.date-time input{font-size:12.5px;padding:12px 8px;min-width:0}
-.expense-wrap{background:#eaf5fc;padding:12px 12px 9px;border-radius:15px;margin-top:18px}
+.expense-wrap{background:var(--tinte);padding:12px 12px 9px;border-radius:15px;margin-top:18px}
 .expense-wrap label{margin:0 0 8px;font-size:13px}
-.expense-select{display:flex;align-items:center;background:white;border:1.5px solid #88bfe0;border-radius:12px;padding:4px 10px;gap:8px}
-.expense-select .ico{background:#fff4e8;min-width:35px;width:35px;height:35px}
-.expense-select select{border:0;flex:1;padding:9px 4px;outline:0;background:transparent;font-weight:750;color:var(--navy);min-width:0}
-.btn{border-radius:12px;min-height:52px;box-shadow:0 4px 12px #1c385012;margin-top:14px}
-.btn.green{background:#159250}
-.soft{border:1px solid #f2e2cf;background:#fff6ea}
+.expense-select{display:flex;align-items:center;background:var(--tarjeta);border:1.5px solid var(--texto-sec);border-radius:12px;padding:4px 10px;gap:8px}
+.expense-select .ico{background:var(--tinte);min-width:35px;width:35px;height:35px}
+.expense-select select{border:0;flex:1;padding:9px 4px;outline:0;background:transparent;font-weight:750;color:var(--primario-txt);min-width:0}
+.btn{border-radius:12px;min-height:52px;box-shadow:0 4px 12px rgb(var(--sombra-rgb) / 0.07);margin-top:14px}
+.btn.green{background:var(--primario)}
+.soft{border:1px solid var(--borde);background:var(--tinte)}
 .ready-card{overflow:hidden;padding:0 16px 15px}
 .ready-photo{height:125px;background:url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=900&q=80') center/cover;margin:0 -16px}
 .ready-card h2{margin:5px 0 14px;font-size:24px}
-.ready-card .detail{padding:8px 4px;margin:0;border-bottom:1px solid #e8dccc;text-align:left;font-size:14px}
+.ready-card .detail{padding:8px 4px;margin:0;border-bottom:1px solid var(--borde);text-align:left;font-size:14px}
 .ready-card .detail:last-child{border-bottom:0}
 .banner{height:205px}
-.card{border-radius:17px;box-shadow:0 4px 16px #193a5410}
+.card{border-radius:17px;box-shadow:0 4px 16px rgb(var(--sombra-rgb) / 0.06)}
 .rsvp button{min-height:52px;font-size:13px}
-.nav{background:#fffefa;padding-top:10px;border-top-color:#eee8e1}
+.nav{background:var(--fondo);padding-top:10px;border-top-color:var(--borde)}
 .nav button{cursor:pointer}
-.share-preview{background:#eaf7ed;border:0}
+.share-preview{background:var(--tinte);border:0}
 @media(min-width:600px){.app{margin:20px auto;min-height:calc(100dvh - 40px);border-radius:26px;overflow:hidden}.nav{border-radius:0 0 26px 26px}}
 
 /* V3: full-bleed photo on creation screen, consistent with Home */
 #create .create-cover{width:100%;height:205px;margin:0;border-radius:0;box-shadow:none;background-position:center 43%;}
 #create .create-cover .camera{right:19px;bottom:14px;}
 #create .pad{padding-top:5px;}
-#create .expense-select select:has(option[value=""]:checked){font-weight:500;color:#65788b;}
+#create .expense-select select:has(option[value=""]:checked){font-weight:500;color:var(--texto-sec);}
 
 /* V4: fecha flexible, sin selección automática */
-.date-section{margin-top:16px}.date-section>label{margin-bottom:9px}.date-choices{display:grid;gap:8px}.date-choice{margin:0;display:flex;align-items:center;gap:11px;background:#fff;border:1.5px solid #e0e7eb;border-radius:13px;padding:13px 12px;cursor:pointer;color:var(--navy);font-size:13.5px;font-weight:650}.date-choice input{accent-color:#24518b;width:18px;height:18px;margin:0;flex-shrink:0}.date-choice.chosen{background:#eaf5fc;border-color:#75c9e8}.date-fields{background:#f4f9fc;border-radius:13px;padding:12px;margin-top:10px}.date-fields label{margin-top:0}.date-fields input{width:100%;box-sizing:border-box}.field-hint{font-size:12px;color:#60768b;line-height:1.5;margin:5px 0 9px}.vote-inputs{display:grid;gap:8px}.add-date{background:#fff;color:#24518b;border:1px solid #b4d9ea;border-radius:11px;padding:10px 12px;display:flex;align-items:center;gap:8px;margin-top:9px;font-weight:650}.add-date svg{width:18px;height:18px}.vote-option{border-bottom:1px solid #e7e9e9;padding:11px 0}.vote-option:last-child{border-bottom:0}.vote-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:8px}.vote-buttons button{background:#f2f6f9;border:1px solid #d7e4ec;color:#24518b;padding:10px 3px;border-radius:9px;font-size:11px;font-weight:650}.vote-buttons button.on{background:#d9eff9;border:2px solid #24518b}.vote-buttons button[data-vote="yes"].on{background:#d3eedd}.vote-buttons button[data-vote="maybe"].on{background:#f9e9b9}.vote-buttons button[data-vote="no"].on{background:#f8d5cf}
+.date-section{margin-top:16px}.date-section>label{margin-bottom:9px}.date-choices{display:grid;gap:8px}.date-choice{margin:0;display:flex;align-items:center;gap:11px;background:var(--tarjeta);border:1.5px solid var(--borde);border-radius:13px;padding:13px 12px;cursor:pointer;color:var(--primario-txt);font-size:13.5px;font-weight:650}.date-choice input{accent-color:var(--primario);width:18px;height:18px;margin:0;flex-shrink:0}.date-choice.chosen{background:var(--tinte);border-color:var(--texto-sec)}.date-fields{background:var(--tinte);border-radius:13px;padding:12px;margin-top:10px}.date-fields label{margin-top:0}.date-fields input{width:100%;box-sizing:border-box}.field-hint{font-size:12px;color:var(--texto-sec);line-height:1.5;margin:5px 0 9px}.vote-inputs{display:grid;gap:8px}.add-date{background:var(--tarjeta);color:var(--primario-txt);border:1px solid var(--borde);border-radius:11px;padding:10px 12px;display:flex;align-items:center;gap:8px;margin-top:9px;font-weight:650}.add-date svg{width:18px;height:18px}.vote-option{border-bottom:1px solid var(--borde);padding:11px 0}.vote-option:last-child{border-bottom:0}.vote-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:8px}.vote-buttons button{background:var(--tinte);border:1px solid var(--borde);color:var(--primario-txt);padding:10px 3px;border-radius:9px;font-size:11px;font-weight:650}.vote-buttons button.on{background:var(--tinte);border:2px solid var(--primario-txt)}.vote-buttons button[data-vote="yes"].on{background:var(--ok-bg)}.vote-buttons button[data-vote="maybe"].on{background:var(--aviso-bg)}.vote-buttons button[data-vote="no"].on{background:var(--error-bg)}
 
 /* V5 · identidad celeste y blanca, estados seleccionados en azul */
-:root{--navy:#24518B;--sky:#75C9E8;--cream:#F4FAFE;--coral:#F6C65B;--pale:#E5F3FA;--ink:#173659;--muted:#5B7085}
-body{background:#e3eff6}
-.app,header,.nav{background:#fff}
-header{border-bottom:1px solid #eaf3f9}
-.logo span{color:#F6C65B}
-.hero-kicker{color:#fff}
-.option{border-color:#dcecf5;box-shadow:0 3px 14px #24518b0a}
-.option.selected,.date-choice.chosen{background:#E5F3FA;border:2px solid #24518B;color:#24518B}
-.option.selected .ico{background:#D0EAF8;color:#24518B}
-.option.selected strong{color:#24518B}
-.date-choice input{accent-color:#24518B}
-.date-fields{background:#f0f8fd}
+
+body{background:var(--tinte)}
+.app,header,.nav{background:var(--fondo)}
+header{border-bottom:1px solid var(--borde)}
+.logo span{color:var(--punto-logo)}
+.hero-kicker{color:var(--sobre-foto)}
+.option{border-color:var(--borde);box-shadow:0 3px 14px rgb(var(--sombra-rgb) / 0.04)}
+.option.selected,.date-choice.chosen{background:var(--tinte);border:2px solid var(--primario-txt);color:var(--primario-txt)}
+.option.selected .ico{background:var(--tinte);color:var(--primario-txt)}
+.option.selected strong{color:var(--primario-txt)}
+.date-choice input{accent-color:var(--primario)}
+.date-fields{background:var(--tinte)}
 .cover{box-shadow:none}
-.expense-wrap{background:#eaf5fc}
-.expense-select{border-color:#bddbeb}
-.expense-select:focus-within{border:2px solid #24518B}
-.expense-select .ico{background:#e5f3fa;color:#24518B}
-input:focus,textarea:focus,select:focus{outline:2px solid #75C9E8;outline-offset:1px;border-color:#24518B}
-.soft{background:#edf7fd;border-color:#d9eff9}
-.ready-card .detail{border-bottom-color:#d9eaf5}
-.card{border-color:#e2eef5}
-.share-preview{background:#eaf6fc;border:1px solid #d9eff9}
-.btn.green{background:#24518B}
-.btn.secondary{background:#d9eff9;color:#24518B}
-.seg button.on{background:#e5f3fa;border:2px solid #24518B}
-.rsvp button,.rsvp button:nth-child(2),.rsvp button:nth-child(3){background:#f1f7fb;border:1px solid #d9e8f1;color:#24518B}
-.rsvp button.on{background:#d9eff9;border:2px solid #24518B;outline:none}
-.vote-buttons button[data-vote="yes"].on{background:#d9eff9;border:2px solid #24518B}
-.vote-buttons button[data-vote="maybe"].on{background:#f9e9b9;border:2px solid #24518B}
-.vote-buttons button[data-vote="no"].on{background:#e9edf3;border:2px solid #24518B}
-.status,.pill{background:#e5f3fa;color:#24518B}
-.nav{border-top-color:#dcecf5}
-.nav button.active{color:#24518B}
+.expense-wrap{background:var(--tinte)}
+.expense-select{border-color:var(--borde)}
+.expense-select:focus-within{border:2px solid var(--primario-txt)}
+.expense-select .ico{background:var(--tinte);color:var(--primario-txt)}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--foco);outline-offset:1px;border-color:var(--primario-txt)}
+.soft{background:var(--tinte);border-color:var(--borde)}
+.ready-card .detail{border-bottom-color:var(--borde)}
+.card{border-color:var(--borde)}
+.share-preview{background:var(--tinte);border:1px solid var(--borde)}
+.btn.green{background:var(--primario)}
+.btn.secondary{background:var(--tinte);color:var(--primario-txt)}
+.seg button.on{background:var(--tinte);border:2px solid var(--primario-txt)}
+.rsvp button,.rsvp button:nth-child(2),.rsvp button:nth-child(3){background:var(--tinte);border:1px solid var(--borde);color:var(--primario-txt)}
+.rsvp button.on{background:var(--tinte);border:2px solid var(--primario-txt);outline:none}
+.vote-buttons button[data-vote="yes"].on{background:var(--tinte);border:2px solid var(--primario-txt)}
+.vote-buttons button[data-vote="maybe"].on{background:var(--aviso-bg);border:2px solid var(--primario-txt)}
+.vote-buttons button[data-vote="no"].on{background:var(--neutro-bg);border:2px solid var(--primario-txt)}
+.status,.pill{background:var(--tinte);color:var(--primario-txt)}
+.nav{border-top-color:var(--borde)}
+.nav button.active{color:var(--primario-txt)}
 /* small gold accents reserved for decorative highlights */
-.hero-kicker:before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:#F6C65B;margin-right:8px;vertical-align:middle}
+.hero-kicker:before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--punto-logo);margin-right:8px;vertical-align:middle}
 
 /* V6 — compact mobile event creation, blue selected state */
 #create .pad{padding-top:10px}
 #create .details-group{margin-top:17px}
 #create .date-section{margin:0}
-#create .date-section>label{display:block;margin:0 0 10px;font-size:15px;color:#173659}
-#create .date-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:5px;background:#EAF5FB;border-radius:14px}
-#create .date-choice{border:1px solid transparent;background:transparent;border-radius:10px;padding:12px 2px;min-height:44px;display:flex;justify-content:center;text-align:center;align-items:center;gap:0;margin:0;font-size:13px;line-height:1.15;color:#24518B;font-weight:650}
+#create .date-section>label{display:block;margin:0 0 10px;font-size:15px;color:var(--texto)}
+#create .date-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:5px;background:var(--tinte);border-radius:14px}
+#create .date-choice{border:1px solid transparent;background:transparent;border-radius:10px;padding:12px 2px;min-height:44px;display:flex;justify-content:center;text-align:center;align-items:center;gap:0;margin:0;font-size:13px;line-height:1.15;color:var(--primario-txt);font-weight:650}
 #create .date-choice input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
-#create .date-choice.chosen{background:#fff;border:2px solid #24518B;box-shadow:0 2px 6px #24518b18;color:#24518B}
-#create .date-choice:focus-within{outline:2px solid #75C9E8;outline-offset:1px}
-#create .date-fields{margin-top:10px;background:#F4FAFE;border-radius:12px;padding:13px}
-#create .date-help{display:flex;align-items:center;gap:8px;color:#24518B;font-size:13px;line-height:1.3}
+#create .date-choice.chosen{background:var(--tarjeta);border:2px solid var(--primario-txt);box-shadow:0 2px 6px rgb(var(--sombra-rgb) / 0.09);color:var(--primario-txt)}
+#create .date-choice:focus-within{outline:2px solid var(--foco);outline-offset:1px}
+#create .date-fields{margin-top:10px;background:var(--tinte);border-radius:12px;padding:13px}
+#create .date-help{display:flex;align-items:center;gap:8px;color:var(--primario-txt);font-size:13px;line-height:1.3}
 #create .date-help svg{width:20px;height:20px;flex-shrink:0}
 #create .optional-details{margin-top:20px}
-#create .optional-title{font-size:15px;font-weight:750;color:#173659;margin-bottom:5px}
-#create .optional-title span{font-size:11px;font-weight:500;color:#62788c;margin-left:5px}
+#create .optional-title{font-size:15px;font-weight:750;color:var(--texto);margin-bottom:5px}
+#create .optional-title span{font-size:11px;font-weight:500;color:var(--texto-sec);margin-left:5px}
 #create .optional-details label{font-size:12.5px;margin:11px 0 5px}
-#create .expense-row{margin-top:18px;background:#fff;border:1px solid #DCE8EF;border-radius:15px;overflow:hidden}
-#create .expense-trigger{width:100%;display:flex;align-items:center;gap:12px;padding:13px;background:#fff;border:0;text-align:left;color:#24518B;font:inherit;cursor:pointer}
-#create .expense-trigger .ico{width:41px;min-width:41px;height:41px;display:grid;place-items:center;background:#E5F3FA;border-radius:12px}
+#create .expense-row{margin-top:18px;background:var(--tarjeta);border:1px solid var(--borde);border-radius:15px;overflow:hidden}
+#create .expense-trigger{width:100%;display:flex;align-items:center;gap:12px;padding:13px;background:var(--tarjeta);border:0;text-align:left;color:var(--primario-txt);font:inherit;cursor:pointer}
+#create .expense-trigger .ico{width:41px;min-width:41px;height:41px;display:grid;place-items:center;background:var(--tinte);border-radius:12px}
 #create .expense-text{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
 #create .expense-text strong{font-size:14px}
-#create .expense-text small{font-size:11px;color:#6c8194;font-weight:500;margin-left:4px}
-#create .expense-text>span{font-size:12px;color:#62788c}
-#create .expense-arrow{font-size:23px;color:#24518B;line-height:1}
+#create .expense-text small{font-size:11px;color:var(--texto-sec);font-weight:500;margin-left:4px}
+#create .expense-text>span{font-size:12px;color:var(--texto-sec)}
+#create .expense-arrow{font-size:23px;color:var(--primario-txt);line-height:1}
 #create .expense-body{padding:0 13px 13px}
 #create .expense-body label{font-size:12px;margin:0 0 7px;display:block}
-#create .expense-body select{width:100%;font-weight:500;background:#F7FBFE;color:#24518B}
+#create .expense-body select{width:100%;font-weight:500;background:var(--tinte);color:var(--primario-txt)}
 #create .expense-body.hide{display:none}
 #create .btn{margin-top:16px}
 
 /* V7 — progressive disclosure of optional event details */
-#create .optional-details{margin-top:18px;border-top:1px solid #E1EBF2;padding-top:14px}
-#create .more-trigger{display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:0;padding:10px 1px;text-align:left;color:#24518B;font:inherit;cursor:pointer;min-height:64px}
-#create .more-icon{width:39px;height:39px;border-radius:12px;background:#E5F3FA;display:grid;place-items:center;flex-shrink:0}
-#create .more-icon svg,#create .more-chevron svg{width:22px;height:22px;stroke:#24518B;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#create .optional-details{margin-top:18px;border-top:1px solid var(--borde);padding-top:14px}
+#create .more-trigger{display:flex;align-items:center;gap:12px;width:100%;background:var(--tarjeta);border:0;padding:10px 1px;text-align:left;color:var(--primario-txt);font:inherit;cursor:pointer;min-height:64px}
+#create .more-icon{width:39px;height:39px;border-radius:12px;background:var(--tinte);display:grid;place-items:center;flex-shrink:0}
+#create .more-icon svg,#create .more-chevron svg{width:22px;height:22px;stroke:var(--primario-txt);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 #create .more-copy{flex:1;display:flex;flex-direction:column;gap:4px;min-width:0}
-#create .more-copy strong{font-size:15px;color:#24518B}
-#create .more-copy small{font-size:12px;color:#647C8F;font-weight:450;line-height:1.35;overflow-wrap:anywhere}
+#create .more-copy strong{font-size:15px;color:var(--primario-txt)}
+#create .more-copy small{font-size:12px;color:var(--texto-sec);font-weight:450;line-height:1.35;overflow-wrap:anywhere}
 #create .more-chevron{width:24px;height:24px;display:grid;place-items:center;flex-shrink:0}
-#create .more-body{background:#F4FAFD;border-radius:14px;padding:13px 14px 16px;margin:8px 0 3px}
+#create .more-body{background:var(--tinte);border-radius:14px;padding:13px 14px 16px;margin:8px 0 3px}
 #create .more-body.hide{display:none}
 #create .more-field{margin:0 0 13px}
 #create .more-field:last-child{margin-bottom:0}
-#create .more-field label{display:block;margin:0 0 7px;font-size:13px;font-weight:700;color:#24518B}
-#create .more-field input,#create .more-field select{background:#fff;width:100%;margin:0}
+#create .more-field label{display:block;margin:0 0 7px;font-size:13px;font-weight:700;color:var(--primario-txt)}
+#create .more-field input,#create .more-field select{background:var(--tarjeta);width:100%;margin:0}
 #create .btn{margin-top:16px}
-.guest-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #e9f0f5}.guest-row:last-child{border-bottom:0}.guest-row b{flex:1;font-size:14px}.guest-avatar{height:32px;width:32px;display:grid;place-items:center;border-radius:50%;background:#d9eff9;color:#24518b;font-weight:800}.guest-badge{font-size:12px;font-weight:750;padding:5px 9px;border-radius:99px}.guest-badge.attending{background:#d5f2e2;color:#146842}.guest-badge.maybe{background:#fff0bc;color:#775600}.guest-badge.declined{background:#e9edf3;color:#51647b}.rsvp button{background:#f2f6f9!important;border:1px solid #e2eaf0}.rsvp button.on{outline:none;border:2px solid #24518b;background:#e4f2fa!important}.rsvp button:first-child.on{background:#d5f2e2!important;border-color:#19835a}.rsvp button:nth-child(2).on{background:#fff0bc!important;border-color:#b18a1d}.result-row{display:flex;flex-direction:column;gap:5px;border-bottom:1px solid #e6edf3;padding:13px 0}.result-row small{color:#65798b}.mini-btn{align-self:flex-start;border:1px solid #24518b;background:#e6f3fb;color:#24518b;border-radius:9px;padding:8px 12px;font-weight:750}.mini-btn.confirmed{background:#d5f2e2;border-color:#19835a;color:#146842}#event .card h2{font-size:17px}#event .btn.secondary{margin-bottom:0} 
+.guest-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--borde)}.guest-row:last-child{border-bottom:0}.guest-row b{flex:1;font-size:14px}.guest-avatar{height:32px;width:32px;display:grid;place-items:center;border-radius:50%;background:var(--tinte);color:var(--primario-txt);font-weight:800}.guest-badge{font-size:12px;font-weight:750;padding:5px 9px;border-radius:99px}.guest-badge.attending{background:var(--ok-bg);color:var(--ok-txt)}.guest-badge.maybe{background:var(--aviso-bg);color:var(--aviso-txt)}.guest-badge.declined{background:var(--neutro-bg);color:var(--neutro-txt)}.rsvp button{background:var(--tinte)!important;border:1px solid var(--borde)}.rsvp button.on{outline:none;border:2px solid var(--primario-txt);background:var(--tinte)!important}.rsvp button:first-child.on{background:var(--ok-bg)!important;border-color:var(--ok-brd)}.rsvp button:nth-child(2).on{background:var(--aviso-bg)!important;border-color:var(--aviso-brd)}.result-row{display:flex;flex-direction:column;gap:5px;border-bottom:1px solid var(--borde);padding:13px 0}.result-row small{color:var(--texto-sec)}.mini-btn{align-self:flex-start;border:1px solid var(--primario-txt);background:var(--tinte);color:var(--primario-txt);border-radius:9px;padding:8px 12px;font-weight:750}.mini-btn.confirmed{background:var(--ok-bg);border-color:var(--ok-brd);color:var(--ok-txt)}#event .card h2{font-size:17px}#event .btn.secondary{margin-bottom:0} 
 /* V9 · votación de lugares y jerarquía de la invitación */
 #invite .pad > h1.js-name{margin:25px 0 24px;line-height:1.15}
 #invite .pad > .detail{margin:0 0 16px;min-height:28px}
 #invite .pad > .detail + .card{margin-top:24px}
 #event .pad > h1.js-name{margin-bottom:23px}
 .place-list{display:grid;gap:10px;margin-top:16px}
-.place-option{border:1px solid #dce9f1;border-radius:14px;padding:13px;background:#fff}
-.place-option.is-winner{border:2px solid #24518B;background:#eaf5fb}
-.place-option h3{font-size:15px;color:#24518B;margin:0 0 4px}
-.place-option small{display:block;color:#60768b;overflow-wrap:anywhere;margin:3px 0}
-.place-option .place-meta{font-size:12px;color:#60768b;margin-top:7px}
+.place-option{border:1px solid var(--borde);border-radius:14px;padding:13px;background:var(--tarjeta)}
+.place-option.is-winner{border:2px solid var(--primario-txt);background:var(--tinte)}
+.place-option h3{font-size:15px;color:var(--primario-txt);margin:0 0 4px}
+.place-option small{display:block;color:var(--texto-sec);overflow-wrap:anywhere;margin:3px 0}
+.place-option .place-meta{font-size:12px;color:var(--texto-sec);margin-top:7px}
 .place-actions{display:flex;gap:8px;margin-top:10px}
-.place-actions button{flex:1;border-radius:10px;padding:10px 8px;border:1px solid #bdd6e7;background:#eaf5fb;color:#24518B;font-weight:700;font-size:12px}
-.place-actions button.confirmed{background:#dceee5;border-color:#7fb79b;color:#1b6849}
-.place-add{border-top:1px solid #e4edf2;margin-top:17px;padding-top:10px}
+.place-actions button{flex:1;border-radius:10px;padding:10px 8px;border:1px solid var(--borde);background:var(--tinte);color:var(--primario-txt);font-weight:700;font-size:12px}
+.place-actions button.confirmed{background:var(--ok-bg);border-color:var(--ok-brd);color:var(--ok-txt)}
+.place-add{border-top:1px solid var(--borde);margin-top:17px;padding-top:10px}
 .place-add label{margin-top:10px}
-.place-confirmed{background:#e8f5ed;border-radius:12px;padding:12px;color:#1d674c;font-weight:700;margin-top:13px}
-.place-vote-label{display:flex;align-items:center;gap:12px;padding:13px;border:1px solid #dae8f0;border-radius:12px;margin:9px 0;font-size:14px}
-.place-vote-label input{width:20px;height:20px;accent-color:#24518B;margin:0;flex:none}
+.place-confirmed{background:var(--ok-bg);border-radius:12px;padding:12px;color:var(--ok-txt);font-weight:700;margin-top:13px}
+.place-vote-label{display:flex;align-items:center;gap:12px;padding:13px;border:1px solid var(--borde);border-radius:12px;margin:9px 0;font-size:14px}
+.place-vote-label input{width:20px;height:20px;accent-color:var(--primario);margin:0;flex:none}
 .place-vote-label span{flex:1;min-width:0}
-.place-vote-label small{display:block;color:#657b8d;font-weight:400}
-.place-vote-label:has(input:checked){background:#eaf5fb;border-color:#24518B}
+.place-vote-label small{display:block;color:var(--texto-sec);font-weight:400}
+.place-vote-label:has(input:checked){background:var(--tinte);border-color:var(--primario-txt)}
 
 /* Escapada Design System v1 — Bosque / Arena / Terracota */
-:root{--navy:#244C43;--sky:#78B7C5;--cream:#F7F3EA;--coral:#D77958;--pale:#E9F1EB;--ink:#26332F;--muted:#68746D;--forest:#244C43;--sand:#F7F3EA;--terra:#D77958;--lake:#78B7C5}
-body{background:#E6E8E0;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
-.app,header,.nav{background:#FCFAF5}
-header{border-bottom:1px solid #E9E5DB}
-.logo{color:var(--forest);font-weight:800;letter-spacing:-1.7px}
-.logo span{color:var(--terra)}
-h1,h2,.screen-title{color:var(--forest);letter-spacing:-.7px}
-h1{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:30px;letter-spacing:-1px}
-h2{font-family:Georgia,"Times New Roman",serif;font-size:23px}
-.hero,.hero.mate{height:290px;background-image:linear-gradient(0deg,#132F2AA8 0%,#132F2A10 78%),url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1100&q=85');background-position:center 51%}
-.hero h1{font-family:Georgia,"Times New Roman",serif;font-size:37px;max-width:365px;line-height:1.07;color:#fff;letter-spacing:-1.2px}
-.hero-kicker{font-size:10px;letter-spacing:2.3px;color:#FFF3DC}
+
+body{background:var(--tinte);color:var(--texto);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.app,header,.nav{background:var(--fondo)}
+header{border-bottom:1px solid var(--borde)}
+.logo{color:var(--primario-txt);font-weight:800;letter-spacing:-1.7px}
+.logo span{color:var(--punto-logo)}
+h1,h2,.screen-title{color:var(--primario-txt);letter-spacing:-.7px}
+h1{font-weight:700;font-size:30px;letter-spacing:-1px}
+h2{font-size:23px}
+.hero,.hero.mate{height:290px;background-image:linear-gradient(0deg,rgb(var(--velo-rgb) / 0.66) 0%,rgb(var(--velo-rgb) / 0.06) 78%),url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1100&q=85');background-position:center 51%}
+.hero h1{font-size:37px;max-width:365px;line-height:1.07;color:var(--sobre-foto);letter-spacing:-1.2px}
+.hero-kicker{font-size:10px;letter-spacing:2.3px;color:var(--sobre-foto)}
 #home .pad{padding-top:16px}
-.option{background:#fff;border:1px solid #E7E3D9;box-shadow:0 4px 16px #26332F0A;border-radius:19px;min-height:79px}
-.option.selected,.option:focus-visible{background:#EFF3EB;border:1.5px solid var(--forest);color:var(--forest)}
-.option.selected .ico,.ico{background:#E5EDE7;color:var(--forest)}
-.option strong{color:var(--forest);font-size:15px}
-.option small{color:var(--muted)}
-.chev,.back{color:var(--forest)}
-.btn,.btn.green{background:var(--forest);color:#fff;border-radius:15px;box-shadow:none}
-.btn.secondary{background:#E6EFE8;color:var(--forest)}
-.btn.outline{background:transparent;border:1px solid #A6B7A9;color:var(--forest)}
-.btn:focus-visible,.option:focus-visible,button:focus-visible{outline:3px solid var(--lake);outline-offset:2px}
-.card{border:1px solid #E6E2D8;background:#FFFEFB;border-radius:20px;box-shadow:0 3px 18px #26332F09}
-.soft,.date-fields,#create .more-body{background:#F3F0E7;border-color:#E9E3D6}
-input,textarea,select{border-color:#DADFD6;background:#FFFEFB;color:var(--ink);outline-color:var(--lake)}
-label,.detail svg{color:var(--forest)}
-.date-choice{border-color:#DCE4DA;color:var(--forest)}
-.date-choice.chosen,.option.selected,.seg button.on{background:#E5EEE6;border-color:var(--forest);color:var(--forest)}
-.date-choice input,.place-vote-label input{accent-color:var(--forest)}
-#tripFields{background:#F0F2E8!important;border:1px solid #E1E7D9}
-#create .create-cover,.banner,.ready-photo{background-image:linear-gradient(0deg,#183C3440,#183C3400),url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1100&q=85')}
-.camera{color:var(--forest)}
-.pill,.status,.avatar,.guest-avatar{background:#E6EEE7;color:var(--forest)}
-.seg button{color:var(--forest);border-color:#D9E4DA}
-.nav{border-top-color:#E5E3DA}
-.nav button.active{color:var(--forest)}
-.share-preview{background:#EEF2E9}
-.place-option.is-winner,.place-vote-label:has(input:checked){background:#EFF3E9;border-color:var(--forest)}
-.place-actions button,.mini-btn,.add-date{background:#E9F0E9;color:var(--forest);border-color:#AFC5B5}
-#event .card h2{font-family:Georgia,"Times New Roman",serif}
-@media(min-width:600px){.app{box-shadow:0 18px 60px #1C393020}}
+.option{background:var(--tarjeta);border:1px solid var(--borde);box-shadow:0 4px 16px rgb(var(--sombra-rgb) / 0.04);border-radius:19px;min-height:79px}
+.option.selected,.option:focus-visible{background:var(--tinte);border:1.5px solid var(--primario-txt);color:var(--primario-txt)}
+.option.selected .ico,.ico{background:var(--tinte);color:var(--primario-txt)}
+.option strong{color:var(--primario-txt);font-size:15px}
+.option small{color:var(--texto-sec)}
+.chev,.back{color:var(--primario-txt)}
+.btn,.btn.green{background:var(--primario);color:var(--sobre-primario);border-radius:15px;box-shadow:none}
+.btn.secondary{background:var(--tinte);color:var(--primario-txt)}
+.btn.outline{background:transparent;border:1px solid var(--texto-sec);color:var(--primario-txt)}
+.btn:focus-visible,.option:focus-visible,button:focus-visible{outline:3px solid var(--foco);outline-offset:2px}
+.card{border:1px solid var(--borde);background:var(--tarjeta);border-radius:20px;box-shadow:0 3px 18px rgb(var(--sombra-rgb) / 0.04)}
+.soft,.date-fields,#create .more-body{background:var(--tinte);border-color:var(--borde)}
+input,textarea,select{border-color:var(--borde);background:var(--tarjeta);color:var(--texto);outline-color:var(--foco)}
+label,.detail svg{color:var(--primario-txt)}
+.date-choice{border-color:var(--borde);color:var(--primario-txt)}
+.date-choice.chosen,.option.selected,.seg button.on{background:var(--tinte);border-color:var(--primario-txt);color:var(--primario-txt)}
+.date-choice input,.place-vote-label input{accent-color:var(--primario)}
+#tripFields{background:var(--tinte)!important;border:1px solid var(--borde)}
+#create .create-cover,.banner,.ready-photo{background-image:linear-gradient(0deg,rgb(var(--velo-rgb) / 0.25),rgb(var(--velo-rgb) / 0)),url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1100&q=85')}
+.camera{color:var(--primario-txt)}
+.pill,.status,.avatar,.guest-avatar{background:var(--tinte);color:var(--primario-txt)}
+.seg button{color:var(--primario-txt);border-color:var(--borde)}
+.nav{border-top-color:var(--borde)}
+.nav button.active{color:var(--primario-txt)}
+.share-preview{background:var(--tinte)}
+.place-option.is-winner,.place-vote-label:has(input:checked){background:var(--tinte);border-color:var(--primario-txt)}
+.place-actions button,.mini-btn,.add-date{background:var(--tinte);color:var(--primario-txt);border-color:var(--texto-sec)}
+#event .card h2{}
+@media(min-width:600px){.app{box-shadow:0 18px 60px rgb(var(--sombra-rgb) / 0.13)}}
 
 /* Escapada identity + trip journal v2 */
 .brand{display:inline-flex;align-items:center;gap:9px;min-width:0}
 .brand .logo{font-size:27px;letter-spacing:-1.4px;white-space:nowrap}
-.brand-mark{position:relative;display:grid;place-items:center;flex:none;width:38px;height:38px;border-radius:13px;background:var(--forest);color:#F7F3EA;font-family:Georgia,serif;font-weight:700;font-size:27px;line-height:1;box-shadow:0 3px 9px #244C4320}
-.brand-trail{position:absolute;width:7px;height:7px;right:5px;bottom:6px;border-radius:50%;background:var(--terra);border:1px solid #F7F3EA}
+.brand-mark{position:relative;display:grid;place-items:center;flex:none;width:38px;height:38px;border-radius:13px;background:var(--primario);color:var(--sobre-primario);font-weight:700;font-size:27px;line-height:1;box-shadow:0 3px 9px rgb(var(--sombra-rgb) / 0.13)}
+.brand-trail{position:absolute;width:7px;height:7px;right:5px;bottom:6px;border-radius:50%;background:var(--punto-logo);border:1px solid var(--fondo)}
 .trip-journal{margin:18px 0 23px}
-.trip-summary{background:#E9EFE5;color:var(--forest);padding:12px 15px;border-radius:14px;font-size:13px;line-height:1.6;margin-bottom:10px}
-.trip-planner{background:#FFFEFA;border:1px solid #E5E4D8;border-radius:23px;padding:21px 18px 15px;box-shadow:0 7px 28px #244C430A}
-.journal-eyebrow{font-size:10px;font-weight:850;letter-spacing:2px;color:var(--terra);margin-bottom:6px}
-.trip-planner h2{font-family:Georgia,"Times New Roman",serif;color:var(--forest);font-size:27px;line-height:1.15;margin:0 0 9px}
+.trip-summary{background:var(--tinte);color:var(--primario-txt);padding:12px 15px;border-radius:14px;font-size:13px;line-height:1.6;margin-bottom:10px}
+.trip-planner{background:var(--tarjeta);border:1px solid var(--borde);border-radius:23px;padding:21px 18px 15px;box-shadow:0 7px 28px rgb(var(--sombra-rgb) / 0.04)}
+.journal-eyebrow{font-size:10px;font-weight:850;letter-spacing:2px;color:var(--texto-sec);margin-bottom:6px}
+.trip-planner h2{color:var(--primario-txt);font-size:27px;line-height:1.15;margin:0 0 9px}
 .trip-planner .sub{font-size:13px;line-height:1.5;margin:0 0 20px}
-.progress-head{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;color:var(--forest);margin-bottom:8px}
-.progress-head strong{font-weight:700}.progress-head span{font-weight:800;color:var(--terra)}
-.progress-track{height:8px;border-radius:99px;background:#E6E9DF;overflow:hidden;margin-bottom:17px}
-#tripProgressFill{height:100%;width:0;background:var(--forest);border-radius:99px;transition:width .25s ease}
-.journal-task{display:flex;align-items:center;gap:11px;padding:12px 1px;border-bottom:1px solid #EDEBE3;min-height:48px}
-.journal-checkbox{width:20px;height:20px;flex:none;accent-color:var(--forest);cursor:pointer}
-.journal-task-label{flex:1;min-width:0;overflow-wrap:anywhere;font-size:13.5px;color:var(--ink)}
-.journal-task.completed .journal-task-label{text-decoration:line-through;color:#88948B}
-.journal-remove{border:0;background:transparent;color:#849088;font-size:24px;line-height:1;padding:5px 9px;cursor:pointer}
+.progress-head{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;color:var(--primario-txt);margin-bottom:8px}
+.progress-head strong{font-weight:700}.progress-head span{font-weight:800;color:var(--coral-txt)}
+.progress-track{height:8px;border-radius:99px;background:var(--tinte);overflow:hidden;margin-bottom:17px}
+#tripProgressFill{height:100%;width:0;background:var(--primario);border-radius:99px;transition:width .25s ease}
+.journal-task{display:flex;align-items:center;gap:11px;padding:12px 1px;border-bottom:1px solid var(--borde);min-height:48px}
+.journal-checkbox{width:20px;height:20px;flex:none;accent-color:var(--primario);cursor:pointer}
+.journal-task-label{flex:1;min-width:0;overflow-wrap:anywhere;font-size:13.5px;color:var(--texto)}
+.journal-task.completed .journal-task-label{text-decoration:line-through;color:var(--texto-sec)}
+.journal-remove{border:0;background:transparent;color:var(--texto-sec);font-size:24px;line-height:1;padding:5px 9px;cursor:pointer}
 .task-add{display:flex;gap:8px;margin-top:17px;align-items:stretch}
 .task-add input{min-width:0;flex:1;font-size:13px;border-radius:12px}
-.task-add button{width:46px;flex:none;border:0;background:var(--forest);color:#fff;border-radius:12px;font-size:25px;cursor:pointer}
-.journal-note{font-size:11px;color:var(--muted);margin:13px 0 0;text-align:center}
+.task-add button{width:46px;flex:none;border:0;background:var(--primario);color:var(--sobre-primario);border-radius:12px;font-size:25px;cursor:pointer}
+.journal-note{font-size:11px;color:var(--texto-sec);margin:13px 0 0;text-align:center}
 #event .pad>.js-name{margin-bottom:8px}
 
 /* Escapada v3 — distinctive travel-first home, scoped to override legacy Juntada styles */
-#home{background:#F7F3EA;min-height:calc(100dvh - 78px)}
-#home .escape-header{height:76px;background:#F7F3EA;border:0;padding:0 22px}
-#home .brand-mark{background:#244C43;border-radius:11px;width:39px;height:39px}
-#home .brand .logo{font-family:Georgia,"Times New Roman",serif;font-size:30px;font-weight:700;letter-spacing:-1.5px;color:#244C43}
-#home .brand .logo span{color:#D77958}
-#home .avatar{background:#E6EDE4;color:#244C43}
-#home .escape-hero{min-height:550px;height:calc(100svh - 258px);max-height:740px;position:relative;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:linear-gradient(180deg,#102E2914 0%,#112F2A30 34%,#102A26E8 100%),url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=85') center 50%/cover no-repeat;color:#fff}
+#home{background:var(--fondo);min-height:calc(100dvh - 78px)}
+#home .escape-header{height:76px;background:var(--fondo);border:0;padding:0 22px}
+#home .brand-mark{background:var(--primario);border-radius:11px;width:39px;height:39px}
+#home .brand .logo{font-size:30px;font-weight:700;letter-spacing:-1.5px;color:var(--primario-txt)}
+#home .brand .logo span{color:var(--punto-logo)}
+#home .avatar{background:var(--tinte);color:var(--primario-txt)}
+#home .escape-hero{min-height:550px;height:calc(100svh - 258px);max-height:740px;position:relative;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:linear-gradient(180deg,rgb(var(--velo-rgb) / 0.08) 0%,rgb(var(--velo-rgb) / 0.19) 34%,rgb(var(--velo-rgb) / 0.91) 100%),url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=85') center 50%/cover no-repeat;color:var(--sobre-foto)}
 #home .escape-hero-content{position:relative;padding:32px 25px 48px}
-#home .escape-kicker{font-size:10px;font-weight:800;letter-spacing:2.6px;color:#F8E8CF;display:flex;align-items:center;gap:10px;margin-bottom:17px}
-#home .escape-kicker-line{height:1px;width:25px;background:#E9C7A1}
-#home .escape-hero h1{color:#fff;font-family:Georgia,"Times New Roman",serif;font-size:clamp(35px,9.1vw,48px);font-weight:500;line-height:1.08;letter-spacing:-1.7px;margin:0 0 17px;text-wrap:balance}
-#home .escape-hero h1 em{font-weight:400;color:#F2C3A7}
-#home .escape-hero p{font-size:14px;line-height:1.65;color:#F4F2E9;max-width:295px;margin:0 0 24px}
-#home .escape-primary{border:0;width:100%;background:#D77958;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:17px 19px;border-radius:13px;font-size:15px;font-weight:750;cursor:pointer;box-shadow:0 9px 22px #102B2735}
+#home .escape-kicker{font-size:10px;font-weight:800;letter-spacing:2.6px;color:var(--sobre-foto);display:flex;align-items:center;gap:10px;margin-bottom:17px}
+#home .escape-kicker-line{height:1px;width:25px;background:var(--punto-logo)}
+#home .escape-hero h1{color:var(--sobre-foto);font-size:clamp(35px,9.1vw,48px);font-weight:500;line-height:1.08;letter-spacing:-1.7px;margin:0 0 17px;text-wrap:balance}
+#home .escape-hero h1 em{font-weight:400;color:var(--sobre-foto)}
+#home .escape-hero p{font-size:14px;line-height:1.65;color:var(--sobre-foto);max-width:295px;margin:0 0 24px}
+#home .escape-primary{border:0;width:100%;background:var(--coral-btn);color:var(--sobre-primario);display:flex;align-items:center;justify-content:space-between;padding:17px 19px;border-radius:13px;font-size:15px;font-weight:750;cursor:pointer;box-shadow:0 9px 22px rgb(var(--sombra-rgb) / 0.21)}
 #home .escape-primary span{font-size:23px;font-weight:400;line-height:1}
-#home .escape-hero-bottom{display:flex;justify-content:space-between;align-items:center;padding:0 25px 19px;font-size:9px;font-weight:700;letter-spacing:1.8px;color:#E8EDE6}
-#home .escape-home-content{padding:29px 23px 35px;background:#F7F3EA}
+#home .escape-hero-bottom{display:flex;justify-content:space-between;align-items:center;padding:0 25px 19px;font-size:9px;font-weight:700;letter-spacing:1.8px;color:var(--sobre-foto)}
+#home .escape-home-content{padding:29px 23px 35px;background:var(--fondo)}
 #home .escape-section-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
-#home .escape-eyebrow{color:#BC7657;font-size:10px;font-weight:800;letter-spacing:1.9px;margin-bottom:9px}
-#home .escape-section-top h2{font-family:Georgia,"Times New Roman",serif;font-size:27px;font-weight:500;line-height:1.14;color:#244C43;margin:0 0 19px}
+#home .escape-eyebrow{color:var(--coral-txt);font-size:10px;font-weight:800;letter-spacing:1.9px;margin-bottom:9px}
+#home .escape-section-top h2{font-size:27px;font-weight:500;line-height:1.14;color:var(--primario-txt);margin:0 0 19px}
 #home .escape-section-top h2 em{font-weight:400}
-#home .escape-compass{font-size:40px;color:#D77958}
-#home .escape-feature{display:flex;align-items:center;gap:14px;width:100%;padding:17px 15px;border:1px solid #DDE3D8;border-radius:17px;background:#FFFEFA;text-align:left;cursor:pointer;box-shadow:0 5px 15px #244C4309}
-#home .escape-feature-icon{width:45px;height:45px;flex:none;display:grid;place-items:center;border-radius:12px;background:#E9F0E8;color:#244C43}
+#home .escape-compass{font-size:40px;color:var(--primario-txt)}
+#home .escape-feature{display:flex;align-items:center;gap:14px;width:100%;padding:17px 15px;border:1px solid var(--borde);border-radius:17px;background:var(--tarjeta);text-align:left;cursor:pointer;box-shadow:0 5px 15px rgb(var(--sombra-rgb) / 0.04)}
+#home .escape-feature-icon{width:45px;height:45px;flex:none;display:grid;place-items:center;border-radius:12px;background:var(--tinte);color:var(--primario-txt)}
 #home .escape-feature-copy{flex:1;min-width:0}
-#home .escape-feature-copy strong{display:block;font-size:15px;color:#244C43}
-#home .escape-feature-copy small{display:block;color:#66776B;font-size:12px;line-height:1.4;margin-top:3px}
-#home .escape-feature-arrow{font-size:21px;color:#D77958}
-#home .escape-bottom-note{display:flex;align-items:center;gap:8px;margin-top:21px;color:#66776B;font-size:11px}
-#home .escape-note-dot{height:7px;width:7px;background:#D77958;border-radius:50%;flex:none}
-#home .nav{background:#F7F3EA}
-.nav button.active{color:#244C43}
+#home .escape-feature-copy strong{display:block;font-size:15px;color:var(--primario-txt)}
+#home .escape-feature-copy small{display:block;color:var(--texto-sec);font-size:12px;line-height:1.4;margin-top:3px}
+#home .escape-feature-arrow{font-size:21px;color:var(--primario-txt)}
+#home .escape-bottom-note{display:flex;align-items:center;gap:8px;margin-top:21px;color:var(--texto-sec);font-size:11px}
+#home .escape-note-dot{height:7px;width:7px;background:var(--punto-logo);border-radius:50%;flex:none}
+#home .nav{background:var(--fondo)}
+.nav button.active{color:var(--primario-txt)}
 @media(min-width:600px){#home .escape-hero{max-height:680px}}
 @media(max-height:760px){#home .escape-hero{min-height:470px}}
 
 /* Escapada: filas editoriales con separadores; conservar paleta y tipografías. */
-#home .escape-feature{border:0;border-top:1px solid #D9DFD6;border-bottom:1px solid #D9DFD6;border-radius:0;box-shadow:none;background:transparent;padding:20px 2px;margin:0}
+#home .escape-feature{border:0;border-top:1px solid var(--borde);border-bottom:1px solid var(--borde);border-radius:0;box-shadow:none;background:transparent;padding:20px 2px;margin:0}
 #home .escape-feature-icon{background:transparent;border-radius:0;width:38px;height:38px}
-.option{border:0;border-bottom:1px solid #D9DFD6;border-radius:0;box-shadow:none;background:transparent;margin:0;padding:16px 3px}
-.option.selected{border:0;border-bottom:2px solid #244C43;background:#E9F0E866}
-.card{border:0;border-bottom:1px solid #D9DFD6;border-radius:0;box-shadow:none;background:transparent;padding:18px 0;margin:0}
-#myEventsList button[data-id]{border:0!important;border-bottom:1px solid #D9DFD6!important;border-radius:0!important;box-shadow:none!important;background:transparent!important;margin:0!important;padding:18px 2px!important}
+.option{border:0;border-bottom:1px solid var(--borde);border-radius:0;box-shadow:none;background:transparent;margin:0;padding:16px 3px}
+.option.selected{border:0;border-bottom:2px solid var(--primario-txt);background:var(--tinte)}
+.card{border:0;border-bottom:1px solid var(--borde);border-radius:0;box-shadow:none;background:transparent;padding:18px 0;margin:0}
+#myEventsList button[data-id]{border:0!important;border-bottom:1px solid var(--borde)!important;border-radius:0!important;box-shadow:none!important;background:transparent!important;margin:0!important;padding:18px 2px!important}
 #myEventsList .card{padding:20px 0}
 
 /* V3: filas claramente interactivas sin volver a tarjetas */
-#home .escape-feature{position:relative;min-height:88px;padding:17px 12px 17px 6px;border-top:1px solid #C8D5C9;border-bottom:1px solid #C8D5C9;transition:background .15s ease}
-#home .escape-feature:active,#home .escape-feature:focus-visible{background:#E7EEE4;outline-offset:2px}
+#home .escape-feature{position:relative;min-height:88px;padding:17px 12px 17px 6px;border-top:1px solid var(--borde);border-bottom:1px solid var(--borde);transition:background .15s ease}
+#home .escape-feature:active,#home .escape-feature:focus-visible{background:var(--tinte);outline-offset:2px}
 #home .escape-feature-copy strong{font-size:16px;font-weight:750}
-#home .escape-feature-arrow{display:grid;place-items:center;width:30px;height:30px;border:1px solid #D5B39F;border-radius:50%;font-size:18px;font-weight:600;color:#B86F50}
+#home .escape-feature-arrow{display:grid;place-items:center;width:30px;height:30px;border:1px solid var(--borde);border-radius:50%;font-size:18px;font-weight:600;color:var(--primario-txt)}
 #home .escape-bottom-note{margin-top:14px}
 #home .escape-home-content{padding-bottom:24px}
-.option{min-height:72px;border-bottom-color:#C8D5C9;cursor:pointer}
-.option:active,.option:focus-visible{background:#E7EEE4}
+.option{min-height:72px;border-bottom-color:var(--borde);cursor:pointer}
+.option:active,.option:focus-visible{background:var(--tinte)}
 #home .avatar{cursor:pointer;border:0}
 
 /* V4: flecha simple, sin círculo; toda la fila sigue siendo interactiva */
-#home .escape-feature-arrow{display:block;width:auto;height:auto;border:0;border-radius:0;font-size:23px;line-height:1;padding:0 7px;color:#B86F50}
+#home .escape-feature-arrow{display:block;width:auto;height:auto;border:0;border-radius:0;font-size:23px;line-height:1;padding:0 7px;color:var(--primario-txt)}
 #home .escape-feature-arrow{border:none!important;border-radius:0!important;width:auto!important;height:auto!important;box-shadow:none!important;background:transparent!important}
 #planazo-auth-trigger{display:none!important}
 
 /* V6: coherencia visual global, sin tarjetas para opciones ni formularios */
 #home .escape-feature-arrow{border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important;width:auto!important;height:auto!important;display:inline!important;padding:0 3px!important}
 #home .escape-bottom-note{margin-top:12px!important}
-#tripFields{background:transparent!important;border-radius:0!important;padding:0 0 16px!important;border-bottom:1px solid #CCD8CD;margin-bottom:18px!important}
+#tripFields{background:transparent!important;border-radius:0!important;padding:0 0 16px!important;border-bottom:1px solid var(--borde);margin-bottom:18px!important}
 #create .pad{padding-top:18px}
 #create .pad label{display:block;margin-top:15px;margin-bottom:4px}
-#create .pad input:not([type="radio"]):not([type="checkbox"]),#create .pad select,#create .pad textarea{background:transparent!important;border:0!important;border-bottom:1px solid #B7C8B9!important;border-radius:0!important;box-shadow:none!important;padding:12px 3px!important;color:#244C43}
-#create .pad input:focus,#create .pad select:focus,#create .pad textarea:focus{outline:0!important;border-bottom:2px solid #244C43!important}
+#create .pad input:not([type="radio"]):not([type="checkbox"]),#create .pad select,#create .pad textarea{background:transparent!important;border:0!important;border-bottom:1px solid var(--borde)!important;border-radius:0!important;box-shadow:none!important;padding:12px 3px!important;color:var(--primario-txt)}
+#create .pad input:focus,#create .pad select:focus,#create .pad textarea:focus{outline:0!important;border-bottom:2px solid var(--primario-txt)!important}
 #myEventsList{margin-top:14px}
 #myEventsList:empty{min-height:0}
-#myEventsList button{color:#244C43}
-#myEventsList .card{border-bottom:1px solid #CCD8CD}
-#myEventsList + button{background:#244C43!important;color:#FFF!important;border-radius:8px!important;box-shadow:none!important}
+#myEventsList button{color:var(--primario-txt)}
+#myEventsList .card{border-bottom:1px solid var(--borde)}
+#myEventsList + button{background:var(--primario)!important;color:var(--sobre-primario)!important;border-radius:8px!important;box-shadow:none!important}
 
 /* V7: el formulario comparte la identidad visual del Inicio */
-#create{--navy:#244C43;--sky:#A7C9BC;--ink:#244C43;--muted:#66776B;--pale:#E9F0E8}
-#create .pad{background:#F7F3EA;color:#244C43}
-#create .pad h1,#create .pad h2,#create .pad strong,#create .pad label{color:#244C43}
-#create .date-choice{background:transparent;border:0;border-bottom:1px solid #CAD6CA;border-radius:0;padding:14px 4px;color:#244C43}
-#create .date-choice.chosen{background:#E7EEE4;border-bottom:2px solid #244C43}
-#create .date-choice input{accent-color:#244C43}
-#create .date-fields{background:transparent;border-radius:0;border-bottom:1px solid #CAD6CA;padding:12px 0}
+
+#create .pad{background:var(--fondo);color:var(--primario-txt)}
+#create .pad h1,#create .pad h2,#create .pad strong,#create .pad label{color:var(--primario-txt)}
+#create .date-choice{background:transparent;border:0;border-bottom:1px solid var(--borde);border-radius:0;padding:14px 4px;color:var(--primario-txt)}
+#create .date-choice.chosen{background:var(--tinte);border-bottom:2px solid var(--primario-txt)}
+#create .date-choice input{accent-color:var(--primario)}
+#create .date-fields{background:transparent;border-radius:0;border-bottom:1px solid var(--borde);padding:12px 0}
 #create .more-trigger,#create .optional-details,#create .details-group{border-radius:0;box-shadow:none}
-#create .add-date{background:transparent;color:#244C43;border:0;border-bottom:1px solid #CAD6CA;border-radius:0}
-#create .btn{background:#244C43;color:white}
-#create .btn.secondary,#create .btn.outline{background:transparent;color:#244C43;border:1px solid #A7B8AD}
+#create .add-date{background:transparent;color:var(--primario-txt);border:0;border-bottom:1px solid var(--borde);border-radius:0}
+#create .btn{background:var(--primario);color:var(--sobre-primario)}
+#create .btn.secondary,#create .btn.outline{background:transparent;color:var(--primario-txt);border:1px solid var(--texto-sec)}
 
 /* V8: selección de fechas Turquesa & Arena, sin azules heredados */
-#create .date-section>label{color:#244C43!important}
-#create .date-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;padding:0;background:transparent!important;border-radius:0!important;border-top:1px solid #C7D5C8;border-bottom:1px solid #C7D5C8}
-#create .date-choice{display:flex;justify-content:center;align-items:center;min-width:0;min-height:58px;margin:0!important;padding:12px 4px!important;background:transparent!important;border:0!important;border-bottom:3px solid transparent!important;border-radius:0!important;color:#66776B!important;font-size:14px}
-#create .date-choice:not(:last-child){border-right:1px solid #D8E1D7!important}
+#create .date-section>label{color:var(--primario-txt)!important}
+#create .date-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;padding:0;background:transparent!important;border-radius:0!important;border-top:1px solid var(--borde);border-bottom:1px solid var(--borde)}
+#create .date-choice{display:flex;justify-content:center;align-items:center;min-width:0;min-height:58px;margin:0!important;padding:12px 4px!important;background:transparent!important;border:0!important;border-bottom:3px solid transparent!important;border-radius:0!important;color:var(--texto-sec)!important;font-size:14px}
+#create .date-choice:not(:last-child){border-right:1px solid var(--borde)!important}
 #create .date-choice input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
-#create .date-choice.chosen{background:#E6EEE8!important;color:#244C43!important;border-bottom:3px solid #244C43!important}
-#create .date-choice:focus-within{outline:2px solid #244C43;outline-offset:-2px}
-#create .date-fields{background:transparent!important;border:0!important;border-bottom:1px solid #C7D5C8!important;padding:12px 0!important}
-#create .more-trigger{background:transparent!important;color:#244C43!important;border-bottom:1px solid #C7D5C8!important}
-#create .more-icon{background:transparent!important;color:#244C43!important;border-radius:0!important}
-#create .more-chevron,#create .more-copy,#create .more-copy strong{color:#244C43!important}
-#create .optional-details{border-top:1px solid #C7D5C8!important}
+#create .date-choice.chosen{background:var(--tinte)!important;color:var(--primario-txt)!important;border-bottom:3px solid var(--primario-txt)!important}
+#create .date-choice:focus-within{outline:2px solid var(--foco);outline-offset:-2px}
+#create .date-fields{background:transparent!important;border:0!important;border-bottom:1px solid var(--borde)!important;padding:12px 0!important}
+#create .more-trigger{background:transparent!important;color:var(--primario-txt)!important;border-bottom:1px solid var(--borde)!important}
+#create .more-icon{background:transparent!important;color:var(--primario-txt)!important;border-radius:0!important}
+#create .more-chevron,#create .more-copy,#create .more-copy strong{color:var(--primario-txt)!important}
+#create .optional-details{border-top:1px solid var(--borde)!important}
 
 /* V9: formularios estilo Juntada, exclusivamente con paleta Escapada */
-#create .pad{background:#F7F3EA!important}
-#create .pad input:not([type="radio"]):not([type="checkbox"]),#create .pad select,#create .pad textarea{background:#FFFDF9!important;border:1px solid #D6DDD4!important;border-radius:13px!important;box-shadow:none!important;padding:13px 14px!important;color:#244C43!important}
-#create .pad input:focus,#create .pad select:focus,#create .pad textarea:focus{outline:2px solid #78B6AC!important;outline-offset:1px;border-color:#78B6AC!important}
-#tripFields{background:#EEF0E6!important;border:1px solid #E0E4D9!important;border-radius:18px!important;padding:18px!important;margin-bottom:20px!important}
-#create .date-choices{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important;padding:5px!important;border:0!important;background:#E2F0EC!important;border-radius:15px!important}
-#create .date-choice{min-height:48px!important;padding:12px 4px!important;border:1px solid transparent!important;border-radius:11px!important;background:transparent!important;color:#244C43!important;font-size:13px!important}
+#create .pad{background:var(--fondo)!important}
+#create .pad input:not([type="radio"]):not([type="checkbox"]),#create .pad select,#create .pad textarea{background:var(--tarjeta)!important;border:1px solid var(--borde)!important;border-radius:13px!important;box-shadow:none!important;padding:13px 14px!important;color:var(--primario-txt)!important}
+#create .pad input:focus,#create .pad select:focus,#create .pad textarea:focus{outline:2px solid var(--foco)!important;outline-offset:1px;border-color:var(--texto-sec)!important}
+#tripFields{background:var(--tinte)!important;border:1px solid var(--borde)!important;border-radius:18px!important;padding:18px!important;margin-bottom:20px!important}
+#create .date-choices{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important;padding:5px!important;border:0!important;background:var(--tinte)!important;border-radius:15px!important}
+#create .date-choice{min-height:48px!important;padding:12px 4px!important;border:1px solid transparent!important;border-radius:11px!important;background:transparent!important;color:var(--primario-txt)!important;font-size:13px!important}
 #create .date-choice:not(:last-child){border-right:1px solid transparent!important}
-#create .date-choice.chosen{background:#FFFDF9!important;border:2px solid #244C43!important;border-radius:11px!important;box-shadow:0 1px 3px #244C4312!important;color:#244C43!important}
-#create .date-fields{background:#ECF5F2!important;border:0!important;border-radius:13px!important;padding:14px!important;margin-top:12px!important}
-#create .optional-details{border-top:1px solid #D8E2DC!important}
-#create .more-trigger{background:#FFFDF9!important;border:0!important;border-radius:12px!important;padding:12px!important;color:#244C43!important}
-#create .more-icon{background:#E2F0EC!important;border-radius:10px!important;width:39px!important;height:39px!important;display:grid!important;place-items:center!important;color:#244C43!important}
-#create .more-chevron{color:#244C43!important}
-#create .btn{background:#244C43!important;color:white!important;border-radius:14px!important}
-#create .btn.secondary{background:#E2F0EC!important;color:#244C43!important}
+#create .date-choice.chosen{background:var(--tarjeta)!important;border:2px solid var(--primario-txt)!important;border-radius:11px!important;box-shadow:0 1px 3px rgb(var(--sombra-rgb) / 0.07)!important;color:var(--primario-txt)!important}
+#create .date-fields{background:var(--tinte)!important;border:0!important;border-radius:13px!important;padding:14px!important;margin-top:12px!important}
+#create .optional-details{border-top:1px solid var(--borde)!important}
+#create .more-trigger{background:var(--tarjeta)!important;border:0!important;border-radius:12px!important;padding:12px!important;color:var(--primario-txt)!important}
+#create .more-icon{background:var(--tinte)!important;border-radius:10px!important;width:39px!important;height:39px!important;display:grid!important;place-items:center!important;color:var(--primario-txt)!important}
+#create .more-chevron{color:var(--primario-txt)!important}
+#create .btn{background:var(--primario)!important;color:var(--sobre-primario)!important;border-radius:14px!important}
+#create .btn.secondary{background:var(--tinte)!important;color:var(--primario-txt)!important}
 
 /* Alineación consistente de las tres opciones de fecha */
 #create .date-choices{align-items:stretch!important}
@@ -362,28 +390,28 @@ label,.detail svg{color:var(--forest)}
 /* V16: misma caja y misma línea base para las tres opciones */
 #create .date-choices{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;align-items:stretch!important;gap:5px!important}
 #create .date-choices .date-choice{position:relative!important;display:grid!important;place-items:center!important;align-self:stretch!important;min-height:54px!important;height:54px!important;padding:0 3px!important;margin:0!important;border:2px solid transparent!important;border-radius:11px!important;box-sizing:border-box!important;line-height:1!important}
-#create .date-choices .date-choice.chosen{border:2px solid #244C43!important}
+#create .date-choices .date-choice.chosen{border:2px solid var(--primario-txt)!important}
 #create .date-choices .date-choice span{display:block!important;width:100%!important;margin:0!important;padding:0!important;line-height:20px!important;text-align:center!important;align-self:center!important;justify-self:center!important;white-space:nowrap!important}
 #create .date-choices .date-choice input{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
 
 /* QA iteration: line-based trip list consistent with Escapada */
-.escapada-trip-row{display:flex;width:100%;align-items:center;justify-content:space-between;gap:12px;text-align:left;background:transparent;border:0;border-top:1px solid #ccd8d1;padding:20px 4px;color:#244c43;cursor:pointer;font:inherit}
-.escapada-trip-row:last-of-type{border-bottom:1px solid #ccd8d1}
+.escapada-trip-row{display:flex;width:100%;align-items:center;justify-content:space-between;gap:12px;text-align:left;background:transparent;border:0;border-top:1px solid var(--borde);padding:20px 4px;color:var(--primario-txt);cursor:pointer;font:inherit}
+.escapada-trip-row:last-of-type{border-bottom:1px solid var(--borde)}
 .escapada-trip-row-content{display:flex;flex-direction:column;gap:5px;min-width:0}
 .escapada-trip-row-content strong{font-size:17px;line-height:1.35}
-.escapada-trip-row-content small{font-size:13px;color:#66786f;line-height:1.4}
-.escapada-trip-row-arrow{font-size:24px;color:#cb7f62;flex-shrink:0}
-.escapada-trip-row:focus-visible{outline:2px solid #244c43;outline-offset:2px}
+.escapada-trip-row-content small{font-size:13px;color:var(--texto-sec);line-height:1.4}
+.escapada-trip-row-arrow{font-size:24px;color:var(--primario-txt);flex-shrink:0}
+.escapada-trip-row:focus-visible{outline:2px solid var(--foco);outline-offset:2px}
 
 /* Home navigation: clean image, row-based actions inspired by Juntada */
-.escape-menu{margin-top:22px;border-top:1px solid #d5ddd5}
-.escape-menu .escape-feature{display:flex;align-items:center;gap:16px;width:100%;padding:19px 0;min-height:90px;margin:0;border:0;border-bottom:1px solid #d5ddd5;border-radius:0;background:transparent;box-shadow:none;text-align:left;cursor:pointer}
-.escape-menu .escape-feature-icon{flex:0 0 52px;width:52px;height:52px;border-radius:15px;background:#e3eeea;display:flex;align-items:center;justify-content:center;color:#28564b}
+.escape-menu{margin-top:22px;border-top:1px solid var(--borde)}
+.escape-menu .escape-feature{display:flex;align-items:center;gap:16px;width:100%;padding:19px 0;min-height:90px;margin:0;border:0;border-bottom:1px solid var(--borde);border-radius:0;background:transparent;box-shadow:none;text-align:left;cursor:pointer}
+.escape-menu .escape-feature-icon{flex:0 0 52px;width:52px;height:52px;border-radius:15px;background:var(--tinte);display:flex;align-items:center;justify-content:center;color:var(--primario-txt)}
 .escape-menu .escape-feature-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
-.escape-menu .escape-feature-copy strong{font-size:17px;line-height:1.3;color:#28564b}
-.escape-menu .escape-feature-copy small{font-size:13px;line-height:1.45;color:#66786f}
-.escape-menu .escape-feature-arrow{flex:0 0 20px;font-size:28px;line-height:1;color:#bd816a;text-align:right}
-.escape-menu .escape-feature:focus-visible{outline:2px solid #28564b;outline-offset:-2px}
+.escape-menu .escape-feature-copy strong{font-size:17px;line-height:1.3;color:var(--primario-txt)}
+.escape-menu .escape-feature-copy small{font-size:13px;line-height:1.45;color:var(--texto-sec)}
+.escape-menu .escape-feature-arrow{flex:0 0 20px;font-size:28px;line-height:1;color:var(--primario-txt);text-align:right}
+.escape-menu .escape-feature:focus-visible{outline:2px solid var(--foco);outline-offset:-2px}
 .escape-hero-content{padding-bottom:20px}
  .nav{display:grid!important;visibility:visible!important} .nav.hide{display:grid!important} .screen{padding-bottom:calc(94px + env(safe-area-inset-bottom,0px))} /* V32 approved: no fixed bottom navigation. */
 .nav,.nav.hide{display:none!important;visibility:hidden!important}
@@ -391,22 +419,22 @@ label,.detail svg{color:var(--forest)}
 /* V35 compact Planazo drawer, Escapada palette */
 .nav,.nav.hide{display:grid!important;visibility:visible!important}
 .screen{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))!important}
-.screen > header > .esc-menu-trigger{order:-1;position:relative;z-index:3}.esc-menu-trigger{border:0;background:transparent;color:#087F8C;width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;flex-shrink:0}
+.screen > header > .esc-menu-trigger{order:-1;position:relative;z-index:3}.esc-menu-trigger{border:0;background:transparent;color:var(--primario-txt);width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;flex-shrink:0}
 .esc-menu-trigger svg{width:20px;height:20px}
-.esc-drawer-shade{position:fixed;inset:0;background:rgba(12,35,38,.34);z-index:2000}
-.esc-drawer{position:fixed;top:0;bottom:0;left:0;width:min(230px,65vw);box-sizing:border-box;background:#fff;z-index:2001;box-shadow:4px 0 14px #123a3c20;overflow-y:auto;overscroll-behavior:contain;padding-bottom:env(safe-area-inset-bottom,0px)}
-.esc-drawer-top{display:flex;justify-content:space-between;align-items:center;background:#C9F1EC;padding:calc(12px + env(safe-area-inset-top,0px)) 12px 12px;color:#087F8C;font-size:17px;font-weight:700;min-height:58px;box-sizing:border-box}
-.esc-drawer .esc-drawer-link{display:flex;align-items:center;gap:11px;width:100%;min-height:42px;box-sizing:border-box;text-align:left;border:0;background:#fff;padding:9px 12px;color:#087F8C;font-size:14px;font-weight:500;cursor:pointer}
-.esc-drawer .esc-drawer-link svg{width:18px;height:18px;flex-shrink:0;stroke:#087F8C;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.esc-drawer .esc-drawer-link[aria-current="page"]{background:#E8F8F5;font-weight:700}
-.esc-drawer .esc-drawer-link:focus-visible,.esc-menu-trigger:focus-visible{outline:2px solid #087F8C;outline-offset:-2px}
-.esc-drawer-divider{height:1px;background:#E1EAE8;margin:5px 12px}
+.esc-drawer-shade{position:fixed;inset:0;background:rgb(var(--velo-rgb) / .34);z-index:2000}
+.esc-drawer{position:fixed;top:0;bottom:0;left:0;width:min(230px,65vw);box-sizing:border-box;background:var(--tarjeta);z-index:2001;box-shadow:4px 0 14px rgb(var(--sombra-rgb) / 0.13);overflow-y:auto;overscroll-behavior:contain;padding-bottom:env(safe-area-inset-bottom,0px)}
+.esc-drawer-top{display:flex;justify-content:space-between;align-items:center;background:var(--tinte);padding:calc(12px + env(safe-area-inset-top,0px)) 12px 12px;color:var(--primario-txt);font-size:17px;font-weight:700;min-height:58px;box-sizing:border-box}
+.esc-drawer .esc-drawer-link{display:flex;align-items:center;gap:11px;width:100%;min-height:42px;box-sizing:border-box;text-align:left;border:0;background:var(--tarjeta);padding:9px 12px;color:var(--primario-txt);font-size:14px;font-weight:500;cursor:pointer}
+.esc-drawer .esc-drawer-link svg{width:18px;height:18px;flex-shrink:0;stroke:var(--primario-txt);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.esc-drawer .esc-drawer-link[aria-current="page"]{background:var(--tinte);font-weight:700}
+.esc-drawer .esc-drawer-link:focus-visible,.esc-menu-trigger:focus-visible{outline:2px solid var(--foco);outline-offset:-2px}
+.esc-drawer-divider{height:1px;background:var(--borde);margin:5px 12px}
 .esc-drawer[hidden],.esc-drawer-shade[hidden]{display:none!important}
 body.esc-menu-open{overflow:hidden}
 /* V36: header alignment and always-visible navigation trigger */
 .screen > header{display:flex!important;align-items:center!important;gap:10px!important;min-width:0}
-.screen > header > .esc-menu-trigger{display:flex!important;visibility:visible!important;opacity:1!important;position:relative!important;flex:0 0 40px!important;width:40px!important;height:40px!important;order:-2!important;z-index:5!important;background:#C9F1EC!important;color:#087F8C!important;border-radius:10px!important;padding:0!important}
-.screen > header > .esc-menu-trigger svg{display:block!important;width:23px!important;height:23px!important;stroke:#087F8C!important}
+.screen > header > .esc-menu-trigger{display:flex!important;visibility:visible!important;opacity:1!important;position:relative!important;flex:0 0 40px!important;width:40px!important;height:40px!important;order:-2!important;z-index:5!important;background:var(--tinte)!important;color:var(--primario-txt)!important;border-radius:10px!important;padding:0!important}
+.screen > header > .esc-menu-trigger svg{display:block!important;width:23px!important;height:23px!important;stroke:var(--primario-txt)!important}
 #home .escape-header{padding-left:12px!important;padding-right:16px!important}
 #home .escape-header .brand{display:flex!important;align-items:center!important;gap:8px!important;flex:1 1 auto!important;min-width:0!important}
 #home .escape-header .brand-mark{width:32px!important;height:32px!important;font-size:23px!important;flex-shrink:0!important}
@@ -423,60 +451,66 @@ body.esc-menu-open{overflow:hidden}
 .esc-drawer .esc-drawer-link svg{width:17px!important;height:17px!important}
 .esc-drawer-divider{margin:4px 11px!important}
 /* V38 — Escapada Turquesa & Arena, forest/sage navigation */
-#home .escape-header{background:#F7F3EA!important}
+#home .escape-header{background:var(--fondo)!important}
 #home .escape-header .brand{gap:0!important}
-#home .escape-header .logo{color:#244C43!important}
-.screen > header > .esc-menu-trigger{background:#E5F0EA!important;color:#244C43!important}
-.screen > header > .esc-menu-trigger svg{stroke:#244C43!important}
-.esc-drawer{background:#F7F3EA!important;border-right:1px solid #DDDCD1!important;box-shadow:4px 0 12px #244C4317!important}
-.esc-drawer-top{background:#E5F0EA!important;color:#244C43!important}
-.esc-drawer .esc-drawer-link{background:#F7F3EA!important;color:#244C43!important}
-.esc-drawer .esc-drawer-link svg{stroke:#244C43!important}
-.esc-drawer .esc-drawer-link[aria-current="page"]{background:#E5F0EA!important;color:#244C43!important}
-.esc-drawer-divider{background:#DDDCD1!important}
-.esc-drawer .esc-drawer-link:focus-visible,.esc-menu-trigger:focus-visible{outline-color:#244C43!important}
+#home .escape-header .logo{color:var(--primario-txt)!important}
+.screen > header > .esc-menu-trigger{background:var(--tinte)!important;color:var(--primario-txt)!important}
+.screen > header > .esc-menu-trigger svg{stroke:var(--primario-txt)!important}
+.esc-drawer{background:var(--tarjeta)!important;border-right:1px solid var(--borde)!important;box-shadow:4px 0 12px rgb(var(--sombra-rgb) / 0.09)!important}
+.esc-drawer-top{background:var(--tinte)!important;color:var(--primario-txt)!important}
+.esc-drawer .esc-drawer-link{background:var(--tarjeta)!important;color:var(--primario-txt)!important}
+.esc-drawer .esc-drawer-link svg{stroke:var(--primario-txt)!important}
+.esc-drawer .esc-drawer-link[aria-current="page"]{background:var(--tinte)!important;color:var(--primario-txt)!important}
+.esc-drawer-divider{background:var(--borde)!important}
+.esc-drawer .esc-drawer-link:focus-visible,.esc-menu-trigger:focus-visible{outline-color:var(--foco)!important}
 /* V39: shared Planazo wordmark system, adapted to Escapada */
-#home .escape-header .brand .logo{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif!important;font-size:clamp(26px,7vw,33px)!important;font-weight:850!important;letter-spacing:-1.8px!important;line-height:1!important;color:#244C43!important}
-#home .escape-header .brand .logo span{color:#C47D60!important}
+#home .escape-header .brand .logo{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif!important;font-size:clamp(26px,7vw,33px)!important;font-weight:850!important;letter-spacing:-1.8px!important;line-height:1!important;color:var(--primario-txt)!important}
+#home .escape-header .brand .logo span{color:var(--punto-logo)!important}
 /* V41: Escapada navigation is drawer-only; remove fixed bottom bar */
 #nav,.nav,.nav.hide{display:none!important;visibility:hidden!important;pointer-events:none!important}
 .app{padding-bottom:env(safe-area-inset-bottom,0px)!important}
 .screen{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))!important}
 /* V45 unified Escapada messages */
-.toast{bottom:calc(24px + env(safe-area-inset-bottom,0px))!important;background:#244C43!important;color:#F7F3EA!important;border:1px solid #A8C9B8!important;box-shadow:0 6px 22px #244C4330!important;border-radius:13px!important;padding:12px 17px!important;font-size:14px!important;max-width:min(90vw,420px)!important;text-align:center!important;z-index:2200!important}
-.esc-confirm-shade{position:fixed;inset:0;z-index:3100;background:rgba(20,38,34,.54);display:flex;align-items:center;justify-content:center;padding:20px}
+.toast{bottom:calc(24px + env(safe-area-inset-bottom,0px))!important;background:var(--primario)!important;color:var(--sobre-primario)!important;border:1px solid var(--borde)!important;box-shadow:0 6px 22px rgb(var(--sombra-rgb) / 0.19)!important;border-radius:13px!important;padding:12px 17px!important;font-size:14px!important;max-width:min(90vw,420px)!important;text-align:center!important;z-index:2200!important}
+.esc-confirm-shade{position:fixed;inset:0;z-index:3100;background:rgb(var(--velo-rgb) / .54);display:flex;align-items:center;justify-content:center;padding:20px}
 .esc-confirm-shade[hidden]{display:none!important}
-.esc-confirm-panel{width:min(100%,380px);background:#F7F3EA;border:1px solid #DDDCD1;border-radius:20px;padding:25px 22px 20px;box-shadow:0 18px 48px #152e293d;color:#244C43}
-.esc-confirm-panel h2{font:700 24px/1.2 Georgia,serif;margin:0 0 12px;color:#244C43}
-.esc-confirm-panel p{font:15px/1.5 system-ui,sans-serif;margin:0 0 22px;color:#455D51}
+.esc-confirm-panel{width:min(100%,380px);background:var(--tarjeta);border:1px solid var(--borde);border-radius:20px;padding:25px 22px 20px;box-shadow:0 18px 48px rgb(var(--sombra-rgb) / 0.24);color:var(--texto)}
+.esc-confirm-panel h2{font:700 24px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;margin:0 0 12px;color:var(--primario-txt)}
+.esc-confirm-panel p{font:15px/1.5 system-ui,sans-serif;margin:0 0 22px;color:var(--texto-sec)}
 .esc-confirm-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
-.esc-confirm-actions button{border:1px solid #BDD4C6;border-radius:11px;padding:11px 14px;font:600 13px system-ui,sans-serif;cursor:pointer;background:#E5F0EA;color:#244C43}
-.esc-confirm-actions .esc-confirm-danger{background:#244C43;border-color:#244C43;color:#fff}
-.esc-confirm-actions button:focus-visible{outline:3px solid #B4DCCB;outline-offset:2px}
+.esc-confirm-actions button{border:1px solid var(--borde);border-radius:11px;padding:11px 14px;font:600 13px system-ui,sans-serif;cursor:pointer;background:var(--tinte);color:var(--primario-txt)}
+.esc-confirm-actions .esc-confirm-danger{background:var(--primario);border-color:var(--primario);color:var(--sobre-primario)}
+.esc-confirm-actions button:focus-visible{outline:3px solid var(--primario-txt);outline-offset:2px}
 /* V49: row-based invitations, no large cards */
 .esc-inv-content{padding:24px 20px 36px}
-.esc-inv-content>h2{color:#244C43}
-.esc-inv-section{padding:23px 0;border-bottom:1px solid #D9DDD4}
-.esc-inv-section h3{font:700 21px Georgia,serif;color:#244C43;margin:0 0 9px}
+.esc-inv-content>h2{color:var(--primario-txt)}
+.esc-inv-section{padding:23px 0;border-bottom:1px solid var(--borde)}
+.esc-inv-section h3{font:700 21px system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--primario-txt);margin:0 0 9px}
 .esc-inv-section .sub{line-height:1.55;margin:0 0 14px}
-.esc-inv-section label{display:block;color:#244C43;font-weight:650;margin-top:16px}
-.esc-inv-section input{width:100%;box-sizing:border-box;background:transparent;border:0;border-bottom:1px solid #A7B8AD;border-radius:0;padding:13px 2px;color:#244C43;font:inherit}
-.esc-inv-section input:focus-visible{outline:2px solid #91C7BA;outline-offset:2px}
-.esc-inv-submit{margin-top:18px;background:#244C43;color:white;border:0;border-radius:11px;padding:13px 18px;font-weight:700;cursor:pointer}
-.esc-inv-submit:focus-visible{outline:3px solid #91C7BA;outline-offset:2px}
+.esc-inv-section label{display:block;color:var(--primario-txt);font-weight:650;margin-top:16px}
+.esc-inv-section input{width:100%;box-sizing:border-box;background:transparent;border:0;border-bottom:1px solid var(--texto-sec);border-radius:0;padding:13px 2px;color:var(--primario-txt);font:inherit}
+.esc-inv-section input:focus-visible{outline:2px solid var(--foco);outline-offset:2px}
+.esc-inv-submit{margin-top:18px;background:var(--primario);color:var(--sobre-primario);border:0;border-radius:11px;padding:13px 18px;font-weight:700;cursor:pointer}
+.esc-inv-submit:focus-visible{outline:3px solid var(--foco);outline-offset:2px}
+
+/* Apariencia (Automático / Claro / Oscuro): clave propia escapada_theme */
+.esc-appearance-list{display:grid;gap:8px;margin:0 0 18px}
+.esc-appearance-opt{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;border:1px solid var(--borde);border-radius:12px;background:var(--tarjeta);color:var(--texto);padding:13px 14px;font:600 15px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer}
+.esc-appearance-opt[aria-checked=true]{background:var(--tinte);border:2px solid var(--primario-txt);color:var(--primario-txt)}
+.esc-appearance-opt[aria-checked=true]::after{content:"✓";font-weight:800}
+.esc-appearance-opt:focus-visible{outline:3px solid var(--foco);outline-offset:2px}
 </style></head><body><div class="app">
-<section id="home" class="screen active"><header class="escape-header"><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="brand"><div class="logo">Escapada<span>.</span></div></div><button type="button" class="avatar" onclick="window.openPlanazoProfile?.()" aria-label="Abrir perfil Planazo ID">P</button></header><div class="escape-hero"><div class="escape-hero-content"><div class="escape-kicker"><span class="escape-kicker-line"></span> TU PRÓXIMA AVENTURA</div><h1>Hay viajes que<br>empiezan con<br><em>un «¿y si…?»</em></h1><p>De esa idea en el grupo al viaje que van a recordar.</p></div><div class="escape-hero-bottom"><span>EXPLORÁ · PLANEÁ · VIAJÁ</span><span>01 / 03</span></div></div><div class="escape-home-content"><div class="escape-section-top"><div><div class="escape-eyebrow">EL VIAJE EMPIEZA ACÁ</div><h2>Todo listo para<br><em>salir de la rutina.</em></h2></div><span class="escape-compass" aria-hidden="true">✳</span></div><div class="escape-menu" aria-label="Opciones de Escapada">
+<section id="home" class="screen active"><header class="escape-header"><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="brand"><div class="logo">Escapada<span>.</span></div></div><button type="button" class="avatar" onclick="window.openPlanazoProfile?.()" aria-label="Abrir perfil Pintó ID">P</button></header><div class="escape-hero"><div class="escape-hero-content"><div class="escape-kicker"><span class="escape-kicker-line"></span> TU PRÓXIMA AVENTURA</div><h1>Hay viajes que<br>empiezan con<br><em>un «¿y si…?»</em></h1><p>De esa idea en el grupo al viaje que van a recordar.</p></div><div class="escape-hero-bottom"><span>EXPLORÁ · PLANEÁ · VIAJÁ</span><span>01 / 03</span></div></div><div class="escape-home-content"><div class="escape-section-top"><div><div class="escape-eyebrow">EL VIAJE EMPIEZA ACÁ</div><h2>Todo listo para<br><em>salir de la rutina.</em></h2></div><span class="escape-compass" aria-hidden="true">✳</span></div><div class="escape-menu" aria-label="Opciones de Escapada">
  <button class="escape-feature" onclick="startJuntada('trip')"><span class="escape-feature-icon" data-icon="calendar-plus"></span><span class="escape-feature-copy"><strong>Organizar un viaje</strong><small>Destino, fechas, invitados y votaciones.</small></span><span class="escape-feature-arrow">›</span></button>
  <button class="escape-feature" onclick="showMyEvents()"><span class="escape-feature-icon" data-icon="calendar"></span><span class="escape-feature-copy"><strong>Mis viajes</strong><small>Tus próximos viajes y planes guardados.</small></span><span class="escape-feature-arrow">›</span></button>
- <button class="escape-feature" onclick="toast('Las invitaciones se habilitarán al conectar los viajes con Planazo ID')"><span class="escape-feature-icon" data-icon="user"></span><span class="escape-feature-copy"><strong>Invitaciones</strong><small>Solicitudes y viajes a los que te invitaron · Próximamente.</small></span><span class="escape-feature-arrow">›</span></button>
- <button class="escape-feature" onclick="toast('Los gastos compartidos se integrarán con la app Gastos')"><span class="escape-feature-icon" data-icon="sliders"></span><span class="escape-feature-copy"><strong>Gastos compartidos</strong><small>Balance y gastos de cada viaje · Próximamente.</small></span><span class="escape-feature-arrow">›</span></button>
+ <button class="escape-feature" onclick="escapadaMenuAction('invitations')"><span class="escape-feature-icon" data-icon="user"></span><span class="escape-feature-copy"><strong>Invitaciones</strong><small>Unite a un viaje con un código y mirá tus solicitudes.</small></span><span class="escape-feature-arrow">›</span></button>
  </div><div class="escape-bottom-note"><span class="escape-note-dot"></span> Un viaje inolvidable se organiza entre todos.</div></div></section>
 <section id="create" class="screen"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="headleft"><button class="back" onclick="go('home')">‹</button><span class="screen-title" id="createScreenTitle">Crear viaje</span></div></header><div class="create-cover cover"><button class="camera" type="button" onclick="toast('En la próxima versión vas a poder elegir una foto de portada')" aria-label="Cambiar foto"><span data-icon="camera"></span></button></div><div class="pad"><div id="tripFields" class="hide" ><strong>Tu viaje, a tu manera</strong><p class="sub">Completá lo básico ahora. El resto, después.</p><label>Tipo de viaje</label><select id="tripKind"><option value="escape">Escapada</option><option value="vacation">Vacaciones</option></select><label>Destino (opcional)</label><input id="tripDestination" placeholder="Ej. Mendoza"><label>Presupuesto por persona (opcional)</label><input id="tripBudget" placeholder="Ej. ARS 200.000"></div><label for="eventName" id="eventNameLabel">Nombre del viaje</label><input id="eventName" placeholder="Ej. Escapada a Mendoza" value="" maxlength="60"><label for="eventDesc">Descripción (opcional)</label><textarea id="eventDesc"></textarea><div class="details-group"><div class="date-section"><label>¿Cuándo viajamos?</label><div class="date-choices" role="radiogroup" aria-label="Cómo definir la fecha"><label class="date-choice"><input type="radio" name="dateMode" value="fixed" onchange="setDateMode(this.value)"><span>Fecha fija</span></label><label class="date-choice"><input type="radio" name="dateMode" value="vote" onchange="setDateMode(this.value)"><span>Votamos</span></label><label class="date-choice"><input type="radio" name="dateMode" value="pending" onchange="setDateMode(this.value)"><span>Después</span></label></div><div id="fixedFields" class="date-fields hide"><label for="eventDate">Fecha de salida</label><input id="eventDate" type="date"><label for="tripEnd">Fecha de regreso (opcional)</label><input id="tripEnd" type="date"></div><div id="voteFields" class="date-fields hide"><div class="date-help"><span data-icon="calendar"></span><strong>Definamos la fecha entre todos</strong></div><p class="field-hint">Elegí al menos dos fechas candidatas para que tus invitados voten.</p><div class="vote-inputs"><input type="date" class="candidate" aria-label="Primera fecha candidata"><input type="date" class="candidate" aria-label="Segunda fecha candidata"></div><button type="button" class="add-date" onclick="addCandidate()"><span data-icon="calendar-plus"></span> Agregar otra fecha</button><p class="field-hint">Cada persona podrá elegir «Puedo», «Me acomodo» o «No puedo».</p></div><div id="pendingFields" class="date-fields hide"><div class="date-help"><span data-icon="clock"></span><span>La fecha quedará pendiente.</span></div></div></div><div class="optional-details"><button type="button" class="more-trigger" id="moreTrigger" aria-expanded="false" onclick="toggleMore()"><span class="more-icon" data-icon="sliders"></span><span class="more-copy"><strong>Agregar más detalles</strong><small id="moreSummary">Horario, punto de encuentro y gastos · Opcional</small></span><span class="more-chevron" id="moreChevron" data-icon="chevron-down"></span></button><div class="more-body hide" id="moreBody"><div class="more-field"><label for="eventTime">Hora</label><input id="eventTime" type="time" onchange="updateMoreSummary()"></div><div class="more-field"><label for="eventPlace">Lugar</label><input id="eventPlace" placeholder="Ej. En casa, restaurante..." oninput="updateMoreSummary()"></div><div class="more-field"><label for="expenseSelect">Gastos</label><select id="expenseSelect" onchange="chooseExpense(this.value)"><option value="" selected>Seleccionar una opción</option><option value="host">Yo invito</option><option value="split">Dividimos entre todos</option><option value="each">Cada uno paga lo suyo</option><option value="later">Lo vemos después</option></select></div></div></div><button class="btn" onclick="create()">Crear viaje <span>→</span></button></div></section>
-<section id="ready" class="screen"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="headleft"><button class="back" onclick="go('create')">‹</button><span class="brand"><span class="brand-mark" aria-hidden="true">E<span class="brand-trail"></span></span><span class="logo">Escapada<span>.</span></span></span></div></header><div class="pad" style="text-align:center"><div style="padding:30px 0 5px;color:var(--navy)"><span data-icon="check-circle" style="display:inline-block;transform:scale(2);margin:15px"></span></div><h1>¡Tu viaje está listo para planear!</h1><div class="soft ready-card"><div class="ready-photo"></div><h2 class="js-name" style="font-size:26px"></h2><div class="detail"><span data-icon="calendar"></span><b class="js-date"></b></div><div class="detail"><span data-icon="pin"></span><b class="js-place"></b></div><div class="detail"></div><div class="detail js-vote-detail hide"><span data-icon="calendar"></span><b>Votación de fechas pendiente</b></div></div><button class="btn green" onclick="go('share')"><span data-icon="message"></span> Compartir por WhatsApp</button><button class="btn secondary" onclick="copyInvite()"><span data-icon="link"></span> Copiar invitación de prueba</button><button class="btn outline" onclick="go('invite')">Ver cómo la reciben tus invitados</button><div class="note">Demo local: todavía no existe un enlace público para tus invitados.</div></div></section>
-<section id="share" class="screen"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="headleft"><button class="back" onclick="go('ready')">‹</button><span class="screen-title">Vista previa de invitación</span></div></header><div class="pad"><h1>¡Que empiece el viaje!</h1><p class="sub">Así se vería tu invitación al compartirla por WhatsApp.</p><div class="share-preview"><b>Mensaje para el grupo</b><p>¡Se viene una escapada! Estamos organizando <strong class="js-name"></strong>. ¿Se suman? Solicitá unirte al grupo; el organizador aprobará el ingreso.</p><div class="card"><div class="cover" style="height:105px;margin:0 0 12px;background-image:linear-gradient(0deg,#183C3440,#183C3400),url(https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=80)"></div><b>Escapada. · <span class="js-name"></span></b><div class="detail"><span data-icon="calendar"></span><span class="js-date"></span></div><div class="detail"><span data-icon="pin"></span><span class="js-place"></span></div><div class="detail"></div><span class="pill">Ingreso sujeto a aprobación</span></div></div><button class="btn" onclick="go('invite')">Abrir invitación como invitado</button><button class="btn secondary" onclick="copyInvite()">Copiar texto de invitación</button><p class="note">No enviamos nada a WhatsApp porque esta versión todavía no está publicada.</p></div></section>
+<section id="ready" class="screen"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="headleft"><button class="back" onclick="go('create')">‹</button><span class="brand"><span class="brand-mark" aria-hidden="true">E<span class="brand-trail"></span></span><span class="logo">Escapada<span>.</span></span></span></div></header><div class="pad" style="text-align:center"><div style="padding:30px 0 5px;color:var(--primario-txt)"><span data-icon="check-circle" style="display:inline-block;transform:scale(2);margin:15px"></span></div><h1>¡Tu viaje está listo para planear!</h1><div class="soft ready-card"><div class="ready-photo"></div><h2 class="js-name" style="font-size:26px"></h2><div class="detail"><span data-icon="calendar"></span><b class="js-date"></b></div><div class="detail"><span data-icon="pin"></span><b class="js-place"></b></div><div class="detail"></div><div class="detail js-vote-detail hide"><span data-icon="calendar"></span><b>Votación de fechas pendiente</b></div></div><button class="btn green" onclick="go('share')"><span data-icon="message"></span> Compartir por WhatsApp</button><button class="btn secondary" onclick="copyInvite()"><span data-icon="link"></span> Copiar invitación de prueba</button><button class="btn outline" onclick="go('invite')">Ver cómo la reciben tus invitados</button><div class="note">Demo local: todavía no existe un enlace público para tus invitados.</div></div></section>
+<section id="share" class="screen"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="headleft"><button class="back" onclick="go('ready')">‹</button><span class="screen-title">Vista previa de invitación</span></div></header><div class="pad"><h1>¡Que empiece el viaje!</h1><p class="sub">Así se vería tu invitación al compartirla por WhatsApp.</p><div class="share-preview"><b>Mensaje para el grupo</b><p>¡Se viene una escapada! Estamos organizando <strong class="js-name"></strong>. ¿Se suman? Solicitá unirte al grupo; el organizador aprobará el ingreso.</p><div class="card"><div class="cover" style="height:105px;margin:0 0 12px;background-image:linear-gradient(0deg,rgb(var(--velo-rgb) / .25),rgb(var(--velo-rgb) / 0)),url(https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=80)"></div><b>Escapada. · <span class="js-name"></span></b><div class="detail"><span data-icon="calendar"></span><span class="js-date"></span></div><div class="detail"><span data-icon="pin"></span><span class="js-place"></span></div><div class="detail"></div><span class="pill">Ingreso sujeto a aprobación</span></div></div><button class="btn" onclick="go('invite')">Abrir invitación como invitado</button><button class="btn secondary" onclick="copyInvite()">Copiar texto de invitación</button><p class="note">No enviamos nada a WhatsApp porque esta versión todavía no está publicada.</p></div></section>
 <section id="invite" class="screen"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="headleft"><button class="back" onclick="go('share')">‹</button><span class="brand"><span class="brand-mark" aria-hidden="true">E<span class="brand-trail"></span></span><span class="logo">Escapada<span>.</span></span></span><span data-icon="share"></span></div></header><div class="banner"></div><div class="pad"><h1 class="js-name"></h1><div class="detail"><span data-icon="calendar"></span><b class="js-date"></b></div><div class="detail"><span data-icon="pin"></span><b class="js-place"></b></div><div class="detail"></div><div class="card js-description"></div><div id="inviteVoting" class="card hide"><h2>¿Qué días podés?</h2><p class="sub">Elegí tu disponibilidad para cada fecha.</p><div id="voteOptions"></div><button class="btn" onclick="saveVote()">Guardar disponibilidad (demo)</button><p class="field-hint" id="voteStatus">Las respuestas quedan solo en este celular.</p></div><div class="card hide" id="guestPlaces"><h2 style="margin-top:0">¿Qué destino preferís?</h2><p class="sub">Podés votar más de una opción. Escribí tu nombre para guardar la selección.</p><div id="guestPlaceOptions"></div><button class="btn secondary" onclick="savePlaceVotes()">Guardar votos de lugares</button><p class="field-hint" id="placeVoteStatus">Los votos se guardan solo en esta demo.</p></div><h2>¿Vas a venir?</h2><label for="guestName">Tu nombre</label><input id="guestName" oninput="renderGuestPlaces()" placeholder="Ej. Sofi" maxlength="35" autocomplete="off"><div class="rsvp"><button onclick="rsvp('Voy',this)">Voy</button><button onclick="rsvp('Tal vez',this)">Tal vez</button><button onclick="rsvp('No puedo',this)">No puedo</button></div><div class="status" style="margin-top:14px" id="rsvpStatus">Elegí tu respuesta para probar la confirmación.</div><h2>Confirmaciones</h2><div id="guestPreview" class="card"><p class="sub">Todavía no hay respuestas de participantes en esta demostración.</p></div><button class="btn secondary" onclick="go('event')">Ver detalle del evento</button></div></section>
 <section id="event" class="screen"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="headleft"><button class="back" onclick="go('invite')">‹</button><span class="brand"><span class="brand-mark" aria-hidden="true">E<span class="brand-trail"></span></span><span class="logo">Escapada<span>.</span></span></span></div></header><div class="banner"></div><div class="pad"><h1 class="js-name"></h1><div class="trip-journal"><div id="tripSummary" class="trip-summary hide"></div><div id="tripPlanner" class="trip-planner hide"><div class="journal-eyebrow">TU BITÁCORA DE VIAJE</div><h2>El plan, paso a paso.</h2><p class="sub">Todo gran viaje empieza con una idea. Vamos haciéndola realidad.</p><div class="progress-head"><strong id="tripProgress">0 de 6 pendientes resueltos</strong><span id="tripProgressPercent">0%</span></div><div class="progress-track" role="progressbar" aria-label="Progreso de organización" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="tripProgressBar"><div id="tripProgressFill"></div></div><div id="tripTaskList" class="trip-task-list"></div><div class="task-add"><input id="tripNewTask" maxlength="90" placeholder="Sumar un pendiente..." aria-label="Nuevo pendiente"><button type="button" onclick="addTripTask()" aria-label="Agregar pendiente">+</button></div><p class="journal-note">Tu bitácora se guarda en este dispositivo.</p></div></div><div class="seg"><button class="on" onclick="tab('antes',this)">Antes</button><button onclick="tab('durante',this)">Durante</button><button onclick="tab('despues',this)">Después</button></div><div id="antes" class="tab"><h2>¿Qué falta?</h2><div class="card"><div class="check"><span data-icon="check-circle"></span> Evento creado</div><div class="check" id="dateChecklist"><span data-icon="clock"></span> Fecha pendiente</div><div class="check" id="placeChecklist"><span data-icon="clock"></span> Lugar pendiente</div><div class="check" id="rsvpChecklist"><span data-icon="clock"></span> Esperando confirmaciones</div></div><div class="card"><div class="row"><span class="ico" data-icon="users"></span><div class="copy"><b>Respuestas de invitados</b><div class="tiny" id="guestSummary">Todavía no hay respuestas</div></div></div><div id="guestList" style="margin-top:12px"></div><button class="btn secondary" onclick="go('invite')">Simular respuesta de un invitado</button></div><div class="card" id="organizerDates"><h2 style="margin-top:0">Definir la fecha</h2><p class="sub" id="dateOrganizerHint">Podés confirmarla cuando estén de acuerdo.</p><div id="dateResults"></div><div id="dateConfirmControl"></div></div><div class="card" id="placesCard"><div class="row"><span class="ico" data-icon="pin"></span><div class="copy"><h2 style="margin:0">¿Dónde nos juntamos?</h2><p class="sub" style="margin:2px 0 0">Proponé lugares y decidamos entre todos.</p></div></div><div id="placeConfirmedBanner" class="place-confirmed hide"></div><div id="placeProposals" class="place-list"></div><div class="place-add"><label for="placeName">Agregar una opción</label><input id="placeName" placeholder="Ej. Parrilla del barrio" maxlength="70"><label for="placeInfo">Dirección o enlace (opcional)</label><input id="placeInfo" placeholder="Ej. Av. Rivadavia 9000" maxlength="160"><button class="btn secondary" type="button" onclick="addPlace()"><span data-icon="calendar-plus"></span> Agregar lugar</button></div><button class="btn outline" type="button" onclick="go('invite');document.getElementById('guestPlaces').scrollIntoView({behavior:'smooth',block:'center'})">Ver votación como invitado</button><p class="field-hint">Demo local: los votos no se comparten entre dispositivos.</p></div><div class="card"><h2 style="margin-top:0">Completar detalles</h2><label for="organizerTime">Hora (opcional)</label><input id="organizerTime" type="time"><label for="organizerPlace">Lugar (opcional)</label><input id="organizerPlace" placeholder="Ej. En casa"><button class="btn secondary" onclick="saveOrganizerDetails()">Guardar detalles</button></div><button class="btn" onclick="go('share')">Compartir invitación</button></div><div id="durante" class="tab hide"><h2>Que esté buena</h2><div class="card">Ideas, actividades y detalles del encuentro aparecerán acá.</div></div><div id="despues" class="tab hide"><h2>Que cierre todo</h2><div class="card" id="afterCopy">Como vos invitás, no mostramos división de gastos. Este espacio será para fotos, recuerdos y mensajes.</div></div></div></section>
-<section class="screen" id="myEvents"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><button class="back" onclick="go('home')">‹</button><span class="logo">Mis escapadas<span>.</span></span><span></span></header><div style="padding:24px 20px"><h2>Tus escapadas</h2><p class="sub">Tus viajes se guardan en este navegador y, al iniciar sesión, se intenta sincronizar su información básica con Planazo ID.</p><div id="myEventsList"></div><button style="margin-top:20px;padding:14px 18px;background:#244C43;color:white;border:0;border-radius:14px;font-weight:700" onclick="startJuntada('trip')">+ Crear escapada</button></div></section><section class="screen" id="invitations"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><button class="back" onclick="showMyEvents()">‹</button><span class="logo">Invitaciones<span>.</span></span><span></span></header><div class="esc-inv-content">
+<section class="screen" id="myEvents"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><button class="back" onclick="go('home')">‹</button><span class="logo">Mis escapadas<span>.</span></span><span></span></header><div style="padding:24px 20px"><h2>Tus escapadas</h2><p class="sub">Tus viajes se guardan en este navegador y, al iniciar sesión, se intenta sincronizar su información básica con Pintó ID.</p><div id="myEventsList"></div><button style="margin-top:20px;padding:14px 18px;background:var(--primario);color:var(--sobre-primario);border:0;border-radius:14px;font-weight:700" onclick="startJuntada('trip')">+ Crear escapada</button></div></section><section class="screen" id="invitations"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><button class="back" onclick="showMyEvents()">‹</button><span class="logo">Invitaciones<span>.</span></span><span></span></header><div class="esc-inv-content">
  <h2>Invitaciones</h2><p class="sub">Administrá tus invitaciones y solicitudes para participar en escapadas.</p>
  <section class="esc-inv-section" aria-labelledby="esc-inv-received-title"><h3 id="esc-inv-received-title">Invitaciones recibidas</h3><p class="sub">Las solicitudes que podés revisar aparecerán acá.</p></section>
  <section class="esc-inv-section" aria-labelledby="esc-inv-sent-title"><h3 id="esc-inv-sent-title">Solicitudes enviadas</h3><p class="sub">Consultá el estado de tus solicitudes.</p></section>
@@ -513,7 +547,7 @@ let currentJuntadaId=null;
 function getJuntadas(){try{return JSON.parse(localStorage.getItem(JSTORE)||'[]')}catch(e){return []}}
 function persistJuntada(){if(!saved.name)return;try{const all=getJuntadas();if(!currentJuntadaId)currentJuntadaId='j'+Date.now().toString(36);const previous=all.find(x=>x.id===currentJuntadaId);const entry={...(previous||{}),id:currentJuntadaId,localAccountUser:previous?.localAccountUser||escapadaCurrentCloudUser||null,updated:Date.now(),saved:{...saved},confirmedDate,confirmedPlace,places:JSON.parse(JSON.stringify(places)),guestResponses:{...guestResponses},guestVotes:{...guestVotes},placeVotes:{...placeVotes}};const idx=all.findIndex(x=>x.id===entry.id);if(idx<0)all.unshift(entry);else all[idx]=entry;localStorage.setItem(JSTORE,JSON.stringify(all))}catch(e){toast('No se pudo guardar en este navegador')}}
 function openJuntada(id){const entry=getJuntadas().find(x=>x.id===id);if(!entry)return;currentJuntadaId=id;saved={...entry.saved};confirmedDate=entry.confirmedDate||'';confirmedPlace=entry.confirmedPlace||'';places=entry.places||[];guestResponses=entry.guestResponses||{};guestVotes=entry.guestVotes||{};placeVotes=entry.placeVotes||{};placeCounter=Math.max(0,...places.map(p=>Number(p.id)||0));go('event')}
-function showMyEvents(){const list=document.getElementById('myEventsList'),all=getJuntadas();list.innerHTML=all.length?all.map(x=>'<button type="button" data-id="'+escapeHTML(x.id)+'" class="escapada-trip-row"><span class="escapada-trip-row-content"><strong>'+escapeHTML(x.saved.name)+'</strong>'+(x.cloudConflict?'<small style="color:#9B513C;font-weight:700">Conflicto de sincronización · cambios locales protegidos</small>':'')+'<small>'+escapeHTML(x.saved.date||'Fecha por definir')+' · '+escapeHTML(x.saved.destination||x.saved.place||'Destino por definir')+'</small></span><span class="escapada-trip-row-arrow" aria-hidden="true">↗</span></button>').join(''):'<p class="sub" style="padding:20px 0;border-top:1px solid #d4ded8;border-bottom:1px solid #d4ded8">Todavía no organizaste tu primer viaje.</p>';list.querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>openJuntada(b.dataset.id));go('myEvents')}
+function showMyEvents(){const list=document.getElementById('myEventsList'),all=getJuntadas();list.innerHTML=all.length?all.map(x=>'<button type="button" data-id="'+escapeHTML(x.id)+'" class="escapada-trip-row"><span class="escapada-trip-row-content"><strong>'+escapeHTML(x.saved.name)+'</strong>'+(x.cloudConflict?'<small style="color:var(--coral-txt);font-weight:700">Conflicto de sincronización · cambios locales protegidos</small>':'')+'<small>'+escapeHTML(x.saved.date||'Fecha por definir')+' · '+escapeHTML(x.saved.destination||x.saved.place||'Destino por definir')+'</small></span><span class="escapada-trip-row-arrow" aria-hidden="true">↗</span></button>').join(''):'<p class="sub" style="padding:20px 0;border-top:1px solid var(--borde);border-bottom:1px solid var(--borde)">Todavía no organizaste tu primer viaje.</p>';list.querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>openJuntada(b.dataset.id));go('myEvents')}
 const originalCreateV9=create;create=function(){const before=saved;originalCreateV9();if(saved!==before&&saved.name){currentJuntadaId=null;persistJuntada()}};
 const originalGoV9=go;go=function(id){originalGoV9(id);document.querySelector('.nav')?.classList.remove('hide')};
 const originalConfirmPlaceV9=confirmPlace;confirmPlace=function(id){originalConfirmPlaceV9(id);persistJuntada()};
@@ -638,9 +672,9 @@ async function escapadaRequestJoin(){
  const submit=field?.closest('.esc-inv-section')?.querySelector('.esc-inv-submit');
  if(!token){feedback.textContent='Ingresá un código de invitación.';return}
  const client=window.escapadaSupabase;
- if(!client){feedback.textContent='Esperá a que se cargue Planazo ID e intentá nuevamente.';return}
+ if(!client){feedback.textContent='Esperá a que se cargue Pintó ID e intentá nuevamente.';return}
  const {data:{user},error:authError}=await client.auth.getUser();
- if(authError||!user){feedback.textContent='Iniciá sesión con Planazo ID para solicitar acceso.';return}
+ if(authError||!user){feedback.textContent='Iniciá sesión con Pintó ID para solicitar acceso.';return}
  feedback.textContent='Enviando solicitud…';
  escapadaRequestJoin.busy=true;if(submit)submit.disabled=true;
  try{
@@ -663,7 +697,7 @@ async function escapadaRefreshInvitations(){
  if(!sentList){sentList=document.createElement('div');sentList.id='esc-inv-sent-list';sent.appendChild(sentList)}
  receivedList.textContent='Consultando solicitudes…';sentList.textContent='Consultando solicitudes…';
  const client=window.escapadaSupabase;
- if(!client){receivedList.textContent='Planazo ID no está disponible.';sentList.textContent='Iniciá sesión para consultar.';return}
+ if(!client){receivedList.textContent='Pintó ID no está disponible.';sentList.textContent='Iniciá sesión para consultar.';return}
  try{
   const {data:{user},error:authError}=await client.auth.getUser();
   if(authError||!user){receivedList.textContent='Iniciá sesión para revisar solicitudes.';sentList.textContent='Iniciá sesión para consultar tus solicitudes.';return}
@@ -683,7 +717,7 @@ async function escapadaRefreshInvitations(){
    if(!items.length){target.textContent=allowReview?'No tenés solicitudes para revisar.':'Todavía no enviaste solicitudes.';return}
    for(const item of items){
     const line=document.createElement('div');
-    line.style.cssText='padding:12px 0;border-top:1px solid #d4ded8';
+    line.style.cssText='padding:12px 0;border-top:1px solid var(--borde)';
     const title=document.createElement('strong');title.textContent=display(item);line.appendChild(title);
     const detail=document.createElement('p');detail.className='sub';
     detail.textContent=(allowReview?'Solicitud de '+item.applicant_id.slice(0,8)+'…':'Estado: ')+(allowReview?' · '+item.status:item.status);
@@ -715,8 +749,8 @@ go=function(id){escapadaInvitationsGo(id);if(id==='invitations'&&document.getEle
 let escMenuPreviousFocus=null;
 const escMenuItems=[
  ['home','Inicio','house'],['trips','Mis escapadas','calendar'],['new','Crear escapada','plus'],['invitations','Invitaciones','mail'],
- ['-'],['itinerary','Itinerario','map'],['votes','Votaciones','check-circle'],['expenses','Gastos','wallet'],
- ['-'],['notifications','Notificaciones','bell'],['profile','Mi perfil','user'],['settings','Configuración','settings'],['help','Ayuda','circle-help']
+ ['-'],['itinerary','Itinerario','map'],['votes','Votaciones','check-circle'],
+ ['-'],['profile','Mi perfil','user'],['appearance','Apariencia','settings']
 ];
 const escMenuPaths={house:'M3 10 12 3l9 7v11h-6v-7H9v7H3z',calendar:'M3 6h18v15H3z M7 3v6 M17 3v6 M3 11h18',plus:'M12 4v16 M4 12h16',mail:'M3 5h18v14H3z M3 6l9 7 9-7',map:'M3 5l6-2 6 2 6-2v16l-6 2-6-2-6 2z M9 3v16 M15 5v16','check-circle':'M4 12l5 5 11-11',wallet:'M3 6h18v14H3z M3 10h18 M16 15h2',bell:'M5 17h14l-2-3V9a5 5 0 0 0-10 0v5z M10 21h4',user:'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M4 21a8 8 0 0 1 16 0',settings:'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z M12 2v3 M12 19v3 M2 12h3 M19 12h3 M5 5l2 2 M17 17l2 2 M19 5l-2 2 M7 17l-2 2','circle-help':'M9 9a3 3 0 1 1 5 2c-2 1-2 2-2 3 M12 18h.01 M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20'};
 let escapadaCreateBaseline=null;
@@ -771,6 +805,24 @@ function escapadaToggleMenu(open){
  drawer.querySelectorAll('[data-menu-action]').forEach(b=>{if(b.dataset.menuAction===escapadaMenuActive())b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
  if(open)drawer.querySelector('.esc-menu-close')?.focus();else escMenuPreviousFocus?.focus?.();
 }
+function escapadaOpenAppearance(){
+ const prev=document.activeElement;let shade=document.getElementById('esc-appearance');
+ const cur=(()=>{try{return localStorage.getItem('escapada_theme')||'auto'}catch(e){return'auto'}})();
+ if(shade)shade.remove();
+ shade=document.createElement('div');shade.id='esc-appearance';shade.className='esc-confirm-shade';
+ shade.innerHTML='<div class="esc-confirm-panel" role="dialog" aria-modal="true" aria-labelledby="esc-appearance-title"><h2 id="esc-appearance-title">Apariencia</h2><p>Elegí cómo se ve Escapada en este dispositivo.</p><div class="esc-appearance-list" role="radiogroup" aria-labelledby="esc-appearance-title"><button type="button" role="radio" class="esc-appearance-opt" data-tema="auto">Automático</button><button type="button" role="radio" class="esc-appearance-opt" data-tema="light">Claro</button><button type="button" role="radio" class="esc-appearance-opt" data-tema="dark">Oscuro</button></div><div class="esc-confirm-actions"><button type="button" data-close="1">Listo</button></div></div>';
+ const opts=[...shade.querySelectorAll('[data-tema]')];
+ const mark=t=>opts.forEach(b=>{b.setAttribute('aria-checked',String(b.dataset.tema===t));b.tabIndex=b.dataset.tema===t?0:-1});
+ mark(cur);
+ const close=()=>{document.removeEventListener('keydown',onKey,true);shade.remove();prev?.focus?.()};
+ const onKey=e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close()}
+  if(e.key==='Tab'){const f=[...shade.querySelectorAll('button')].filter(b=>b.tabIndex>=0||b.dataset.close);const a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){const i=opts.indexOf(document.activeElement);if(i>=0){e.preventDefault();const n=opts[(i+(e.key==='ArrowDown'?1:2))%3];n.focus();n.click()}}};
+ opts.forEach(b=>b.onclick=()=>{const t=b.dataset.tema;try{if(t==='auto')localStorage.removeItem('escapada_theme');else localStorage.setItem('escapada_theme',t)}catch(e){}window.escapadaApplyTheme?.();mark(t)});
+ shade.querySelector('[data-close]').onclick=close;shade.addEventListener('click',e=>{if(e.target===shade)close()});
+ document.addEventListener('keydown',onKey,true);document.querySelector('.app').append(shade);
+ (opts.find(b=>b.getAttribute('aria-checked')==='true')||opts[0]).focus();
+}
 function escapadaMenuAction(action){
  if(!escapadaAllowCreateExit&&!escapadaMenuCanLeave(()=>{
   escapadaAllowCreateExit=true;
@@ -784,17 +836,14 @@ function escapadaMenuAction(action){
   else if(action==='trips')showMyEvents();
   else if(action==='new')startJuntada('trip');
   else if(action==='invitations'){go('invitations');document.getElementById('escapadaJoinCode')?.focus()}
-  else if(action==='itinerary'||action==='votes'||action==='expenses'){
+  else if(action==='itinerary'||action==='votes'){
    if(!currentJuntadaId){toast('Primero elegí una escapada en Mis escapadas.');showMyEvents();return}
-   if(action==='expenses'){toast('El grupo de Gastos estará disponible cuando esté vinculado.');return}
    go('event');
    const target=action==='itinerary'?document.getElementById('tripPlanner'):document.getElementById('voteStatus');
    if(target&&!target.closest('.hide'))target.scrollIntoView({behavior:'smooth',block:'center'});
    else toast(action==='votes'?'Todavía no hay una votación de fechas disponible.':'Esta sección todavía no está disponible.');
   }else if(action==='profile')window.openPlanazoProfile?.();
-  else if(action==='notifications')toast('Las notificaciones todavía no están disponibles.');
-  else if(action==='settings')toast('La configuración todavía no está disponible.');
-  else if(action==='help')toast('La ayuda estará disponible próximamente.');
+  else if(action==='appearance')escapadaOpenAppearance();
  }finally{escapadaAllowCreateExit=priorPermission}
 }
 (function escapadaInitMenu(){
@@ -831,7 +880,7 @@ const escapadaCloudErrors=new Map();
 function escapadaCloudStatus(tripId,message){
  if(message)escapadaCloudErrors.set(tripId,message);else if(tripId)escapadaCloudErrors.delete(tripId);
  const el=document.getElementById('escapada-sync-status');
- if(el)el.textContent=escapadaCloudErrors.size?'Sin sincronizar: '+escapadaCloudErrors.size+' viaje(s). Los cambios siguen guardados en este navegador.':'Datos básicos de viajes sincronizables con Planazo ID. Itinerarios, votaciones y respuestas siguen siendo locales.';
+ if(el)el.textContent=escapadaCloudErrors.size?'Sin sincronizar: '+escapadaCloudErrors.size+' viaje(s). Los cambios siguen guardados en este navegador.':'Datos básicos de viajes sincronizables con Pintó ID. Itinerarios, votaciones y respuestas siguen siendo locales.';
 }
 async function escapadaCloudSave(tripLocalId){
  const client=window.escapadaSupabase;
@@ -1029,8 +1078,8 @@ create=function(){
     if(!notice){
      notice=document.createElement('div');
      notice.id='escapada-update-available';notice.setAttribute('role','status');
-     notice.style.cssText='position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:16px;right:16px;max-width:440px;margin:auto;background:#F7F3EA;color:#244C43;border:1px solid #A7B8AD;border-radius:14px;padding:16px;box-shadow:0 8px 30px #244C4330;z-index:3200';
-     notice.innerHTML='<strong>Hay una nueva versión disponible</strong><p style="margin:8px 0 12px;font-size:13px">Terminá de guardar tus cambios antes de actualizar.</p><div style="display:flex;gap:8px"><button type="button" data-action="later" style="border:1px solid #A7B8AD;border-radius:9px;padding:10px 14px;background:transparent;color:#244C43">Ahora no</button><button type="button" data-action="update" style="border:0;border-radius:9px;padding:10px 14px;background:#244C43;color:white;font-weight:650">Actualizar</button></div>';
+     notice.style.cssText='position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:16px;right:16px;max-width:440px;margin:auto;background:var(--tarjeta);color:var(--texto);border:1px solid var(--borde);border-radius:14px;padding:16px;box-shadow:0 8px 30px rgb(var(--sombra-rgb) / .19);z-index:3200';
+     notice.innerHTML='<strong>Hay una nueva versión disponible</strong><p style="margin:8px 0 12px;font-size:13px">Terminá de guardar tus cambios antes de actualizar.</p><div style="display:flex;gap:8px"><button type="button" data-action="later" style="border:1px solid var(--texto-sec);border-radius:9px;padding:10px 14px;background:transparent;color:var(--primario-txt)">Ahora no</button><button type="button" data-action="update" style="border:0;border-radius:9px;padding:10px 14px;background:var(--primario);color:var(--sobre-primario);font-weight:650">Actualizar</button></div>';
      notice.querySelector('[data-action="later"]').onclick=()=>notice.remove();
      document.body.appendChild(notice);
     }
