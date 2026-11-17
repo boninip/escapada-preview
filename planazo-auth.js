@@ -8,37 +8,37 @@ const supabase = createClient(
 window.escapadaSupabase = supabase;
 const style = document.createElement('style');
 style.textContent = `
-#planazo-auth-trigger{position:fixed;right:12px;bottom:95px;z-index:21;border:1px solid #c6dedb;border-radius:30px;padding:10px 15px;background:#fffefa;color:#24518b;font:700 13px system-ui;box-shadow:0 4px 16px #17365920;cursor:pointer}
-#planazo-auth-dialog{position:fixed;inset:0;z-index:30;background:#112b3a99;display:none;align-items:center;justify-content:center;padding:18px}
+#planazo-auth-trigger{position:fixed;right:12px;bottom:95px;z-index:21;border:1px solid var(--borde);border-radius:30px;padding:10px 15px;background:var(--tarjeta);color:var(--primario-txt);font:700 13px system-ui;box-shadow:0 4px 16px rgb(var(--sombra-rgb) / 0.13);cursor:pointer}
+#planazo-auth-dialog{position:fixed;inset:0;z-index:30;background:rgb(var(--velo-rgb) / 0.6);display:none;align-items:center;justify-content:center;padding:18px}
 #planazo-auth-dialog.open{display:flex}
-#planazo-auth-panel{width:min(100%,400px);background:#fffefa;border-radius:18px;padding:23px;box-shadow:0 16px 50px #112b3a40;font:14px system-ui;color:#173659}
+#planazo-auth-panel{width:min(100%,400px);background:var(--tarjeta);border-radius:18px;padding:23px;box-shadow:0 16px 50px rgb(var(--sombra-rgb) / 0.25);font:14px system-ui;color:var(--texto)}
 #planazo-auth-panel h2{margin:0 0 5px}
 #planazo-auth-panel input{width:100%;margin:6px 0 12px}
 #planazo-auth-panel button{cursor:pointer}
 #planazo-auth-panel .auth-actions{display:flex;gap:9px;margin-top:12px}
-#planazo-auth-panel .auth-actions button{flex:1;border:0;border-radius:10px;padding:12px;background:#24518b;color:white;font-weight:700}
-#planazo-auth-panel .auth-actions button.secondary{background:#e5f4f1;color:#24518b}
+#planazo-auth-panel .auth-actions button{flex:1;border:0;border-radius:10px;padding:12px;background:var(--primario);color:var(--sobre-primario);font-weight:700}
+#planazo-auth-panel .auth-actions button.secondary{background:var(--tinte);color:var(--primario-txt)}
 #planazo-auth-message{min-height:20px;font-size:13px;margin-top:10px}
 `;
 style.textContent += `
 #planazo-auth-trigger{display:none!important}
-#planazo-auth-dialog{align-items:stretch;justify-content:center;padding:0;background:#F7F3EA}
-#planazo-auth-panel{width:min(100%,460px);height:100dvh;overflow:auto;box-shadow:none;border-radius:0;background:#F7F3EA;padding:36px 25px 100px;color:#244C43}
-#planazo-auth-panel h2{font-family:Georgia,serif;font-size:34px;color:#244C43}
-#planazo-auth-panel input{border:0;border-bottom:1px solid #A7B8AD;border-radius:0;background:transparent;padding:12px 0;box-shadow:none;outline-offset:3px;color:#244C43}
-#planazo-auth-panel label{color:#244C43}
-#planazo-auth-panel .auth-actions button{background:#244C43}
-#planazo-auth-panel .auth-actions button.secondary{background:transparent;color:#244C43;border:1px solid #A7B8AD}
-#planazo-auth-session{border-top:1px solid #A7B8AD;padding-top:18px}
-#planazo-auth-panel .profile-section{border-top:1px solid #D9DDD4;padding:18px 0}
-#planazo-auth-panel .profile-section h3{font:700 19px Georgia,serif;margin:0 0 12px;color:#244C43}
-#planazo-auth-panel .profile-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #E3E5DC}
-#planazo-auth-panel .profile-row span{color:#64786D;font-size:13px}
+#planazo-auth-dialog{align-items:stretch;justify-content:center;padding:0;background:var(--fondo)}
+#planazo-auth-panel{width:min(100%,460px);height:100dvh;overflow:auto;box-shadow:none;border-radius:0;background:var(--fondo);padding:36px 25px 100px;color:var(--primario-txt)}
+#planazo-auth-panel h2{font-size:34px;color:var(--primario-txt)}
+#planazo-auth-panel input{border:0;border-bottom:1px solid var(--texto-sec);border-radius:0;background:transparent;padding:12px 0;box-shadow:none;outline-offset:3px;color:var(--primario-txt)}
+#planazo-auth-panel label{color:var(--primario-txt)}
+#planazo-auth-panel .auth-actions button{background:var(--primario)}
+#planazo-auth-panel .auth-actions button.secondary{background:transparent;color:var(--primario-txt);border:1px solid var(--texto-sec)}
+#planazo-auth-session{border-top:1px solid var(--texto-sec);padding-top:18px}
+#planazo-auth-panel .profile-section{border-top:1px solid var(--borde);padding:18px 0}
+#planazo-auth-panel .profile-section h3{font:700 19px system-ui,-apple-system,"Segoe UI",sans-serif;margin:0 0 12px;color:var(--primario-txt)}
+#planazo-auth-panel .profile-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--borde)}
+#planazo-auth-panel .profile-row span{color:var(--texto-sec);font-size:13px}
 #planazo-auth-panel .profile-row strong{font-weight:600;overflow-wrap:anywhere;text-align:right}
-#planazo-auth-panel .profile-action{border:1px solid #A7B8AD;border-radius:10px;background:#E5F0EA;color:#244C43;padding:11px 14px;font-weight:650;cursor:pointer}
-#planazo-auth-panel .profile-section select{width:100%;background:transparent;border:0;border-bottom:1px solid #A7B8AD;color:#244C43;padding:12px 0;font:14px system-ui}
-#planazo-auth-panel .profile-note{font-size:12px;color:#64786D;line-height:1.5;margin:10px 0}
-#planazo-auth-panel button:focus-visible,#planazo-auth-panel select:focus-visible{outline:2px solid #244C43;outline-offset:2px}
+#planazo-auth-panel .profile-action{border:1px solid var(--texto-sec);border-radius:10px;background:var(--tinte);color:var(--primario-txt);padding:11px 14px;font-weight:650;cursor:pointer}
+#planazo-auth-panel .profile-section select{width:100%;background:transparent;border:0;border-bottom:1px solid var(--texto-sec);color:var(--primario-txt);padding:12px 0;font:14px system-ui}
+#planazo-auth-panel .profile-note{font-size:12px;color:var(--texto-sec);line-height:1.5;margin:10px 0}
+#planazo-auth-panel button:focus-visible,#planazo-auth-panel select:focus-visible{outline:2px solid var(--foco);outline-offset:2px}
 
 `;
 document.head.append(style);
@@ -51,7 +51,7 @@ dialog.setAttribute('aria-modal','true');
 dialog.setAttribute('aria-label','Planazo ID');
 dialog.innerHTML=`<div id="planazo-auth-panel">
 <div style="display:flex;justify-content:space-between;align-items:center"><h2>Planazo ID</h2><button id="planazo-auth-close" type="button" aria-label="Cerrar" style="border:0;background:none;font-size:25px">×</button></div>
-<p style="color:#64778b">Tu cuenta para Escapada y el ecosistema Planazo.</p>
+<p style="color:var(--texto-sec)">Tu cuenta para Escapada y el ecosistema Planazo.</p>
 <div id="planazo-auth-form"><form id="planazo-login-form">
 <label for="planazo-auth-email">Correo electrónico</label><input id="planazo-auth-email" type="email" autocomplete="username" required>
 <label for="planazo-auth-password">Contraseña</label><input id="planazo-auth-password" type="password" autocomplete="current-password" required>
@@ -66,7 +66,7 @@ dialog.innerHTML=`<div id="planazo-auth-panel">
 </div>`;
 document.body.append(dialog); // El acceso a Planazo ID vive en Perfil, no en una burbuja flotante.
 const $ = id=>document.getElementById(id);
-const message=(value,error=false)=>{const el=$('planazo-auth-message');el.textContent=value;el.style.color=error?'#a33b37':'#24518b'};
+const message=(value,error=false)=>{const el=$('planazo-auth-message');el.textContent=value;el.style.color=error?'var(--error-txt)':'var(--primario-txt)'};
 function render(session){
  const email=session?.user?.email||'';
  const displayName=session?.user?.user_metadata?.full_name||session?.user?.user_metadata?.name||'Sin configurar';
