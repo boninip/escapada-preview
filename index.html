@@ -508,6 +508,87 @@ body.esc-menu-open{overflow:hidden}
 .esc-appearance-opt[aria-checked=true]{background:var(--tinte);border:2px solid var(--primario-txt);color:var(--primario-txt)}
 .esc-appearance-opt[aria-checked=true]::after{content:"✓";font-weight:800}
 .esc-appearance-opt:focus-visible{outline:3px solid var(--foco);outline-offset:2px}
+
+/* pinto-ui.css v1 (copia de tokens/pinto-ui.css) */
+/* pinto-ui.css · v1 · PROPUESTA (sin aprobar) · 23/11/2026
+   Escalas y componentes comunes de las apps de Pinto. Se carga DESPUÉS de pinto-tokens.css (usa sus colores; el modo oscuro sale solo de los tokens).
+   Valores medidos en el index.html publicado de Cuentas (boninip/cuentas, main c3e1ae5, 23/11/2026). No inventa valores: lo que Cuentas no tiene queda fuera.
+   Uso: (a) apps nuevas: clases .pui-*; (b) apps existentes: sus clases propias usan las variables --pui-* (no se renombran identificadores).
+   Reglas: un solo coral focal por pantalla; sin serif, texturas ni degradados decorativos (el velo sobre foto es funcional); objetivos táctiles >= 44 px. */
+:root{
+/* tipografía: pila del sistema, sin descargas */
+--pui-font:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;--pui-ls:-.1px;--pui-lh:1.45;
+--pui-t-kicker:.7rem;--pui-t-xs:.78rem;--pui-t-sm:.85rem;--pui-t-md:.9rem;--pui-t-base:1rem;--pui-t-lg:1.05rem;--pui-t-h2:1.3rem;--pui-t-hero:1.75rem;--pui-t-logo:1.9rem;--pui-t-amount:2.7rem;
+/* espaciado (base 4 px; 10/14/18 son los pasos intermedios que usa Cuentas) */
+--pui-s-1:4px;--pui-s-2:8px;--pui-s-3:12px;--pui-s-4:16px;--pui-s-5:24px;--pui-s-6:32px;--pui-s-m:10px;--pui-s-l:14px;--pui-s-xl:18px;
+/* radios */
+--pui-r-field:0;--pui-r-row:12px;--pui-r-tile:13px;--pui-r-btn:14px;--pui-r-card:16px;--pui-r-cta:16px;--pui-r-sheet:20px;--pui-r-pill:99px;
+/* medidas */
+--pui-tap:44px;--pui-btn-h:52px;--pui-cta-h:54px;--pui-col:460px;--pui-hero-h:250px;--pui-tile:46px;--pui-avatar:44px;
+/* elevación: tarjetas sin sombra; solo botón, flotante y menú */
+--pui-sh-btn:0 4px 12px rgb(var(--sombra-rgb)/.07);--pui-sh-fab:0 8px 22px rgb(0 0 0/.3);--pui-sh-menu:0 0 30px rgb(0 0 0/.33)}
+/* ---------- componentes ---------- */
+.pui-app{margin:0;background:var(--tinte);color:var(--texto);font:var(--pui-t-base)/var(--pui-lh) var(--pui-font);letter-spacing:var(--pui-ls)}
+.pui-col{max-width:var(--pui-col);margin:0 auto;padding:var(--pui-s-4);background:var(--fondo);min-height:100dvh}
+.pui-header{display:flex;justify-content:space-between;align-items:center;gap:var(--pui-s-2);margin:calc(-1*var(--pui-s-4)) calc(-1*var(--pui-s-4)) var(--pui-s-l);padding:var(--pui-s-3) var(--pui-s-4);background:var(--fondo);border-bottom:1px solid var(--borde)}
+.pui-logo{margin:0;font-size:var(--pui-t-logo);font-weight:800;letter-spacing:-1.5px;color:var(--primario-txt)}
+.pui-h2{margin:0 0 var(--pui-s-2);font-size:var(--pui-t-h2);font-weight:600;letter-spacing:-.6px;color:var(--primario-txt)}
+.pui-label{display:block;font-size:var(--pui-t-md);font-weight:650;color:var(--primario-txt)}
+.pui-muted{color:var(--texto-sec);font-size:var(--pui-t-md)}
+.pui-input{display:block;width:100%;box-sizing:border-box;margin:var(--pui-s-1) 0 var(--pui-s-m);padding:13px 2px;font:inherit;color:var(--texto);background:transparent;border:0;border-bottom:1px solid var(--texto-sec);border-radius:var(--pui-r-field)}
+.pui-input::placeholder{color:var(--texto-sec);opacity:.8}
+.pui-input:focus{outline:0;border-bottom-color:var(--foco);box-shadow:0 1px 0 var(--foco)}
+.pui-btn{display:flex;align-items:center;justify-content:center;gap:var(--pui-s-2);width:100%;box-sizing:border-box;min-height:var(--pui-btn-h);margin:var(--pui-s-1) 0 var(--pui-s-m);padding:var(--pui-s-l) var(--pui-s-4);font:inherit;font-weight:700;cursor:pointer;color:var(--sobre-primario);background:var(--primario);border:0;border-radius:var(--pui-r-btn);box-shadow:var(--pui-sh-btn)}
+.pui-btn:disabled{opacity:.5;cursor:default}
+.pui-btn--sec{color:var(--primario-txt);background:transparent;border:1px solid var(--texto-sec);box-shadow:none}
+.pui-btn--warm{color:#fff;background:var(--coral-btn)}
+.pui-btn--cta{min-height:var(--pui-cta-h);border-radius:var(--pui-r-cta);border:2px solid var(--primario-txt)}
+.pui-card{background:var(--tarjeta);border:1px solid var(--borde);border-radius:var(--pui-r-card);padding:var(--pui-s-xl) var(--pui-s-4);margin:var(--pui-s-3) 0;box-shadow:none}
+.pui-tile{display:grid;place-items:center;width:var(--pui-tile);height:var(--pui-tile);min-width:var(--pui-tile);border-radius:var(--pui-r-tile);background:var(--tinte);color:var(--primario-txt);font-weight:850;font-size:1.15rem}
+.pui-tile--round{border-radius:50%}
+.pui-row{display:flex;align-items:center;gap:var(--pui-s-l);width:100%;box-sizing:border-box;margin:0;padding:var(--pui-s-l) 0;text-align:left;font:inherit;color:var(--texto);background:transparent;border:0;border-bottom:1px solid var(--borde);border-radius:0;box-shadow:none}
+.pui-row:last-child{border-bottom:0}
+.pui-chip{display:inline-flex;align-items:center;gap:6px;width:auto;margin:0;padding:var(--pui-s-2) var(--pui-s-3);font:inherit;font-size:var(--pui-t-md);font-weight:600;color:var(--texto);background:transparent;border:1.5px solid var(--borde);border-radius:var(--pui-r-pill)}
+.pui-chip[aria-pressed=true],.pui-chip.on{background:var(--tinte);border-color:var(--primario-txt)}
+.pui-seg{display:flex;gap:6px;margin:0 0 var(--pui-s-m);padding:2px 0}
+.pui-seg>button{flex:1 1 auto;margin:0;padding:9px 6px;font:inherit;font-size:var(--pui-t-md);font-weight:600;white-space:nowrap;color:var(--texto-sec);background:transparent;border:1.5px solid var(--borde);border-radius:var(--pui-r-pill)}
+.pui-seg>button[aria-pressed=true],.pui-seg>button.on{color:var(--sobre-primario);background:var(--primario);border-color:var(--primario)}
+.pui-pill{display:inline-block;padding:6px var(--pui-s-3);font-size:.95rem;font-weight:800;white-space:nowrap;border-radius:var(--pui-r-pill)}
+.pui-pill--ok{color:var(--ok-txt);background:var(--ok-bg)}
+.pui-pill--error{color:var(--error-txt);background:var(--error-bg)}
+.pui-pill--neutro{color:var(--neutro-txt);background:var(--neutro-bg)}
+.pui-tabs{display:flex;gap:var(--pui-s-1);margin:var(--pui-s-m) 0;border-bottom:1px solid var(--borde)}
+.pui-tabs>button{margin:0;padding:var(--pui-s-m) var(--pui-s-1);font:inherit;color:var(--texto-sec);background:transparent;border:0;border-bottom:3px solid transparent;border-radius:0}
+.pui-tabs>button[aria-selected=true]{color:var(--primario-txt);border-bottom-color:var(--primario-txt)}
+.pui-sheet{width:100%;max-width:var(--pui-col);box-sizing:border-box;padding:var(--pui-s-xl) var(--pui-s-4) calc(var(--pui-s-4) + env(safe-area-inset-bottom,0px));max-height:80vh;overflow:auto;background:var(--fondo);border-radius:var(--pui-r-sheet) var(--pui-r-sheet) 0 0}
+.pui-hero{display:flex;flex-direction:column;justify-content:flex-end;min-height:var(--pui-hero-h);margin:calc(-1*var(--pui-s-l)) calc(-1*var(--pui-s-4)) var(--pui-s-4);padding:0 20px var(--pui-s-xl);color:var(--sobre-foto);background:linear-gradient(0deg,rgb(var(--velo-rgb)/.96) 0%,rgb(var(--velo-rgb)/.69) 34%,rgb(var(--velo-rgb)/0) 66%),var(--pui-hero-img,none) center/cover,var(--primario)}
+.pui-kicker{font-size:var(--pui-t-kicker);font-weight:850;letter-spacing:.2em;text-transform:uppercase}
+.pui-kicker::first-letter{color:var(--punto-logo)}
+.pui-hero-title{margin:6px 0 0;font-size:var(--pui-t-hero);font-weight:500;letter-spacing:-1px;line-height:1.1;text-wrap:balance}
+.pui-hero-title em{font-style:italic}
+.pui-app :focus-visible{outline:3px solid var(--foco);outline-offset:2px}
+
+/* V1.0-ui: las clases de Escapada usan las escalas de tokens/pinto-ui.css (sin valores propios). Claro y oscuro por tokens. No se renombran identificadores. */
+html[data-eff] body{font-family:var(--pui-font)!important;letter-spacing:var(--pui-ls)!important}
+html[data-eff] input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=range]):not([type=color]),html[data-eff] textarea,html[data-eff] select{background:transparent!important;border:0!important;border-bottom:1px solid var(--texto-sec)!important;border-radius:var(--pui-r-field)!important;padding:13px 2px!important;box-shadow:none!important;color:var(--texto)!important}
+html[data-eff] input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=range]):not([type=color]):focus,html[data-eff] textarea:focus,html[data-eff] select:focus{border-bottom-color:var(--foco)!important;box-shadow:0 1px 0 var(--foco)!important;outline:0!important}
+html[data-eff] input::placeholder,html[data-eff] textarea::placeholder{color:var(--texto-sec)!important;opacity:.8}
+html[data-eff] h2{font-size:var(--pui-t-h2);font-weight:600;letter-spacing:-.6px;color:var(--primario-txt)}
+html[data-eff] .btn{border-radius:var(--pui-r-btn)!important;min-height:var(--pui-btn-h)!important;font-weight:700!important;box-shadow:var(--pui-sh-btn)!important}
+html[data-eff] .btn.secondary,html[data-eff] .btn.outline{background:transparent!important;color:var(--primario-txt)!important;border:1px solid var(--texto-sec)!important;box-shadow:none!important}
+html[data-eff] .card{border:1px solid var(--borde)!important;border-radius:var(--pui-r-card)!important;box-shadow:none!important;padding:var(--pui-s-xl) var(--pui-s-4)!important}
+html[data-eff] .avatar{width:var(--pui-avatar)!important;height:var(--pui-avatar)!important}
+html[data-eff] .esc-menu-trigger{width:var(--pui-tap)!important;height:var(--pui-tap)!important;flex:0 0 var(--pui-tap)!important;border-radius:var(--pui-r-row)!important}
+html[data-eff] .back{min-width:var(--pui-tap);min-height:var(--pui-tap)}
+html[data-eff] .logo{font-size:var(--pui-t-logo)!important;letter-spacing:-1.5px!important;font-weight:800!important}
+html[data-eff] #home .escape-hero{min-height:var(--pui-hero-h)!important;height:auto!important;max-height:none!important}
+html[data-eff] .escapada-trip-row{min-height:var(--pui-tap);padding:var(--pui-s-l) 0}
+html[data-eff] .escapada-trip-row-content strong{font-size:var(--pui-t-lg)}
+html[data-eff] .esc-drawer{width:min(300px,82vw)!important;box-shadow:var(--pui-sh-menu)!important}
+html[data-eff] .esc-drawer-top{min-height:60px!important;font-size:var(--pui-t-h2)!important;font-weight:850!important;letter-spacing:-.5px}
+html[data-eff] .esc-drawer .esc-drawer-link{min-height:var(--pui-tap)!important;width:calc(100% - 20px)!important;margin:2px 10px!important;padding:12px!important;gap:var(--pui-s-l)!important;font-size:var(--pui-t-base)!important;font-weight:700!important;border-radius:var(--pui-r-row)!important;text-decoration:none}
+html[data-eff] .esc-drawer .esc-drawer-link svg{width:22px!important;height:22px!important}
+html[data-eff] .esc-drawer .esc-drawer-label{margin:10px 22px 2px;font-size:var(--pui-t-xs);font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--texto-sec)}
 </style></head><body><div class="app">
 <section id="home" class="screen active"><header class="escape-header"><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="brand"><div class="logo">Escapada<span>.</span></div></div><div class="esc-head-right"><button type="button" class="avatar esc-theme-toggle" id="escapadaThemeToggle" onclick="escapadaToggleTheme()" aria-label="Cambiar a modo oscuro"></button><button type="button" class="avatar" id="escapadaAvatar" onclick="escapadaMenuAction('account')" aria-label="Abrir Cuenta">P</button></div></header><div class="escape-hero"><div class="escape-hero-content"><div class="escape-kicker"><span class="escape-kicker-line"></span> TU PRÓXIMA AVENTURA</div><h1>Hay viajes que<br>empiezan con<br><em>un «¿y si…?»</em></h1><p>De esa idea en el grupo al viaje que van a recordar.</p></div><div class="escape-hero-bottom"><span>EXPLORÁ · PLANEÁ · VIAJÁ</span><span>01 / 03</span></div></div><div class="escape-home-content"><div class="escape-section-top"><div><div class="escape-eyebrow">EL VIAJE EMPIEZA ACÁ</div><h2>Todo listo para<br><em>salir de la rutina.</em></h2></div><span class="escape-compass" aria-hidden="true">✳</span></div><div class="escape-menu" aria-label="Opciones de Escapada">
  <button class="escape-feature" onclick="startJuntada('trip')"><span class="escape-feature-icon" data-icon="calendar-plus"></span><span class="escape-feature-copy"><strong>Organizar un viaje</strong><small>Destino, fechas, invitados y votaciones.</small></span><span class="escape-feature-arrow">›</span></button>
@@ -763,12 +844,15 @@ const escapadaInvitationsGo=go;
 go=function(id){escapadaInvitationsGo(id);if(id==='invitations'&&document.getElementById('invitations')?.classList.contains('active'))escapadaRefreshInvitations()};
 /* V35: compact, accessible Escapada drawer. */
 let escMenuPreviousFocus=null;
+const ESCAPADA_JUNTADA_URL='https://boninip.github.io/juntada/'; // Dirección de Juntada (documentada, sin verificar).
 const ESCAPADA_CUENTAS_URL='https://boninip.github.io/cuentas/'; // Dirección de Cuentas (documentada, sin verificar): ajustar acá si cambia.
 const escMenuItems=[
- ['home','Inicio','house'],['trips','Mis escapadas','calendar'],['new','Crear escapada','plus'],['invitations','Invitaciones','mail'],['expenses','Gastos','wallet'],
- ['-'],['account','Cuenta','user']
+ ['home','Inicio','house'],['trips','Mis escapadas','calendar'],['new','Crear escapada','plus'],['invitations','Invitaciones','mail'],
+ ['-'],['account','Mi perfil','user'],
+ ['-'],['label','Más de Pintó'],['expenses','Cuentas','wallet'],['juntada','Juntada','people'],
+ ['-'],['logout','Cerrar sesión','logout']
 ];
-const escMenuPaths={house:'M3 10 12 3l9 7v11h-6v-7H9v7H3z',calendar:'M3 6h18v15H3z M7 3v6 M17 3v6 M3 11h18',plus:'M12 4v16 M4 12h16',mail:'M3 5h18v14H3z M3 6l9 7 9-7',map:'M3 5l6-2 6 2 6-2v16l-6 2-6-2-6 2z M9 3v16 M15 5v16','check-circle':'M4 12l5 5 11-11',wallet:'M3 6h18v14H3z M3 10h18 M16 15h2',bell:'M5 17h14l-2-3V9a5 5 0 0 0-10 0v5z M10 21h4',user:'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M4 21a8 8 0 0 1 16 0',settings:'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z M12 2v3 M12 19v3 M2 12h3 M19 12h3 M5 5l2 2 M17 17l2 2 M19 5l-2 2 M7 17l-2 2','circle-help':'M9 9a3 3 0 1 1 5 2c-2 1-2 2-2 3 M12 18h.01 M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20'};
+const escMenuPaths={house:'M3 10 12 3l9 7v11h-6v-7H9v7H3z',calendar:'M3 6h18v15H3z M7 3v6 M17 3v6 M3 11h18',plus:'M12 4v16 M4 12h16',mail:'M3 5h18v14H3z M3 6l9 7 9-7',map:'M3 5l6-2 6 2 6-2v16l-6 2-6-2-6 2z M9 3v16 M15 5v16','check-circle':'M4 12l5 5 11-11',wallet:'M3 6h18v14H3z M3 10h18 M16 15h2',bell:'M5 17h14l-2-3V9a5 5 0 0 0-10 0v5z M10 21h4',people:'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M3 20a6 6 0 0 1 12 0 M17 8a2.5 2.5 0 1 1 0 5 M21 20a5 5 0 0 0-4-4.9',logout:'M9 21H5V3h4 M16 17l5-5-5-5 M21 12H9',user:'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M4 21a8 8 0 0 1 16 0',settings:'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z M12 2v3 M12 19v3 M2 12h3 M19 12h3 M5 5l2 2 M17 17l2 2 M19 5l-2 2 M7 17l-2 2','circle-help':'M9 9a3 3 0 1 1 5 2c-2 1-2 2-2 3 M12 18h.01 M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20'};
 let escapadaCreateBaseline=null;
 function escapadaCreateSnapshot(){
  const form=document.getElementById('create');
@@ -815,7 +899,7 @@ function escapadaMenuActive(){
 }
 function escapadaToggleMenu(open){
  const drawer=document.getElementById('esc-drawer'),shade=document.getElementById('esc-drawer-shade');if(!drawer||!shade)return;
- if(open)escMenuPreviousFocus=document.activeElement;
+ if(open){escMenuPreviousFocus=document.activeElement;(async()=>{try{const r=await window.escapadaSupabase?.auth?.getSession();const b=drawer.querySelector('[data-menu-action="logout"]');if(b)b.hidden=!r?.data?.session}catch(e){}})()}
  drawer.hidden=!open;shade.hidden=!open;document.body.classList.toggle('esc-menu-open',open);
  document.querySelectorAll('.esc-menu-trigger[aria-controls]').forEach(b=>b.setAttribute('aria-expanded',String(open)));
  drawer.querySelectorAll('[data-menu-action]').forEach(b=>{if(b.dataset.menuAction===escapadaMenuActive())b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
@@ -853,6 +937,8 @@ function escapadaMenuAction(action){
   else if(action==='new')startJuntada('trip');
   else if(action==='invitations'){go('invitations');document.getElementById('escapadaJoinCode')?.focus()}
   else if(action==='expenses'){escapadaOpenCuentas()}
+  else if(action==='juntada'){const w=window.open(ESCAPADA_JUNTADA_URL,'_blank','noopener');if(!w)window.location.href=ESCAPADA_JUNTADA_URL}
+  else if(action==='logout'){(async()=>{try{await window.escapadaSupabase?.auth?.signOut();toast('Cerraste sesión.')}catch(e){toast('No pudimos cerrar la sesión. Probá de nuevo.')}})()}
   else if(action==='account')go('account');
   else if(action==='itinerary'||action==='votes'){
    if(!currentJuntadaId){toast('Primero elegí una escapada en Mis escapadas.');showMyEvents();return}
@@ -871,13 +957,15 @@ function escapadaMenuAction(action){
  const top=document.createElement('div');top.className='esc-drawer-top';top.innerHTML='<span>Escapada<b class="esc-dot">.</b></span><button type="button" class="esc-menu-trigger esc-menu-close" aria-label="Cerrar menú">✕</button>';
  top.querySelector('button').onclick=()=>escapadaToggleMenu(false);drawer.append(top);
  escMenuItems.forEach(([id,label,icon])=>{
+  if(id==='label'){const p=document.createElement('p');p.className='esc-drawer-label';p.id='esc-more-label';p.textContent=label;drawer.append(p);return}
   if(id==='-'){const hr=document.createElement('div');hr.className='esc-drawer-divider';drawer.append(hr);return}
-  const btn=document.createElement('button');btn.type='button';btn.className='esc-drawer-link';btn.dataset.menuAction=id;
+  const btn=document.createElement('button');btn.type='button';btn.className='esc-drawer-link';btn.dataset.menuAction=id;if(id==='logout')btn.hidden=true;if(id==='expenses'||id==='juntada')btn.setAttribute('aria-describedby','esc-more-label');
   const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');
   const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',escMenuPaths[icon]);svg.append(path);
   btn.append(svg,document.createTextNode(label));btn.onclick=()=>escapadaMenuAction(id);drawer.append(btn);
  });
  app.append(shade,drawer);
+ document.querySelectorAll('.screen:not(#home) header .brand, .screen:not(#home) header > .logo').forEach(l=>{l.setAttribute('role','link');l.setAttribute('tabindex','0');l.style.cursor='pointer';const g=()=>{escapadaMenuAction('home')};l.addEventListener('click',g);l.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();g()}})});
  document.addEventListener('keydown',e=>{
   if(drawer.hidden)return;
   if(e.key==='Escape'){e.preventDefault();escapadaToggleMenu(false)}
