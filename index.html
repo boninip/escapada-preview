@@ -644,7 +644,7 @@ let currentJuntadaId=null;
 function getJuntadas(){try{return JSON.parse(localStorage.getItem(JSTORE)||'[]')}catch(e){return []}}
 function persistJuntada(){if(!saved.name)return;try{const all=getJuntadas();if(!currentJuntadaId)currentJuntadaId='j'+Date.now().toString(36);const previous=all.find(x=>x.id===currentJuntadaId);const entry={...(previous||{}),id:currentJuntadaId,localAccountUser:previous?.localAccountUser||escapadaCurrentCloudUser||null,updated:Date.now(),saved:{...saved},confirmedDate,confirmedPlace,places:JSON.parse(JSON.stringify(places)),guestResponses:{...guestResponses},guestVotes:{...guestVotes},placeVotes:{...placeVotes}};const idx=all.findIndex(x=>x.id===entry.id);if(idx<0)all.unshift(entry);else all[idx]=entry;localStorage.setItem(JSTORE,JSON.stringify(all))}catch(e){toast('No se pudo guardar en este navegador')}}
 function openJuntada(id){const entry=getJuntadas().find(x=>x.id===id);if(!entry)return;currentJuntadaId=id;saved={...entry.saved};confirmedDate=entry.confirmedDate||'';confirmedPlace=entry.confirmedPlace||'';places=entry.places||[];guestResponses=entry.guestResponses||{};guestVotes=entry.guestVotes||{};placeVotes=entry.placeVotes||{};placeCounter=Math.max(0,...places.map(p=>Number(p.id)||0));go('event')}
-function showMyEvents(){const list=document.getElementById('myEventsList'),all=getJuntadas();list.innerHTML=all.length?all.map(x=>'<button type="button" data-id="'+escapeHTML(x.id)+'" class="escapada-trip-row"><span class="escapada-trip-row-content"><strong>'+escapeHTML(x.saved.name)+'</strong>'+(x.cloudConflict?'<small style="color:var(--coral-txt);font-weight:700">Conflicto de sincronización · cambios locales protegidos</small>':'')+'<small>'+escapeHTML(x.saved.date||'Fecha por definir')+' · '+escapeHTML(x.saved.destination||x.saved.place||'Destino por definir')+'</small></span><span class="escapada-trip-row-arrow" aria-hidden="true">↗</span></button>').join(''):'<p class="sub" style="padding:20px 0;border-top:1px solid var(--borde);border-bottom:1px solid var(--borde)">Todavía no organizaste tu primer viaje.</p>';list.querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>openJuntada(b.dataset.id));go('myEvents')}
+function showMyEvents(){const list=document.getElementById('myEventsList'),all=getJuntadas();list.innerHTML=all.length?all.map(x=>'<button type="button" data-id="'+escapeHTML(x.id)+'" class="escapada-trip-row"><span class="escapada-trip-row-content"><strong>'+escapeHTML(x.saved.name)+'</strong>'+(x.cloudConflict?'<small style="color:var(--coral-txt);font-weight:700">Conflicto de sincronización · cambios locales protegidos</small>':'')+(x.cloudGone?'<small style="color:var(--coral-txt);font-weight:700">'+(x.cloudGone==='self'?'Eliminado de la nube · copia en este dispositivo':'Eliminado por el organizador · copia en este dispositivo')+'</small>':'')+'<small>'+escapeHTML(x.saved.date||'Fecha por definir')+' · '+escapeHTML(x.saved.destination||x.saved.place||'Destino por definir')+'</small></span><span class="escapada-trip-row-arrow" aria-hidden="true">↗</span></button>').join(''):'<p class="sub" style="padding:20px 0;border-top:1px solid var(--borde);border-bottom:1px solid var(--borde)">Todavía no organizaste tu primer viaje.</p>';list.querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>openJuntada(b.dataset.id));go('myEvents')}
 const originalCreateV9=create;create=function(){const before=saved;originalCreateV9();if(saved!==before&&saved.name){currentJuntadaId=null;persistJuntada()}};
 const originalGoV9=go;go=function(id){originalGoV9(id);document.querySelector('.nav')?.classList.remove('hide')};
 const originalConfirmPlaceV9=confirmPlace;confirmPlace=function(id){originalConfirmPlaceV9(id);persistJuntada()};
@@ -996,6 +996,7 @@ async function escapadaCloudSave(tripLocalId){
  const entries=getJuntadas(),entry=entries.find(e=>e.id===tripLocalId);
  if(!entry||!entry.saved||!entry.saved.name)return;
  if(escapadaCurrentCloudUser!==user.id || (entry.localAccountUser&&entry.localAccountUser!==user.id))return;
+ if(entry.cloudGone)return; // el viaje fue eliminado en la nube: la copia local se conserva y no se vuelve a subir
  if(entry.cloudConflict){escapadaCloudStatus(tripLocalId,'Conflicto de sincronización: conservamos tus cambios locales. Revisá el viaje antes de volver a sincronizar.');return}
  if(escapadaCloudInFlight.has(tripLocalId)){escapadaCloudPending.add(tripLocalId);return}
  if(entry.cloudOwner&&entry.cloudOwner!==user.id){escapadaCloudStatus(tripLocalId,'Los cambios de este viaje compartido permanecen en este navegador hasta habilitar la edición colaborativa.');return;}
@@ -1075,6 +1076,15 @@ async function escapadaCloudLoad(){
    local.push({id:'cloud-'+trip.id,cloudId:trip.id,cloudOwner:trip.owner_id,cloudAccessUser:user.id,cloudSnapshot:{name:trip.name,desc:trip.description||'',destination:trip.destination||'',date:trip.starts_on||'',endDate:trip.ends_on||null},updated:Date.now(),saved:{name:trip.name,desc:trip.description||'',destination:trip.destination||'',place:trip.destination||'Lugar a confirmar',dateMode:trip.starts_on?'fixed':'pending',date:trip.starts_on||'',endDate:trip.ends_on||null,type:'trip',candidates:[],time:'',expense:''},confirmedDate:'',confirmedPlace:'',places:[],guestResponses:{},guestVotes:{},placeVotes:{}});
    changed=true;
   }
+  // Q3 (Pau): si un viaje ya no llega desde la nube (lo eliminó el organizador), la copia local se conserva y se marca; nunca se borra sola.
+  {const alive=new Set((data||[]).map(t=>t.id));
+   for(const e of local){
+    if(!e.cloudId||e.cloudAccessUser!==user.id)continue;
+    if(alive.has(e.cloudId)){if(e.cloudGone){delete e.cloudGone;changed=true}continue}
+    if(escapadaCloudInFlight.has(e.id)||escapadaCloudPending.has(e.id)||escapadaCloudTimers.has(e.id))continue;
+    const mark=e.cloudOwner===user.id?'self':'organizer';
+    if(e.cloudGone!==mark){e.cloudGone=mark;changed=true}
+   }}
   if(changed){
    try{localStorage.setItem(JSTORE,JSON.stringify(local))}
    catch(e){console.warn('Escapada: no se pudieron guardar los cambios recibidos',e);toast('No se pudieron guardar los viajes en este dispositivo.')}
