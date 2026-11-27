@@ -1025,9 +1025,13 @@ async function escapadaInvCtx(){
  return {client,trip:entry.cloudId,user:user.id,entry,isOwner:entry.cloudOwner===user.id};
 }
 /* El tema guardado hoy NO se puede leer desde la vista pública: se usa lo guardado en este dispositivo y, si no hay, el automático por nombre. */
-async function escapadaTemaViaje(c){
- let t=c.entry.invite&&Object.prototype.hasOwnProperty.call(c.entry.invite,'theme')?c.entry.invite.theme:undefined;
- if(t===undefined){try{const {data,error}=await c.client.from('escapada_trips').select('id,theme').eq('id',c.trip).single();if(!error&&data&&'theme' in data)t=data.theme}catch(e){}}
+async function escapadaAjustesServidor(c){
+ try{const {data,error}=await c.client.from('escapada_trips').select('id,theme,hide_attendees,reminder_hours').eq('id',c.trip).single();
+  if(!error&&data&&'theme' in data)return {theme:data.theme||null,hide_attendees:!!data.hide_attendees,reminder_hours:data.reminder_hours};}catch(e){}
+ return null;
+}
+async function escapadaTemaViaje(c,sv){
+ let t=sv?sv.theme:(c.entry.invite&&Object.prototype.hasOwnProperty.call(c.entry.invite,'theme')?c.entry.invite.theme:undefined);
  if(!t&&window.PintoTemas)t=PintoTemas.temaAutomatico((c.entry.saved&&c.entry.saved.name)||'');
  return t&&window.PintoTemas&&PintoTemas.TEMAS[t]?t:null;
 }
@@ -1047,7 +1051,8 @@ async function escapadaInvitacionRender(){
   const resp=c.isOwner?'going':(me?me.participation:(c.entry.myResponse||null));
   const going=Number(cnt.going)||0,maybe=Number(cnt.maybe)||0;
   const conteo=going+(going===1?' va':' van')+(maybe?' · '+maybe+(maybe===1?' aún no sabe':' aún no saben'):'');
-  const tema=await escapadaTemaViaje(c);
+  const sv=await escapadaAjustesServidor(c);
+  const tema=await escapadaTemaViaje(c,sv);
   if(tema){
    box.hidden=false;if(mr)mr.hidden=true;
    PintoTemas.render(box,{tema,titulo:(c.entry.saved&&c.entry.saved.name)||'Escapada',kicker:'Escapada',respuesta:PintoTemas.desdeEscapada[resp]||null,
@@ -1070,9 +1075,10 @@ async function escapadaInvitacionRender(){
   if(org){
    aj.hidden=false;
    const sel=document.getElementById('escAjTema');if(!sel.options.length)for(const [v,t] of ESCAPADA_TEMAS){const o=document.createElement('option');o.value=v;o.textContent=t;sel.append(o)}
-   const inv=c.entry.invite||{};
+   const inv=sv||c.entry.invite||{};escapadaInv.sv=!!sv;
    sel.value=inv.theme||'';document.getElementById('escAjOcultar').checked=!!inv.hide_attendees;document.getElementById('escAjHoras').value=String(inv.reminder_hours!=null?inv.reminder_hours:24);
    document.getElementById('escAjOcultar').dataset.t=inv.hide_attendees!==undefined?'1':'';document.getElementById('escAjHoras').dataset.t=inv.reminder_hours!==undefined?'1':'';
+   document.getElementById('escAjNota').textContent=sv?'Los organizadores siempre ven la lista completa.':'Los organizadores siempre ven la lista completa. No pudimos leer los ajustes guardados: solo se cambia lo que toques.';
    document.getElementById('escAjOcultar').onchange=function(){this.dataset.t='1'};document.getElementById('escAjHoras').onchange=function(){this.dataset.t='1'};
    document.getElementById('escAjGuardar').onclick=()=>escapadaGuardarAjustes();
   }
