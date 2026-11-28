@@ -600,7 +600,7 @@ html[data-eff] .esc-drawer .esc-drawer-label{margin:10px 22px 2px;font-size:var(
 .esc-it-day{font:700 13px/1.2 system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:var(--texto-sec);margin:16px 0 8px}
 .esc-it-item{border:1px solid var(--borde);border-radius:14px;padding:12px;margin:0 0 8px;background:var(--tarjeta)}
 .esc-it-item a{color:var(--primario-txt);font-weight:600}
-.esc-it-actions{display:flex;gap:8px;margin-top:8px}.esc-it-actions .btn{width:auto;margin:0;padding:8px 14px}
+.esc-vo-op{display:flex;gap:8px;margin:8px 0;flex-wrap:wrap}.esc-vo-op .btn{margin:0;flex:1 1 140px}.esc-vo .esc-vo-sinelegir{margin-top:8px}.esc-it-actions{display:flex;gap:8px;margin-top:8px}.esc-it-actions .btn{width:auto;margin:0;padding:8px 14px}
 #escapadaBell{position:relative}#escapadaBellN{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:9px;background:var(--primario);color:var(--sobre-primario);font:700 11px/18px system-ui;text-align:center}
 </style><link rel="stylesheet" href="pinto-temas.css"></head><body><div class="app">
 <section id="home" class="screen active"><header class="escape-header"><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="brand"><div class="logo">Escapada<span>.</span></div></div><div class="esc-head-right"><button type="button" class="avatar" id="escapadaBell" hidden aria-label="Avisos" onclick="escapadaMenuAction('alerts')"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 17h14l-2-3V9a5 5 0 0 0-10 0v5z M10 21h4"/></svg><span id="escapadaBellN" hidden></span></button><button type="button" class="avatar esc-theme-toggle" id="escapadaThemeToggle" onclick="escapadaToggleTheme()" aria-label="Cambiar a modo oscuro"></button><button type="button" class="avatar" id="escapadaAvatar" onclick="escapadaMenuAction('account')" aria-label="Abrir Cuenta">P</button></div></header><div class="escape-hero"><div class="escape-hero-content"><div class="escape-kicker"><span class="escape-kicker-line"></span> TU PRÓXIMA AVENTURA</div><h1>Hay viajes que<br>empiezan con<br><em>un «¿y si…?»</em></h1><p>De esa idea en el grupo al viaje que van a recordar.</p></div><div class="escape-hero-bottom"><span>EXPLORÁ · PLANEÁ · VIAJÁ</span><span>01 / 03</span></div></div><div class="escape-home-content"><div class="escape-section-top"><div><div class="escape-eyebrow">EL VIAJE EMPIEZA ACÁ</div><h2>Todo listo para<br><em>salir de la rutina.</em></h2></div><span class="escape-compass" aria-hidden="true">✳</span></div><div class="escape-menu" aria-label="Opciones de Escapada">
@@ -620,7 +620,7 @@ html[data-eff] .esc-drawer .esc-drawer-label{margin:10px 22px 2px;font-size:var(
 <div class="card"><strong>Pintó ID</strong><p class="sub" id="escapadaAccountStatus" style="margin:6px 0 10px">Sin sesión iniciada.</p><button type="button" class="btn" id="escapadaAccountId" style="margin:0" onclick="window.openPlanazoProfile?.()">Ingresar con Pintó ID</button></div>
 <div class="card"><strong>Apariencia</strong><p class="sub" style="margin:6px 0 0">Automático sigue la configuración de tu celular.</p><div class="seg" role="radiogroup" aria-label="Apariencia"><button type="button" role="radio" data-tema="auto">Automático</button><button type="button" role="radio" data-tema="light">Claro</button><button type="button" role="radio" data-tema="dark">Oscuro</button></div></div>
 <div class="card"><strong>Gastos compartidos</strong><p class="sub" style="margin:6px 0 10px">Los gastos de tus viajes se llevan en Cuentas.</p><button type="button" class="btn outline" style="margin:0" onclick="escapadaOpenCuentas()">Abrir Cuentas</button></div>
-</div></section><section class="screen" id="itinerary"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><button class="back" onclick="showMyEvents()">‹</button><span class="logo">Invitaciones<span>.</span></span><span></span></header><div class="pad"><button type="button" class="btn outline" style="width:auto;margin:0 0 12px;padding:8px 14px" onclick="go('event')">‹ Volver al viaje</button><h2>Itinerario</h2><p class="sub" id="escItSub">Qué hacemos y dónde.</p><div id="escapadaMapa" hidden></div><p class="sub" id="escItMapaMsg" hidden></p><div id="escItLista"></div><div id="escItOrg" hidden><button type="button" class="btn" id="escItAgregar" style="margin:12px 0">Agregar actividad</button><div class="card" id="escItForm" hidden><strong id="escItFormT">Nueva actividad</strong><label for="itTitle">Qué se hace</label><input id="itTitle" maxlength="120" autocomplete="off"><label for="itDay">Día (opcional)</label><input id="itDay" type="date"><label for="itTime">Hora (opcional)</label><input id="itTime" type="time"><label for="itPlace">Nombre del lugar (opcional)</label><input id="itPlace" maxlength="120" autocomplete="off"><label for="itWhere">Pegá un link de Google Maps o escribí la dirección</label><input id="itWhere" maxlength="500" autocomplete="off" inputmode="url"><p class="sub" id="itWhereHint" role="status" aria-live="polite" style="margin:4px 0 10px"></p><label for="itNotes">Notas (opcional)</label><input id="itNotes" maxlength="300" autocomplete="off"><p class="sub" id="itErr" role="alert" style="margin:0 0 8px"></p><div class="esc-it-actions"><button type="button" class="btn" id="itGuardar">Guardar</button><button type="button" class="btn outline" id="itCancelar">Cancelar</button></div></div></div></div></section><section class="screen" id="alerts"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><button class="back" onclick="showMyEvents()">‹</button><span class="logo">Invitaciones<span>.</span></span><span></span></header><div class="pad"><h2>Avisos</h2><p class="sub">Recordatorios de tus viajes.</p><div id="escAvisosLista"></div><p class="sub" id="escAvisosMsg" role="status" aria-live="polite"></p></div></section><section class="screen" id="invitations"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><button class="back" onclick="showMyEvents()">‹</button><span class="logo">Invitaciones<span>.</span></span><span></span></header><div class="esc-inv-content">
+</div></section><section class="screen" id="itinerary"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><button class="back" onclick="showMyEvents()">‹</button><span class="logo">Invitaciones<span>.</span></span><span></span></header><div class="pad"><button type="button" class="btn outline" style="width:auto;margin:0 0 12px;padding:8px 14px" onclick="go('event')">‹ Volver al viaje</button><h2>Itinerario</h2><p class="sub" id="escItSub">Qué hacemos y dónde.</p><div id="escapadaMapa" hidden></div><p class="sub" id="escItMapaMsg" hidden></p><div id="escItLista"></div><div id="escItOrg" hidden><button type="button" class="btn" id="escItAgregar" style="margin:12px 0">Agregar actividad</button><div class="card" id="escItForm" hidden><strong id="escItFormT">Nueva actividad</strong><label for="itTitle">Qué se hace</label><input id="itTitle" maxlength="120" autocomplete="off"><label for="itDay">Día (opcional)</label><input id="itDay" type="date"><label for="itTime">Hora (opcional)</label><input id="itTime" type="time"><label for="itPlace">Nombre del lugar (opcional)</label><input id="itPlace" maxlength="120" autocomplete="off"><label for="itWhere">Pegá un link de Google Maps o escribí la dirección</label><input id="itWhere" maxlength="500" autocomplete="off" inputmode="url"><p class="sub" id="itWhereHint" role="status" aria-live="polite" style="margin:4px 0 10px"></p><label for="itNotes">Notas (opcional)</label><input id="itNotes" maxlength="300" autocomplete="off"><p class="sub" id="itErr" role="alert" style="margin:0 0 8px"></p><div class="esc-it-actions"><button type="button" class="btn" id="itGuardar">Guardar</button><button type="button" class="btn outline" id="itCancelar">Cancelar</button></div></div></div></div></section><section class="screen" id="alerts"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><button class="back" onclick="showMyEvents()">‹</button><span class="logo">Invitaciones<span>.</span></span><span></span></header><div class="pad"><h2>Avisos</h2><p class="sub">Recordatorios de tus viajes.</p><div id="escAvisosLista"></div><p class="sub" id="escAvisosMsg" role="status" aria-live="polite"></p></div></section><section class="screen" id="votes"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><button class="back" onclick="showMyEvents()">‹</button><span class="logo">Votaciones<span>.</span></span><span></span></header><div class="pad"><button type="button" class="btn outline" style="width:auto;margin:0 0 12px;padding:8px 14px" onclick="go('event')">‹ Volver al viaje</button><h2>Votaciones</h2><p class="sub" id="escVoSub">Elijan entre fechas, actividades o lugares.</p><div id="escVoLista"></div><div id="escVoOrg" hidden><button type="button" class="btn" id="escVoNueva" style="margin:12px 0">Nueva votación</button><div class="card" id="escVoForm" hidden><strong>Nueva votación</strong><label for="voTipo">Qué se vota</label><select id="voTipo"><option value="fechas">Fechas del viaje</option><option value="actividades">Actividades del itinerario</option><option value="lugares">Lugares / destinos</option></select><label for="voTitulo">Pregunta</label><input id="voTitulo" maxlength="120" autocomplete="off"><label for="voOpciones">Opciones (una por línea, mínimo 2)</label><textarea id="voOpciones" rows="5" maxlength="1200"></textarea><p class="sub" id="voErr" role="alert" style="margin:0 0 8px"></p><div class="esc-it-actions"><button type="button" class="btn" id="voCrear">Crear votación</button><button type="button" class="btn outline" id="voCancelar">Cancelar</button></div></div></div><p class="sub" id="escVoNota">Votan quienes van y quienes aún no saben. Un voto por persona, se puede cambiar hasta que se cierre. El resultado orienta: lo confirma un organizador.</p></div></section><section class="screen" id="invitations"><header><button type="button" class="esc-menu-trigger" aria-label="Abrir menú" aria-controls="esc-drawer" aria-expanded="false" onclick="escapadaToggleMenu(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><button class="back" onclick="showMyEvents()">‹</button><span class="logo">Invitaciones<span>.</span></span><span></span></header><div class="esc-inv-content">
  <h2>Invitaciones</h2><p class="sub">Administrá tus invitaciones y solicitudes para participar en escapadas.</p>
  <section class="esc-inv-section" aria-labelledby="esc-inv-received-title"><h3 id="esc-inv-received-title">Invitaciones recibidas</h3><p class="sub">Las solicitudes que podés revisar aparecerán acá.</p></section>
  <section class="esc-inv-section" aria-labelledby="esc-inv-sent-title"><h3 id="esc-inv-sent-title">Solicitudes enviadas</h3><p class="sub">Consultá el estado de tus solicitudes.</p></section>
@@ -1143,6 +1143,64 @@ async function escapadaMapaRender(items){
   if(b.length===1)escapadaMapa.setView(b[0],14);else escapadaMapa.fitBounds(b,{padding:[24,24]});
  }catch(e){el.hidden=true;msg.hidden=false;msg.textContent='No pudimos cargar el mapa. Las actividades siguen abajo con su link a Google Maps.';console.warn('Escapada mapa',e&&e.message)}
 }
+const ESCAPADA_VO_ERRORES={ESC_VOTO_SIN_PERMISO:'Solo los organizadores pueden hacer esto.',ESC_VOTO_NO_VOTA:'Votan quienes van o aún no saben. Cambiá tu respuesta en «Mi respuesta» para votar.',ESC_VOTACION_NO_ENCONTRADA:'Esa votación ya no existe.',ESC_VOTACION_CERRADA:'Esa votación ya está cerrada.',ESC_VOTO_OPCION_INVALIDA:'Esa opción no es válida.',ESC_VOTO_TIPO_INVALIDO:'Elegí qué se vota.',ESC_VOTO_POCAS_OPCIONES:'Necesitás al menos 2 opciones.'};
+const ESCAPADA_VO_TIPOS={fechas:'Fechas',actividades:'Actividades',lugares:'Lugares'};
+async function escapadaVotosRender(){
+ const list=document.getElementById('escVoLista'),sub=document.getElementById('escVoSub'),orgBox=document.getElementById('escVoOrg');
+ list.replaceChildren();orgBox.hidden=true;document.getElementById('escVoForm').hidden=true;
+ const c=await escapadaInvCtx();
+ if(!c){sub.textContent='Este viaje todavía no está guardado en tu cuenta. Iniciá sesión y esperá unos segundos.';return}
+ sub.textContent=(c.entry.saved&&c.entry.saved.name)||'Elijan entre fechas, actividades o lugares.';
+ try{
+  const {data,error}=await c.client.rpc('escapada_vote_list',{p_trip:c.trip});if(error)throw error;
+  const vs=Array.isArray(data)?data:[];const org=vs.length?!!vs[0].puedo_gestionar:!!c.isOwner;
+  if(!vs.length){const e=c.isOwner?'Todavía no hay votaciones. Creá la primera.':'Todavía no hay votaciones.';const p=document.createElement('p');p.className='sub';p.textContent=e;list.append(p)}
+  orgBox.hidden=!(org||c.isOwner);
+  for(const v of vs){
+   const card=document.createElement('div');card.className='card esc-vo';card.dataset.id=v.id;
+   const h=document.createElement('strong');h.textContent=v.titulo;card.append(h);
+   const t=document.createElement('div');t.className='tiny';t.textContent=(ESCAPADA_VO_TIPOS[v.tipo]||v.tipo)+' · '+(v.estado==='abierta'?'Abierta':'Cerrada');card.append(t);
+   const total=(v.opciones||[]).reduce((s,o)=>s+Number(o.votos||0),0);
+   for(const o of (v.opciones||[])){
+    const row=document.createElement('div');row.className='esc-vo-op';
+    const b=document.createElement('button');b.type='button';b.className='btn '+(v.mi_voto===o.id?'':'outline');b.setAttribute('aria-pressed',String(v.mi_voto===o.id));b.dataset.op=o.id;
+    b.textContent=o.texto+' · '+Number(o.votos||0)+(Number(o.votos||0)===1?' voto':' votos')+(v.ganadora_id===o.id?' · Elegida':'');
+    b.disabled=v.estado!=='abierta';
+    b.onclick=()=>escapadaVotar(c,v.id,o.id);
+    row.append(b);
+    if(v.estado==='abierta'&&v.puedo_gestionar){const g=document.createElement('button');g.type='button';g.className='btn secondary esc-vo-cerrar';g.dataset.op=o.id;g.textContent='Elegir y cerrar';g.onclick=()=>escapadaAskVinculo('¿Cerrar la votación?','Se confirma «'+o.texto+'» como opción elegida y nadie puede votar más.','Elegir y cerrar',()=>escapadaVotoCerrar(c,v.id,o.id));row.append(g)}
+    card.append(row);
+   }
+   const n=document.createElement('div');n.className='tiny';n.textContent=total+(total===1?' voto en total':' votos en total');card.append(n);
+   if(v.estado==='abierta'&&v.puedo_gestionar){const x=document.createElement('button');x.type='button';x.className='btn outline esc-vo-sinelegir';x.textContent='Cerrar sin elegir';x.onclick=()=>escapadaAskVinculo('¿Cerrar sin elegir?','La votación se cierra sin una opción elegida.','Cerrar',()=>escapadaVotoCerrar(c,v.id,null));card.append(x)}
+   list.append(card);
+  }
+  document.getElementById('escVoNueva').onclick=()=>{document.getElementById('voTipo').value='fechas';document.getElementById('voTitulo').value='';document.getElementById('voOpciones').value='';document.getElementById('voErr').textContent='';document.getElementById('escVoForm').hidden=false;document.getElementById('voTitulo').focus()};
+  document.getElementById('voCancelar').onclick=()=>{document.getElementById('escVoForm').hidden=true};
+  document.getElementById('voCrear').onclick=()=>escapadaVotoCrear(c);
+ }catch(e){const code=escapadaErrCode(e);const p=document.createElement('p');p.className='sub';p.textContent=ESCAPADA_VO_ERRORES[code]||'No pudimos cargar las votaciones. Intentá de nuevo.';list.append(p);console.warn('Escapada votaciones',code||(e&&e.message))}
+}
+async function escapadaVotar(c,vid,oid){
+ try{const {error}=await c.client.rpc('escapada_vote_cast',{p_vote:vid,p_option:oid});if(error)throw error}
+ catch(e){const code=escapadaErrCode(e);document.getElementById('escVoSub').textContent=ESCAPADA_VO_ERRORES[code]||'No se pudo guardar tu voto. Intentá de nuevo.';console.warn('Escapada votar',code||(e&&e.message));return}
+ escapadaVotosRender();
+}
+async function escapadaVotoCerrar(c,vid,oid){
+ try{const {error}=await c.client.rpc('escapada_vote_close',{p_vote:vid,p_winner:oid});if(error)throw error}
+ catch(e){const code=escapadaErrCode(e);document.getElementById('escVoSub').textContent=ESCAPADA_VO_ERRORES[code]||'No se pudo cerrar. Intentá de nuevo.';console.warn('Escapada cerrar votación',code||(e&&e.message));return}
+ escapadaVotosRender();
+}
+async function escapadaVotoCrear(c){
+ const err=document.getElementById('voErr'),btn=document.getElementById('voCrear');err.textContent='';
+ const titulo=document.getElementById('voTitulo').value.trim();
+ const ops=document.getElementById('voOpciones').value.split('\n').map(s=>s.trim()).filter(Boolean).slice(0,10).map(texto=>({texto}));
+ if(!titulo){err.textContent='Escribí la pregunta.';return}
+ if(ops.length<2){err.textContent=ESCAPADA_VO_ERRORES.ESC_VOTO_POCAS_OPCIONES;return}
+ btn.disabled=true;
+ try{const {error}=await c.client.rpc('escapada_vote_create',{p_trip:c.trip,p_tipo:document.getElementById('voTipo').value,p_titulo:titulo,p_opciones:ops});if(error)throw error}
+ catch(e){const code=escapadaErrCode(e);err.textContent=ESCAPADA_VO_ERRORES[code]||'No se pudo crear. Intentá de nuevo.';console.warn('Escapada crear votación',code||(e&&e.message));btn.disabled=false;return}
+ btn.disabled=false;escapadaVotosRender();
+}
 async function escapadaItinerarioRender(){
  const list=document.getElementById('escItLista'),sub=document.getElementById('escItSub'),orgBox=document.getElementById('escItOrg');
  list.replaceChildren();orgBox.hidden=true;document.getElementById('escItForm').hidden=true;
@@ -1302,7 +1360,7 @@ function escapadaAskVinculo(title,desc,okLabel,onOk){
  document.querySelector('.app').append(shade);document.addEventListener('keydown',key,true);shade.querySelector('[data-c=no]').focus();
 }
 const escapadaGoVinculo=go;go=function(id){escapadaGoVinculo(id);if(id==='event'){escapadaVinculoRender();escapadaMiRespuestaRender();escapadaIntegrantesRender();escapadaInvitacionRender()}
- if(id==='itinerary')escapadaItinerarioRender();if(id==='alerts')escapadaAvisosRender();if(id==='home')escapadaBellRefresh()};
+ if(id==='itinerary')escapadaItinerarioRender();if(id==='votes')escapadaVotosRender();if(id==='alerts')escapadaAvisosRender();if(id==='home')escapadaBellRefresh()};
 /* V59: real invitation status and review via existing Supabase RLS and RPC. */
 async function escapadaRefreshInvitations(){
  const sections=document.querySelectorAll('#invitations .esc-inv-section');
@@ -1367,7 +1425,7 @@ let escMenuPreviousFocus=null;
 const ESCAPADA_JUNTADA_URL='https://boninip.github.io/juntada/'; // Dirección de Juntada (documentada, sin verificar).
 const ESCAPADA_CUENTAS_URL='https://boninip.github.io/cuentas/'; // Dirección de Cuentas (documentada, sin verificar): ajustar acá si cambia.
 const escMenuItems=[
- ['home','Inicio','house'],['trips','Mis escapadas','calendar'],['new','Crear escapada','plus'],['invitations','Invitaciones','mail'],['itinerary','Itinerario','map'],['alerts','Avisos','bell'],
+ ['home','Inicio','house'],['trips','Mis escapadas','calendar'],['new','Crear escapada','plus'],['invitations','Invitaciones','mail'],['itinerary','Itinerario','map'],['votacion','Votaciones','check-circle'],['alerts','Avisos','bell'],
  ['-'],['account','Mi perfil','user'],
  ['-'],['label','Más de Pintó'],['expenses','Cuentas','wallet'],['juntada','Juntada','people'],
  ['-'],['logout','Cerrar sesión','logout']
@@ -1415,6 +1473,7 @@ function escapadaMenuActive(){
  if(document.getElementById('myEvents')?.classList.contains('active'))return 'trips';
  if(document.getElementById('invitations')?.classList.contains('active'))return 'invitations';
  if(document.getElementById('itinerary')?.classList.contains('active'))return 'itinerary';
+ if(document.getElementById('votes')?.classList.contains('active'))return 'votacion';
  if(document.getElementById('alerts')?.classList.contains('active'))return 'alerts';
  if(document.getElementById('create')?.classList.contains('active'))return 'new';
  return '';
@@ -1463,6 +1522,7 @@ function escapadaMenuAction(action){
   else if(action==='logout'){(async()=>{try{await window.escapadaSupabase?.auth?.signOut();toast('Cerraste sesión.')}catch(e){toast('No pudimos cerrar la sesión. Probá de nuevo.')}})()}
   else if(action==='account')go('account');
   else if(action==='itinerary'){if(!currentJuntadaId){toast('Primero elegí una escapada en Mis escapadas.');showMyEvents();return}go('itinerary')}
+  else if(action==='votacion'){if(!currentJuntadaId){toast('Primero elegí una escapada en Mis escapadas.');showMyEvents();return}go('votes')}
   else if(action==='alerts')go('alerts');
   else if(action==='votes'){
    if(!currentJuntadaId){toast('Primero elegí una escapada en Mis escapadas.');showMyEvents();return}
